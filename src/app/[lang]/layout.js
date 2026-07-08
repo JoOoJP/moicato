@@ -5,6 +5,8 @@ import { SITE_URL, OG_LOCALE, OG_IMAGE } from "../../lib/site";
 import { INSTAGRAM_URL, EMAIL } from "../../lib/contato";
 import LivingBackground from "../../components/LivingBackground";
 import GoldenThread from "../../components/GoldenThread";
+import { Analytics } from "@vercel/analytics/next";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 const geistSans = Geist({
   variable: "--font-sans",
@@ -104,6 +106,11 @@ export default async function RootLayout({ children, params }) {
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(orgJsonLd) }}
         />
+
+        {/* Vercel Web Analytics — só coleta em produção na Vercel (em dev fica em
+            modo debug, sem enviar dados). Ativar "Web Analytics" no projeto. */}
+        <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );
