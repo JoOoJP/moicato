@@ -4,7 +4,6 @@ import {
   whatsappReady,
   INSTAGRAM,
   INSTAGRAM_URL,
-  EMAIL,
 } from "../lib/contato";
 
 const external = whatsappReady
@@ -46,12 +45,6 @@ export default function Footer({ dict }) {
               className="bg-verdemoikato px-8 py-4 text-sm font-medium text-white outline-none ring-amarelomoikato/60 ring-offset-2 transition-colors hover:bg-verdemoikato-600 focus-visible:ring-2"
             >
               {dict.whatsapp}
-            </a>
-            <a
-              href={`mailto:${EMAIL}`}
-              className="border border-verdemoikato/40 px-8 py-4 text-sm font-medium text-verdemoikato outline-none ring-amarelomoikato/60 ring-offset-2 transition-colors hover:bg-verdemoikato hover:text-white focus-visible:ring-2"
-            >
-              {dict.email}
             </a>
           </div>
         </div>

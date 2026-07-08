@@ -164,7 +164,6 @@ const dict = {
     title: "Shall we create something unique?",
     lead: "Orders, made-to-measure pieces or partnerships — get in touch. Every jewel begins with a conversation.",
     whatsapp: "Chat on WhatsApp",
-    email: "Send an email",
     nav: {
       colecao: "Collection",
       jornada: "The journey",

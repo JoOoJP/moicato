@@ -2,7 +2,7 @@ import { Geist, Fraunces } from "next/font/google";
 import "../globals.css";
 import { getDictionary, hasLocale, htmlLang, locales } from "./dictionaries";
 import { SITE_URL, OG_LOCALE, OG_IMAGE } from "../../lib/site";
-import { INSTAGRAM_URL, EMAIL } from "../../lib/contato";
+import { INSTAGRAM_URL } from "../../lib/contato";
 import LivingBackground from "../../components/LivingBackground";
 import GoldenThread from "../../components/GoldenThread";
 import { Analytics } from "@vercel/analytics/next";
@@ -78,7 +78,6 @@ export default async function RootLayout({ children, params }) {
     name: "Moikato",
     url: SITE_URL,
     description: dict.meta.description,
-    email: EMAIL,
     sameAs: [INSTAGRAM_URL],
   };
 

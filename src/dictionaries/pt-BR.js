@@ -164,7 +164,6 @@ const dict = {
     title: "Vamos criar algo único?",
     lead: "Encomendas, peças sob medida ou parcerias — fale com a gente. Cada joia começa com uma conversa.",
     whatsapp: "Falar no WhatsApp",
-    email: "Enviar e-mail",
     nav: {
       colecao: "Coleção",
       jornada: "A jornada",
