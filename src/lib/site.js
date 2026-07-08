@@ -1,8 +1,7 @@
 // Configuração de site centralizada (URL de produção, locales p/ SEO).
-// O domínio real pode ser definido via env NEXT_PUBLIC_SITE_URL sem mexer no código.
-// TODO: confirmar o domínio de produção (assumido: moikato.com.br).
+// Domínio de produção: moikato.com (override via env NEXT_PUBLIC_SITE_URL).
 export const SITE_URL = (
-  process.env.NEXT_PUBLIC_SITE_URL ?? "https://moikato.com.br"
+  process.env.NEXT_PUBLIC_SITE_URL ?? "https://moikato.com"
 ).replace(/\/$/, "");
 
 // lang do URL -> og:locale
