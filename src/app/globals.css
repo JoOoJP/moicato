@@ -1,26 +1,108 @@
 @import "tailwindcss";
 
+/* No Tailwind v4 o config JS não é carregado automaticamente — o @config faz isso.
+   Carrega a paleta Moikato (verdemoikato / amarelomoikato / areia / terra). */
+@config "../../tailwind.config.cjs";
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --color-green: #2a6f46; /* verde principal */
+  --color-gold: #d4af37; /* dourado / capim dourado */
+  --color-sand: #f7efe1; /* fundo areia */
+  --color-ink: #14241b; /* texto escuro esverdeado */
+  --color-terra: #b5654a; /* terracota */
+  --foreground: var(--color-ink);
+  /* Fundo "vivo" — o LivingBackground atualiza isto no scroll (madrugada⇄sol). */
+  --bg: var(--color-sand);
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+/* Estilos-base dos elementos ficam na layer `base` para que os utilitários do
+   Tailwind (ex.: text-white, text-amarelomoikato-300) possam sobrescrever.
+   Essencial nas seções de fundo escuro (sem isso, título e texto herdam o
+   verde/escuro e somem). */
+@layer base {
+  html,
+  body {
+    background-color: var(--bg);
+    color: var(--foreground);
+    font-family: var(--font-sans), system-ui, -apple-system, "Segoe UI", Roboto,
+      "Helvetica Neue", Arial;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 5rem;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-display), Georgia, "Times New Roman", serif;
+    color: var(--color-green);
+    font-weight: 500;
+    letter-spacing: -0.01em;
+  }
+
+  p {
+    color: rgba(20, 36, 27, 0.82);
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* Só a fonte display (a cor fica por conta do utilitário aplicado). */
+.font-display {
+  font-family: var(--font-display), Georgia, "Times New Roman", serif;
+}
+
+/* Texto de destaque (subtítulos) */
+.lead {
+  color: rgba(20, 36, 27, 0.7);
+  font-size: 1.075rem;
+  line-height: 1.7;
+}
+
+/* Rótulo pequeno em caixa alta (eyebrow) — não define cor, só o estilo */
+.eyebrow {
+  font-family: var(--font-sans), system-ui, sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  font-size: 0.72rem;
+  font-weight: 600;
+}
+
+.card-bg {
+  background: linear-gradient(
+    180deg,
+    rgba(212, 175, 55, 0.12),
+    rgba(255, 255, 255, 0.6)
+  );
+}
+
+::selection {
+  background: var(--color-gold);
+  color: #fff;
+}
+
+/* animações de scroll-reveal ficam nos próprios componentes */
+
+/* Faísca dourada que desce o fio — dica de rolagem do hero (ecoa a agulha/fio). */
+@keyframes scrollHint {
+  0% {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  25% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(400%);
+    opacity: 0;
+  }
 }
