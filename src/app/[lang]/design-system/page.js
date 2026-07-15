@@ -1,5 +1,9 @@
 import Reveal from "../../../components/Reveal";
 import Logo from "../../../components/Logo";
+import CapimFlor from "../../../components/CapimFlor";
+import Folhagem from "../../../components/Folhagem";
+import Tucano from "../../../components/Tucano";
+import BandeiraBR from "../../../components/BandeiraBR";
 
 // Página interna (não indexar) — catálogo vivo da identidade visual da Moikato.
 // Sem tabela/formulário/dialog: o site é institucional, sem esses componentes.
@@ -153,9 +157,12 @@ export default function DesignSystemPage() {
 
         <Secao
           titulo="Tipografia"
-          descricao="Fraunces (font-display) para títulos — clima artesanal/editorial. Geist (font-sans) para corpo. Duas classes utilitárias próprias: .eyebrow e .lead."
+          descricao="Jost (font-display) para títulos — stand-in gratuito da Century Gothic do manual de marca. Geist (font-sans) para corpo. Kaushan Script (font-logo) só no wordmark do logo — stand-in gratuito da Mistral (+efeito pincelado), sem licença/arte vetorial ainda. Duas classes utilitárias próprias: .eyebrow e .lead."
         >
           <div className="space-y-6">
+            <p className="font-logo text-6xl leading-none text-verdemoikato">
+              moikato · font-logo
+            </p>
             <p className="font-display text-6xl leading-[1.0] text-verdemoikato">
               Título <span className="italic text-amarelomoikato-700">em destaque</span>
             </p>
@@ -176,6 +183,61 @@ export default function DesignSystemPage() {
               Corpo de texto padrão · font-sans (Geist) text-base, a cor
               herdada do <span className="font-mono text-xs">{"<p>"}</span> em
               globals.css.
+            </p>
+          </div>
+        </Secao>
+
+        <Secao
+          titulo="Motivos de marca"
+          descricao="Elementos do manual de marca oficial ainda não usados nas telas do site: tucano, folhagem tropical (palmeira + monstera) e o badge da bandeira do Brasil que acompanha 'Oficina de Artesanato Sustentável' em todo material impresso (cartão, tag, tote bag, parede). Line-art em currentColor — mesmo tratamento de traço do CapimFlor e dos ícones de Values.js, não clip-art flat colorido."
+        >
+          <div className="grid grid-cols-2 gap-6 sm:grid-cols-4">
+            <div className="flex flex-col items-center gap-2">
+              <CapimFlor className="h-12 text-verdemoikato" />
+              <span className="text-xs font-medium text-verdemoikato-700">
+                CapimFlor
+              </span>
+              <span className="font-mono text-[10px] text-verdemoikato/50">
+                components/CapimFlor.js
+              </span>
+            </div>
+            <div className="flex flex-col items-center gap-2">
+              <Folhagem className="h-12 w-12 text-verdemoikato-600" />
+              <span className="text-xs font-medium text-verdemoikato-700">
+                Folhagem
+              </span>
+              <span className="font-mono text-[10px] text-verdemoikato/50">
+                components/Folhagem.js
+              </span>
+            </div>
+            <div className="flex flex-col items-center gap-2">
+              <Tucano className="h-12 w-12 text-verdemoikato" />
+              <span className="text-xs font-medium text-verdemoikato-700">
+                Tucano
+              </span>
+              <span className="font-mono text-[10px] text-verdemoikato/50">
+                components/Tucano.js
+              </span>
+            </div>
+            <div className="flex flex-col items-center gap-2">
+              <BandeiraBR className="h-8 w-12" />
+              <span className="text-xs font-medium text-verdemoikato-700">
+                BandeiraBR
+              </span>
+              <span className="font-mono text-[10px] text-verdemoikato/50">
+                components/BandeiraBR.js
+              </span>
+            </div>
+          </div>
+
+          <div className="gradiente-dourado mt-10 max-w-sm border border-verdemoikato/10 p-6">
+            <div className="eyebrow text-verdemoikato-900/70">Exemplo</div>
+            <p className="font-display mt-2 text-xl text-verdemoikato-900">
+              Superfície .gradiente-dourado
+            </p>
+            <p className="mt-2 text-sm text-verdemoikato-900/70">
+              #d5a84c para #b48332 — fundo do cartão de visita/crachá do
+              manual.
             </p>
           </div>
         </Secao>

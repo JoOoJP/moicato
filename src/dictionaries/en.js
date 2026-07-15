@@ -122,7 +122,7 @@ const dict = {
       { name: "Nest Ring", material: "Golden grass", tag: "Golden grass", image: "/prod-1.svg" },
       { name: "Earth Bracelet", material: "Jarina seeds", tag: null, image: "/prod-3.svg" },
       { name: "Moon Earring", material: "Golden grass", tag: "Golden grass", image: "/prod-1.svg" },
-      { name: "Cerrado Choker", material: "Natural fibre", tag: null, image: "/prod-2.svg" },
+      { name: "Cerrado Choker", material: "Golden grass", tag: "Golden grass", image: "/prod-colar.jpg" },
     ],
     altSuffix: "handmade Moikato bio-jewellery",
     order: "Order →",

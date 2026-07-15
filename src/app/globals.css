@@ -5,8 +5,8 @@
 @config "../../tailwind.config.cjs";
 
 :root {
-  --color-green: #2a6f46; /* verde principal */
-  --color-gold: #d4af37; /* dourado / capim dourado */
+  --color-green: #033f00; /* verde principal — oficial do manual de marca */
+  --color-gold: #d5a84c; /* dourado / capim dourado — oficial do manual de marca */
   --color-sand: #f7efe1; /* fundo areia */
   --color-ink: #14241b; /* texto escuro esverdeado */
   --color-terra: #b5654a; /* terracota */
@@ -45,7 +45,7 @@
   h2,
   h3,
   h4 {
-    font-family: var(--font-display), Georgia, "Times New Roman", serif;
+    font-family: var(--font-display), "Century Gothic", system-ui, sans-serif;
     color: var(--color-green);
     font-weight: 500;
     letter-spacing: -0.01em;
@@ -58,7 +58,12 @@
 
 /* Só a fonte display (a cor fica por conta do utilitário aplicado). */
 .font-display {
-  font-family: var(--font-display), Georgia, "Times New Roman", serif;
+  font-family: var(--font-display), "Century Gothic", system-ui, sans-serif;
+}
+
+/* Fonte do wordmark do logo (stand-in de Mistral — ver comentário em layout.js). */
+.font-logo {
+  font-family: var(--font-logo), cursive;
 }
 
 /* Texto de destaque (subtítulos) */
@@ -83,6 +88,12 @@
     rgba(212, 175, 55, 0.12),
     rgba(255, 255, 255, 0.6)
   );
+}
+
+/* Fundo em gradiente dourado — replica o fundo do cartão de visita/crachá do
+   manual de marca (amarelomoikato DEFAULT #d5a84c -> 700 #b48332). */
+.gradiente-dourado {
+  background: linear-gradient(135deg, #d5a84c, #b48332);
 }
 
 ::selection {

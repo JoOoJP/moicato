@@ -122,7 +122,7 @@ const dict = {
       { name: "Anel Ninho", material: "Capim dourado", tag: "Capim dourado", image: "/prod-1.svg" },
       { name: "Pulseira Terra", material: "Sementes de jarina", tag: null, image: "/prod-3.svg" },
       { name: "Brinco Lua", material: "Capim dourado", tag: "Capim dourado", image: "/prod-1.svg" },
-      { name: "Gargantilha Cerrado", material: "Fibra natural", tag: null, image: "/prod-2.svg" },
+      { name: "Gargantilha Cerrado", material: "Capim dourado", tag: "Capim dourado", image: "/prod-colar.jpg" },
     ],
     altSuffix: "biojoia artesanal Moikato",
     order: "Encomendar →",

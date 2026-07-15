@@ -8,31 +8,33 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        // Verde principal da marca
+        // Verde principal da marca — oficial do manual de marca (#033f00).
+        // 600+ são variações mais escuras pra hover; já nasce quase preto,
+        // então o degradê abaixo dele é curto de propósito.
         verdemoikato: {
-          50: '#f3fbf6',
-          100: '#e6f7ee',
-          200: '#ccefdc',
-          300: '#b3e6c9',
-          400: '#80d09a',
-          DEFAULT: '#2A6F46',
-          600: '#235b36',
-          700: '#1a4328',
-          800: '#123018',
-          900: '#0b1d0c'
+          50: '#eef5ec',
+          100: '#d9ead4',
+          200: '#b3d5aa',
+          300: '#85ba78',
+          400: '#4f9647',
+          DEFAULT: '#033f00',
+          600: '#022f00',
+          700: '#012200',
+          800: '#011500',
+          900: '#000900'
         },
-        // Dourado (capim dourado)
+        // Dourado (capim dourado) — oficial do manual: DEFAULT #d5a84c, 700 #b48332.
         amarelomoikato: {
-          50: '#fff9ec',
-          100: '#fff3d9',
-          200: '#ffebad',
-          300: '#ffe183',
-          400: '#ffd24d',
-          DEFAULT: '#D4AF37',
-          600: '#a07f29',
-          700: '#6e551c',
-          800: '#493814',
-          900: '#2b220c'
+          50: '#fbf3e3',
+          100: '#f7e7c8',
+          200: '#eecf98',
+          300: '#e2b56c',
+          400: '#dab04e',
+          DEFAULT: '#d5a84c',
+          600: '#c2953f',
+          700: '#b48332',
+          800: '#8a6527',
+          900: '#5f451b'
         },
         // Fundo areia / Cerrado
         areia: {

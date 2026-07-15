@@ -1,4 +1,4 @@
-import { Geist, Fraunces } from "next/font/google";
+import { Geist, Jost, Kaushan_Script } from "next/font/google";
 import "../globals.css";
 import { getDictionary, hasLocale, htmlLang, locales } from "./dictionaries";
 import { SITE_URL, OG_LOCALE, OG_IMAGE } from "../../lib/site";
@@ -13,12 +13,25 @@ const geistSans = Geist({
   subsets: ["latin"],
 });
 
-// Serifada quente e orgânica para títulos — clima artesanal/editorial
-const fraunces = Fraunces({
+// Geométrica sans para títulos — stand-in gratuito da Century Gothic do
+// manual de marca (Century Gothic não é Google Font, sem licença web ainda).
+const jost = Jost({
   variable: "--font-display",
   subsets: ["latin"],
   weight: ["400", "500", "600"],
   style: ["normal", "italic"],
+});
+
+// Manual de marca pede "Mistral Regular" (script comercial, sem licença web
+// aqui) só pro wordmark do logo — mas a arte real do logotipo (páginas do
+// manual) é pincelada grossa/irregular, não script fino. Kaushan Script é o
+// stand-in gratuito mais próximo desse traço de pincel bold e confiante.
+// Trocar por Mistral (+ efeito "feito à mão") de verdade se/quando houver
+// arquivo licenciado ou a arte vetorial do logo.
+const kaushanScript = Kaushan_Script({
+  variable: "--font-logo",
+  subsets: ["latin"],
+  weight: "400",
 });
 
 // Prerenderiza os dois idiomas estaticamente
@@ -84,7 +97,7 @@ export default async function RootLayout({ children, params }) {
   return (
     <html
       lang={htmlLang[lang] ?? "pt-BR"}
-      className={`${geistSans.variable} ${fraunces.variable} h-full antialiased`}
+      className={`${geistSans.variable} ${jost.variable} ${kaushanScript.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
         {/* Skip-link (acessibilidade / WCAG 2.4.1) */}
