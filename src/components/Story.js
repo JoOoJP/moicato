@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
+import Folhagem from "./Folhagem";
 
 // História única: o material (capim dourado) + a jornada (palco fixo, campo→joia)
 // + quem faz (Moikato/Samuel/comunidades). Uma narrativa só.
@@ -195,7 +196,9 @@ export default function Story({ dict }) {
       </div>
 
       {/* 3) Quem faz — a Moikato / Samuel / comunidades */}
-      <div className="mx-auto max-w-6xl px-6 pt-8 sm:pt-12">
+      <div className="relative mx-auto max-w-6xl px-6 pt-8 sm:pt-12">
+        {/* Folhagem — motivo do manual de marca, textura baixíssima no canto */}
+        <Folhagem className="pointer-events-none absolute -top-4 right-0 h-28 w-28 text-amarelomoikato-700/10" />
         <div className="grid items-center gap-10 border-t border-amarelomoikato/20 pt-14 lg:grid-cols-2 lg:gap-14">
           <div className="relative aspect-[5/4] overflow-hidden border border-verdemoikato/15">
             <Image
@@ -231,9 +234,13 @@ export default function Story({ dict }) {
 
       {/* 4) Ponte para a coleção */}
       <div className="mx-auto max-w-6xl px-6 pb-20 pt-12 sm:pb-28">
+        {/* .gradiente-dourado no lugar do bg-amarelomoikato chapado — ecoa o
+            manual de marca. Hover só desloca/sombreia (a troca de cor de
+            fundo no hover foi removida: um bg-* do Tailwind não sobrescreve
+            de forma confiável o `background` da classe custom no cascade). */}
         <a
           href="#colecao"
-          className="group inline-flex items-center gap-2 bg-amarelomoikato px-8 py-4 text-sm font-medium tracking-wide text-amarelomoikato-900 outline-none ring-amarelomoikato/60 ring-offset-2 ring-offset-areia transition-all duration-300 hover:-translate-y-0.5 hover:bg-amarelomoikato-600 hover:text-white hover:shadow-[0_10px_30px_-12px_rgba(160,127,41,0.6)] focus-visible:ring-2 active:translate-y-0 active:shadow-none motion-reduce:transition-none motion-reduce:hover:translate-y-0"
+          className="group gradiente-dourado inline-flex items-center gap-2 px-8 py-4 text-sm font-medium tracking-wide text-amarelomoikato-900 outline-none ring-amarelomoikato/60 ring-offset-2 ring-offset-areia transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_10px_30px_-12px_rgba(160,127,41,0.6)] focus-visible:ring-2 active:translate-y-0 active:shadow-none motion-reduce:transition-none motion-reduce:hover:translate-y-0"
         >
           {dict.cta}
           <span

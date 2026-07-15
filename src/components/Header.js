@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import Logo from "./Logo";
 import LanguageSwitcher from "./LanguageSwitcher";
+import BandeiraBR from "./BandeiraBR";
 
 const NAV = [
   { href: "#colecao", id: "colecao", key: "colecao" },
@@ -117,16 +118,20 @@ export default function Header({ dict, lang }) {
         >
           <Logo compact={scrolled} />
           <span
-            className={`hidden border-l border-verdemoikato/15 pl-3 leading-tight transition-all duration-500 lg:block ${
+            className={`hidden items-center gap-2 border-l border-verdemoikato/15 pl-3 leading-tight transition-all duration-500 lg:flex ${
               scrolled ? "lg:hidden" : "opacity-100"
             }`}
           >
-            <span className="eyebrow block text-[0.6rem] text-amarelomoikato-600">
-              {dict.brandEyebrow1}
+            <span>
+              <span className="eyebrow block text-[0.6rem] text-amarelomoikato-600">
+                {dict.brandEyebrow1}
+              </span>
+              <span className="eyebrow block text-[0.6rem] text-verdemoikato/55">
+                {dict.brandEyebrow2}
+              </span>
             </span>
-            <span className="eyebrow block text-[0.6rem] text-verdemoikato/55">
-              {dict.brandEyebrow2}
-            </span>
+            {/* Bandeira do Brasil ao lado do subtítulo — mesmo lockup do manual de marca */}
+            <BandeiraBR className="h-3 w-[18px]" />
           </span>
         </a>
 
@@ -222,7 +227,10 @@ export default function Header({ dict, lang }) {
         />
 
         <div className="flex items-center justify-between px-6 py-5">
-          <Logo />
+          <span className="flex items-center gap-2">
+            <Logo />
+            <BandeiraBR className="h-3 w-[18px]" />
+          </span>
           <button
             type="button"
             onClick={close}

@@ -1,4 +1,5 @@
 import Image from "next/image";
+import BandeiraBR from "./BandeiraBR";
 import { waLink, whatsappReady } from "../lib/contato";
 
 // A imagem de cada peça vem do dicionário (piece.image) — trocar pelos arquivos
@@ -126,14 +127,18 @@ export default function Catalog({ dict }) {
               <div className="mt-5 flex items-start justify-between gap-3">
                 <div>
                   {/* Carimbo de origem: 3 sementes douradas ecoando a moldura
-                      e as sementes-ponta do capim no Hero. "Feito à mão." */}
+                      e as sementes-ponta do capim no Hero, mais a bandeira do
+                      manual de marca — "Feito à mão", produto brasileiro. */}
                   <span
                     aria-hidden
-                    className="mb-2 flex items-center gap-1"
+                    className="mb-2 flex items-center gap-1.5"
                   >
-                    <span className="h-[3px] w-[3px] rounded-full bg-amarelomoikato" />
-                    <span className="h-[3px] w-[3px] rounded-full bg-amarelomoikato-600" />
-                    <span className="h-[3px] w-[3px] rounded-full bg-terra/70" />
+                    <span className="flex items-center gap-1">
+                      <span className="h-[3px] w-[3px] rounded-full bg-amarelomoikato" />
+                      <span className="h-[3px] w-[3px] rounded-full bg-amarelomoikato-600" />
+                      <span className="h-[3px] w-[3px] rounded-full bg-terra/70" />
+                    </span>
+                    <BandeiraBR className="h-2 w-3" />
                   </span>
                   <h3 className="text-lg leading-tight">{p.name}</h3>
                   <p className="mt-0.5 text-sm text-verdemoikato-700/70">

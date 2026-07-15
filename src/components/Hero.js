@@ -1,6 +1,8 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import Tucano from "./Tucano";
+import Folhagem from "./Folhagem";
 
 // Campo de capim dourado denso e felpudo (canvas 2D), com vento suave contínuo.
 // Chave para o scroll não travar / não "mexer" o capim:
@@ -237,6 +239,15 @@ export default function Hero({ dict }) {
             "linear-gradient(to top, #f7efe1 0%, rgba(247,239,225,0) 100%)",
         }}
       />
+
+      {/* Tucano pousado no céu dourado — motivo do manual de marca, citando
+          a composição do tote bag (folhagem + tucano no canto). Silhueta
+          discreta, não disputa com o campo de capim nem com o texto. */}
+      <Tucano className="pointer-events-none absolute right-[8%] top-[16%] h-12 w-12 text-verdemoikato-900/25 sm:h-16 sm:w-16" />
+
+      {/* Folhagem tropical — mesmo motivo, textura baixíssima atrás do
+          texto; escondida no mobile pra não brigar com a coluna de texto. */}
+      <Folhagem className="pointer-events-none absolute -left-6 bottom-16 hidden h-48 w-48 text-verdemoikato-900/10 sm:block" />
 
       {/* Conteúdo (mantém CTAs de venda) */}
       <div className="relative z-10 mx-auto w-full max-w-6xl px-6 pb-28 sm:pb-32">

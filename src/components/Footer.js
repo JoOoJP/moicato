@@ -1,4 +1,5 @@
 import Logo from "./Logo";
+import BandeiraBR from "./BandeiraBR";
 import {
   waLink,
   whatsappReady,
@@ -28,11 +29,15 @@ export default function Footer({ dict }) {
     <footer id="contato" className="scroll-mt-24">
       {/* Chamada de contato */}
       <div className="mx-auto max-w-6xl px-6 py-20 sm:py-24">
-        <div className="border border-amarelomoikato/30 bg-gradient-to-br from-white to-amarelomoikato/10 px-8 py-16 text-center sm:px-14">
+        {/* Fundo em gradiente dourado — ecoa o cartão de visita/crachá do
+            manual de marca (ver .gradiente-dourado em globals.css). Linhas e
+            eyebrow em verde escuro (não dourado) pra manter contraste, igual
+            ao cartão real. */}
+        <div className="gradiente-dourado border border-verdemoikato/15 px-8 py-16 text-center sm:px-14">
           <div className="flex items-center justify-center gap-3">
-            <span aria-hidden className="h-px w-10 bg-amarelomoikato-700" />
-            <span className="eyebrow text-amarelomoikato-700">{dict.eyebrow}</span>
-            <span aria-hidden className="h-px w-10 bg-amarelomoikato-700" />
+            <span aria-hidden className="h-px w-10 bg-verdemoikato-700" />
+            <span className="eyebrow text-verdemoikato-700">{dict.eyebrow}</span>
+            <span aria-hidden className="h-px w-10 bg-verdemoikato-700" />
           </div>
           <h2 className="mx-auto mt-4 max-w-2xl text-4xl sm:text-5xl">
             {dict.title}
@@ -53,7 +58,11 @@ export default function Footer({ dict }) {
       {/* Rodapé */}
       <div className="border-t border-verdemoikato/10">
         <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-6 px-6 py-10 sm:flex-row">
-          <Logo />
+          {/* Bandeira do Brasil ao lado da marca — mesmo lockup do cartão de visita do manual */}
+          <span className="flex items-center gap-2">
+            <Logo />
+            <BandeiraBR className="h-3 w-[18px]" />
+          </span>
           <nav className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-sm text-verdemoikato-800/70">
             <a href="#colecao" className="hover:text-verdemoikato">
               {dict.nav.colecao}
