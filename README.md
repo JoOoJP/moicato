@@ -1,36 +1,70 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Moikato — biojoias brasileiras
 
-## Getting Started
+![Colar artesanal da Moikato](./public/prod-colar.jpg)
 
-First, run the development server:
+Site institucional e catálogo digital bilíngue para uma marca de biojoias
+artesanais feitas com capim-dourado do Jalapão.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+[Acessar o site](https://moikato.com) ·
+[Explorar o design system](https://moikato.com/pt-BR/design-system)
+
+## O projeto
+
+A experiência conecta produto, origem e impacto social por meio de uma narrativa
+visual editorial. O conteúdo apresenta o processo artesanal, a comunidade e o
+catálogo sem perder desempenho, acessibilidade ou encontrabilidade em buscadores.
+
+## Destaques
+
+- Experiência completa em português e inglês, com rotas localizadas.
+- Preferência de idioma persistida e redirecionamento por locale.
+- Catálogo de produtos com dados estruturados `Product` e `ItemList`.
+- SEO técnico com sitemap, robots, canonical, alternates e Open Graph.
+- Design system próprio disponível em uma rota navegável.
+- Imagens de contexto com créditos e licenças documentados.
+- Analytics e métricas de desempenho da Vercel.
+- Layout responsivo com animações progressivas e respeito à identidade da marca.
+
+## Tecnologias
+
+- Next.js
+- React
+- Tailwind CSS
+- JavaScript
+- Vercel Analytics e Speed Insights
+- ESLint
+
+## Estrutura
+
+```text
+src/
+├── app/[lang]/       # rotas, metadados e conteúdo localizado
+├── components/       # seções e elementos da interface
+├── dictionaries/     # textos em português e inglês
+└── lib/              # configuração do site e contato
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Como executar
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+```bash
+npm install
+npm run dev
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+A aplicação estará disponível em `http://localhost:3000`.
 
-## Learn More
+## Verificação
 
-To learn more about Next.js, take a look at the following resources:
+```bash
+npm run lint
+npm run build
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Configuração
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+O domínio padrão é `https://moikato.com`. Para usar outro endereço, defina
+`NEXT_PUBLIC_SITE_URL` no ambiente de execução.
 
-## Deploy on Vercel
+---
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Desenvolvido por [João Pombo](https://github.com/JoOoJP).
