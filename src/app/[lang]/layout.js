@@ -1,4 +1,4 @@
-import { Geist, Jost, Kaushan_Script } from "next/font/google";
+import { Geist, Cormorant_Garamond, Kaushan_Script } from "next/font/google";
 import "../globals.css";
 import { getDictionary, hasLocale, htmlLang, locales } from "./dictionaries";
 import { SITE_URL, OG_LOCALE, OG_IMAGE } from "../../lib/site";
@@ -12,12 +12,11 @@ const geistSans = Geist({
   subsets: ["latin"],
 });
 
-// Geométrica sans para títulos — stand-in gratuito da Century Gothic do
-// manual de marca (Century Gothic não é Google Font, sem licença web ainda).
-const jost = Jost({
+// Serif editorial de alto contraste (referência de layout) — títulos + wordmark.
+const cormorant = Cormorant_Garamond({
   variable: "--font-display",
   subsets: ["latin"],
-  weight: ["400", "500", "600"],
+  weight: ["300", "400", "500", "600"],
   style: ["normal", "italic"],
 });
 
@@ -96,7 +95,7 @@ export default async function RootLayout({ children, params }) {
   return (
     <html
       lang={htmlLang[lang] ?? "pt-BR"}
-      className={`${geistSans.variable} ${jost.variable} ${kaushanScript.variable} h-full antialiased`}
+      className={`${geistSans.variable} ${cormorant.variable} ${kaushanScript.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
         {/* Skip-link (acessibilidade / WCAG 2.4.1) */}

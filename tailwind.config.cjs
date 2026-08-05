@@ -57,7 +57,15 @@ module.exports = {
           DEFAULT: '#B5654A',
           600: '#9a513a',
           700: '#7a3f2e'
-        }
+        },
+        // Verde-floresta escuro das seções cinematográficas (ref. editorial).
+        floresta: {
+          50: '#eef1ea', 100: '#d6ddcd', 200: '#aebd9f', 300: '#7e916b',
+          400: '#556347', DEFAULT: '#2b3522', 600: '#222a1b', 700: '#1a2015',
+          800: '#12160e', 900: '#0b0e08'
+        },
+        // Creme "osso" — fundo claro editorial, mais quente que branco.
+        osso: { DEFAULT: '#f2ede1', 100: '#f6f1e7', 200: '#ece4d3' }
       }
     }
   },

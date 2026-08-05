@@ -45,10 +45,10 @@
   h2,
   h3,
   h4 {
-    font-family: var(--font-display), "Century Gothic", system-ui, sans-serif;
+    font-family: var(--font-display), Georgia, "Times New Roman", serif;
     color: var(--color-green);
-    font-weight: 500;
-    letter-spacing: -0.01em;
+    font-weight: 400;
+    letter-spacing: -0.005em;
   }
 
   p {
@@ -58,7 +58,7 @@
 
 /* Só a fonte display (a cor fica por conta do utilitário aplicado). */
 .font-display {
-  font-family: var(--font-display), "Century Gothic", system-ui, sans-serif;
+  font-family: var(--font-display), Georgia, "Times New Roman", serif;
 }
 
 /* Fonte do wordmark do logo (stand-in de Mistral — ver comentário em layout.js). */

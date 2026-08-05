@@ -2,13 +2,15 @@ import { notFound } from "next/navigation";
 import { getDictionary, hasLocale } from "./dictionaries";
 import Header from "../../components/Header";
 import Hero from "../../components/Hero";
-import Reveal from "../../components/Reveal";
-import Values from "../../components/Values";
-import CollectionPrelude from "../../components/CollectionPrelude";
+import FilmSection from "../../components/FilmSection";
+import Worn from "../../components/Worn";
+import Collection from "../../components/Collection";
 import Story from "../../components/Story";
-import Catalog from "../../components/Catalog";
-import About from "../../components/About";
+import WorldMap from "../../components/WorldMap";
+import Closing from "../../components/Closing";
+import Newsletter from "../../components/Newsletter";
 import Footer from "../../components/Footer";
+import Reveal from "../../components/Reveal";
 
 export default async function Home({ params }) {
   const { lang } = await params;
@@ -19,16 +21,19 @@ export default async function Home({ params }) {
   const catalogJsonLd = {
     "@context": "https://schema.org",
     "@type": "ItemList",
-    name: dict.catalog.title,
-    itemListElement: dict.catalog.pieces.map((p, i) => ({
+    name: dict.collection.eyebrow,
+    itemListElement: dict.collection.pieces.map((p, i) => ({
       "@type": "ListItem",
       position: i + 1,
       item: {
         "@type": "Product",
         name: p.name,
-        material: p.material,
-        category: lang === "en" ? "Handmade bio-jewellery" : "Biojoia artesanal",
         brand: { "@type": "Brand", name: "Moikato" },
+        offers: {
+          "@type": "Offer",
+          priceCurrency: "GBP",
+          price: p.price.replace(/[^0-9.]/g, ""),
+        },
       },
     })),
   };
@@ -41,38 +46,46 @@ export default async function Home({ params }) {
       />
       <Header dict={dict.header} lang={lang} />
       <main className="flex-1">
-        {/* Banner cinematográfico (campo de capim dourado) */}
+        {/* Hero cinematográfico */}
         <Hero dict={dict.hero} />
 
-        {/* Manifesto rápido — valores */}
+        {/* Manifesto + filme */}
         <Reveal>
-          <Values dict={dict.values} />
+          <FilmSection dict={dict.manifesto} />
         </Reveal>
 
-        {/* A peça vem antes da narrativa: desejo primeiro, contexto depois. */}
+        {/* Desenhado no Brasil / Usado pelo mundo */}
         <Reveal>
-          <CollectionPrelude dict={dict.catalog} />
+          <Worn dict={dict.worn} />
         </Reveal>
 
-        {/* Do Cerrado à joia — história única (material + jornada + Moikato).
-            Sem <Reveal>: tem sticky + IntersectionObserver próprios. */}
-        <Story dict={dict.story} />
-
-        {/* As peças — coleção */}
+        {/* Coleção */}
         <Reveal>
-          <Catalog dict={dict.catalog} />
+          <Collection dict={dict.collection} />
         </Reveal>
 
-        {/* Sustentabilidade & processo */}
+        {/* Nossa história */}
         <Reveal>
-          <About dict={dict.about} />
+          <Story dict={dict.story} />
+        </Reveal>
+
+        {/* Encontrados pelo mundo */}
+        <Reveal>
+          <WorldMap dict={dict.world} />
+        </Reveal>
+
+        {/* Manifesto de fecho */}
+        <Reveal>
+          <Closing dict={dict.closing} />
+        </Reveal>
+
+        {/* Newsletter */}
+        <Reveal>
+          <Newsletter dict={dict.newsletter} />
         </Reveal>
       </main>
 
-      {/* Contato */}
-      <Reveal>
-        <Footer dict={dict.footer} />
-      </Reveal>
+      <Footer dict={dict.footer} />
     </>
   );
 }
