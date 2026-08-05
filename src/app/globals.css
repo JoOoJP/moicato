@@ -73,12 +73,13 @@
   line-height: 1.7;
 }
 
-/* Rótulo pequeno em caixa alta (eyebrow) — não define cor, só o estilo */
+/* Rótulo pequeno em caixa alta (eyebrow) — não define cor, só o estilo.
+   12px é o piso de legibilidade (WCAG/UX) — nunca reduzir com text-[0.6rem]. */
 .eyebrow {
   font-family: var(--font-sans), system-ui, sans-serif;
   text-transform: uppercase;
   letter-spacing: 0.18em;
-  font-size: 0.72rem;
+  font-size: 0.75rem;
   font-weight: 600;
 }
 
@@ -96,9 +97,10 @@
   background: linear-gradient(135deg, #d5a84c, #b48332);
 }
 
+/* Branco sobre dourado dava ~2,2:1 — verde da marca sobre dourado passa AA. */
 ::selection {
   background: var(--color-gold);
-  color: #fff;
+  color: var(--color-green);
 }
 
 /* animações de scroll-reveal ficam nos próprios componentes */

@@ -3,6 +3,7 @@ import BandeiraBR from "./BandeiraBR";
 import {
   waLink,
   whatsappReady,
+  EMAIL,
   INSTAGRAM,
   INSTAGRAM_URL,
 } from "../lib/contato";
@@ -42,16 +43,53 @@ export default function Footer({ dict }) {
           <h2 className="mx-auto mt-4 max-w-2xl text-4xl sm:text-5xl">
             {dict.title}
           </h2>
-          <p className="lead mx-auto mt-4 max-w-xl">{dict.lead}</p>
+          {/* Sem .lead aqui: a cor dela (ink 70%) dava ~3,9:1 sobre o dourado —
+              verde escuro passa AA no gradiente inteiro. */}
+          <p className="mx-auto mt-4 max-w-xl text-[1.075rem] leading-[1.7] text-verdemoikato-700">
+            {dict.lead}
+          </p>
           <div className="mt-9 flex flex-wrap items-center justify-center gap-4">
-            <a
-              href={waLink(dict.waFooter)}
-              {...external}
-              className="bg-verdemoikato px-8 py-4 text-sm font-medium text-white outline-none ring-amarelomoikato/60 ring-offset-2 transition-colors hover:bg-verdemoikato-600 focus-visible:ring-2"
-            >
-              {dict.whatsapp}
-            </a>
+            {/* Sem número de WhatsApp configurado, waLink cai em "#contato" —
+                link circular dentro do próprio footer. Nesse caso o CTA
+                principal vira o DM do Instagram (funil continua vivo). */}
+            {whatsappReady ? (
+              <a
+                href={waLink(dict.waFooter)}
+                {...external}
+                className="bg-verdemoikato px-8 py-4 text-sm font-medium text-white outline-none ring-amarelomoikato/60 ring-offset-2 transition-colors hover:bg-verdemoikato-600 focus-visible:ring-2"
+              >
+                {dict.whatsapp}
+              </a>
+            ) : (
+              <a
+                href={INSTAGRAM_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="bg-verdemoikato px-8 py-4 text-sm font-medium text-white outline-none ring-amarelomoikato/60 ring-offset-2 transition-colors hover:bg-verdemoikato-600 focus-visible:ring-2"
+              >
+                {dict.instagram}
+              </a>
+            )}
           </div>
+          {/* Canais diretos sempre visíveis — e-mail existia em contato.js mas
+              não aparecia em lugar nenhum do site. */}
+          <p className="mt-6 text-sm text-verdemoikato-700">
+            <a
+              href={`mailto:${EMAIL}`}
+              className="underline decoration-dotted underline-offset-4 outline-none ring-amarelomoikato/60 ring-offset-2 transition-colors hover:text-verdemoikato-900 focus-visible:ring-2"
+            >
+              {EMAIL}
+            </a>
+            <span aria-hidden> · </span>
+            <a
+              href={INSTAGRAM_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="underline decoration-dotted underline-offset-4 outline-none ring-amarelomoikato/60 ring-offset-2 transition-colors hover:text-verdemoikato-900 focus-visible:ring-2"
+            >
+              {INSTAGRAM}
+            </a>
+          </p>
         </div>
       </div>
 

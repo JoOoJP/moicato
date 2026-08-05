@@ -4,6 +4,7 @@ import Header from "../../components/Header";
 import Hero from "../../components/Hero";
 import Reveal from "../../components/Reveal";
 import Values from "../../components/Values";
+import CollectionPrelude from "../../components/CollectionPrelude";
 import Story from "../../components/Story";
 import Catalog from "../../components/Catalog";
 import About from "../../components/About";
@@ -46,6 +47,11 @@ export default async function Home({ params }) {
         {/* Manifesto rápido — valores */}
         <Reveal>
           <Values dict={dict.values} />
+        </Reveal>
+
+        {/* A peça vem antes da narrativa: desejo primeiro, contexto depois. */}
+        <Reveal>
+          <CollectionPrelude dict={dict.catalog} />
         </Reveal>
 
         {/* Do Cerrado à joia — história única (material + jornada + Moikato).

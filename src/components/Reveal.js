@@ -11,8 +11,12 @@ export default function Reveal({ children, className = "", delay = 0 }) {
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
+    // Sem IntersectionObserver (browser antigo): revela direto via style inline
+    // (vence as classes de escondido) — setState síncrono em effect dispara
+    // render em cascata e o react-hooks/set-state-in-effect proíbe.
     if (!("IntersectionObserver" in window)) {
-      setShown(true);
+      el.style.opacity = "1";
+      el.style.transform = "none";
       return;
     }
     const io = new IntersectionObserver(

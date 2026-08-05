@@ -334,7 +334,7 @@ export default function DesignSystemPage() {
             </strong>{" "}
             e <strong className="font-medium text-verdemoikato">LivingBackground</strong>{" "}
             já estão ativos nesta própria página (montados no RootLayout) — são
-            os efeitos de fundo "vivo" da marca, não componentes de UI
+            os efeitos de fundo &ldquo;vivo&rdquo; da marca, não componentes de UI
             reutilizáveis em telas isoladas.
           </p>
         </Secao>

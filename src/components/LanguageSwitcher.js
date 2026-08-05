@@ -24,11 +24,17 @@ function currentHash() {
 
 // Troca de idioma: grava a preferência num cookie e navega para o outro locale,
 // preservando a seção atual (em vez de voltar sempre ao topo).
+// Fica FORA do componente: o lint do React Compiler (react-hooks/immutability)
+// não permite atribuição em globais (document/window) dentro do corpo dele.
+function goToLocale(code) {
+  document.cookie = `NEXT_LOCALE=${code}; path=/; max-age=31536000; samesite=lax`;
+  window.location.href = `/${code}${currentHash()}`;
+}
+
 export default function LanguageSwitcher({ lang, className = "" }) {
   const choose = (code) => {
     if (code === lang) return;
-    document.cookie = `NEXT_LOCALE=${code}; path=/; max-age=31536000; samesite=lax`;
-    window.location.href = `/${code}${currentHash()}`;
+    goToLocale(code);
   };
 
   return (

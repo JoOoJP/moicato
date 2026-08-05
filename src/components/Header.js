@@ -68,15 +68,38 @@ export default function Header({ dict, lang }) {
   const close = useCallback(() => setOpen(false), []);
 
   // Menu mobile aberto: trava o scroll, fecha no Escape, move o foco ao painel
-  // e o devolve ao botão ao fechar.
+  // e o devolve ao botão ao fechar. Tab fica preso dentro do painel enquanto
+  // aberto (aria-modal exige focus trap — sem isso o foco vaza pro conteúdo
+  // atrás do overlay).
   useEffect(() => {
     if (!open) return;
 
+    // Captura o botão agora — ler toggleRef.current dentro da cleanup pega
+    // valor possivelmente já trocado (warning react-hooks/exhaustive-deps).
+    const toggle = toggleRef.current;
     const prevOverflow = document.body.style.overflow;
     document.body.style.overflow = "hidden";
 
     const onKey = (e) => {
-      if (e.key === "Escape") close();
+      if (e.key === "Escape") {
+        close();
+        return;
+      }
+      if (e.key !== "Tab") return;
+      const focusables = panelRef.current?.querySelectorAll(
+        "a[href], button:not([disabled])"
+      );
+      if (!focusables?.length) return;
+      const first = focusables[0];
+      const last = focusables[focusables.length - 1];
+      const inPanel = panelRef.current.contains(document.activeElement);
+      if (e.shiftKey && (document.activeElement === first || !inPanel)) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && (document.activeElement === last || !inPanel)) {
+        e.preventDefault();
+        first.focus();
+      }
     };
     document.addEventListener("keydown", onKey);
 
@@ -86,7 +109,7 @@ export default function Header({ dict, lang }) {
     return () => {
       document.body.style.overflow = prevOverflow;
       document.removeEventListener("keydown", onKey);
-      toggleRef.current?.focus();
+      toggle?.focus();
     };
   }, [open, close]);
 
@@ -123,10 +146,10 @@ export default function Header({ dict, lang }) {
             }`}
           >
             <span>
-              <span className="eyebrow block text-[0.6rem] text-amarelomoikato-600">
+              <span className="eyebrow block text-amarelomoikato-800">
                 {dict.brandEyebrow1}
               </span>
-              <span className="eyebrow block text-[0.6rem] text-verdemoikato/55">
+              <span className="eyebrow block text-verdemoikato/70">
                 {dict.brandEyebrow2}
               </span>
             </span>
@@ -308,7 +331,7 @@ export default function Header({ dict, lang }) {
             {dict.contact}
             <ArrowIcon className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-0.5" />
           </a>
-          <p className="eyebrow mt-5 text-center text-[0.6rem] text-verdemoikato-700/60">
+          <p className="eyebrow mt-5 text-center text-verdemoikato-700/70">
             {dict.drawerNote}
           </p>
         </div>

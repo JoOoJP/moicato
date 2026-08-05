@@ -11,7 +11,7 @@ const dict = {
     nav: {
       colecao: "Collection",
       jornada: "The journey",
-      sustentabilidade: "Sustainability",
+      sustentabilidade: "Care",
       contato: "Contact",
     },
     mainNav: "Main navigation",
@@ -34,22 +34,30 @@ const dict = {
     scroll: "scroll",
   },
   values: {
+    eyebrow: "Material, time and hands",
+    title: "Never born in a series.",
+    lead:
+      "Before becoming jewellery, there is a plant, a harvesting season and knowledge passed down through generations.",
     items: [
       {
-        title: "Handmade",
-        text: "Every piece is one of a kind, shaped by hand — never mass-produced.",
+        meta: "Gesture",
+        title: "One piece at a time",
+        text: "Form emerges at the pace of the hands. Slight differences in curve and stitch record who made it — making each piece unrepeatable.",
       },
       {
-        title: "Natural materials",
-        text: "Seeds, fibres and golden grass from the Cerrado — beauty that comes from the land.",
+        meta: "Material",
+        title: "The gold is not dye",
+        text: "It is the natural colour of Syngonanthus nitens after drying in the sun. Brazilian seeds and fibres complete the collection's material language.",
       },
       {
-        title: "Income that stays",
-        text: "Supporting artisans and traditional communities across Brazil.",
+        meta: "Time",
+        title: "Harvest waits for the seed",
+        text: "In Jalapão, golden grass may only be harvested once its seeds have matured, between September and November, allowing the field to grow again.",
       },
       {
-        title: "Sustainable",
-        text: "Mindful harvesting, at the right time, without harming nature.",
+        meta: "Origin",
+        title: "Knowledge remains in the territory",
+        text: "Stitching with buriti fibre carries a quilombola heritage from Mateiros. Moikato presents that origin without erasing it.",
       },
     ],
   },
@@ -63,42 +71,26 @@ const dict = {
     scenes: [
       {
         n: "01",
-        tag: "Jalapão · TO",
-        title: "Born in the heart of Jalapão",
+        tag: "The field · Jalapão",
+        title: "Born and harvested in the Cerrado's time",
         caption:
-          "In the Cerrado of Tocantins, among wetlands and fierce sun, grows the everlasting flower Syngonanthus nitens — which the Mumbuca community, in Mateiros, calls gold.",
+          "Among wetlands and fierce sun grows Syngonanthus nitens. Harvest only happens once its seeds have ripened, between September and November, preserving the field for its next cycle.",
         alt: "Field of golden grass in Jalapão, Tocantins",
       },
       {
         n: "02",
-        tag: "20 Sep – 20 Nov",
-        title: "Harvested at the right time",
+        tag: "The hands · quilombola heritage",
+        title: "Natural lustre meets inherited craft",
         caption:
-          "Harvesting is only allowed once the seeds have ripened, within a short window. It's the rule that keeps the field alive — and honours the Cerrado.",
-        alt: "Golden grass stalks harvested within the permitted period",
-      },
-      {
-        n: "03",
-        tag: "No dye",
-        title: "The shine is 100% natural",
-        caption:
-          "No chemistry. As it dries in the sun, the grass reveals the living gold that gives it its name. The colour is a gift from the plant itself.",
-        alt: "Golden grass drying in the sun, revealing its natural shine",
-      },
-      {
-        n: "04",
-        tag: "Quilombola heritage",
-        title: "Hand-sewn with buriti",
-        caption:
-          "Thread by thread, the stalks are sewn with buriti fibre — a quilombola heritage technique, passed down through generations in the hands of Mateiros.",
+          "With no dye, the grass reveals its gold as it dries in the sun. Stalk by stalk, it is then sewn with buriti fibre using a technique passed down through generations in Mateiros.",
         alt: "Artisan hand-sewing golden grass with buriti fibre",
       },
       {
-        n: "05",
-        tag: "GI since 2011",
-        title: "It becomes a Moikato jewel",
+        n: "03",
+        tag: "The piece · origin preserved",
+        title: "From territory to the body",
         caption:
-          "By law, it only leaves the region as a finished piece — never the raw material. Every Moikato carries a Geographical Indication and a living story from Brazil.",
+          "Golden grass only leaves the region as a finished piece. At Moikato, that origin gains design, presence and a new story with those who choose to wear it.",
         alt: "Finished golden-grass bio-jewellery piece, made by the local community",
       },
     ],
@@ -109,6 +101,9 @@ const dict = {
     makersP2:
       "Moikato brings this work closer to you, honouring the origin of its materials and the hands that turn them into art.",
     signature: "— Samuel Moikato, founder",
+    bridgeEyebrow: "From origin to presence",
+    bridgeLead:
+      "The story does not end in the material. It continues with those who choose to carry it.",
     cta: "See the collection",
   },
 
@@ -116,6 +111,15 @@ const dict = {
     eyebrow: "Collection",
     title: "Pieces that tell stories",
     lead: "A handmade selection, piece by piece. Every jewel carries the texture and the time of artisanal work.",
+    previewNumber: "Feature 06",
+    previewEyebrow: "First selection",
+    previewTitle: "The Cerrado, in three gestures.",
+    previewLead:
+      "The lightness of golden grass gains presence in a piece designed to follow the body and hold the light of the Cerrado.",
+    previewNote:
+      "Handmade in Brazil. Natural variations in the fibre make every piece truly unique.",
+    previewCta: "Discover the collection",
+    availability: "Made to order",
     pieces: [
       { name: "Leaf Earring", material: "Açaí seeds", tag: null, image: "/prod-1.svg" },
       { name: "Root Necklace", material: "Buriti fibre", tag: null, image: "/prod-2.svg" },
@@ -132,30 +136,30 @@ const dict = {
     waCatalog: "Hello! I'd like to see Moikato's full catalogue.",
   },
   about: {
-    eyebrow: "Sustainability & process",
-    title: "From the Cerrado to your hands",
+    eyebrow: "Living piece · lasting care",
+    title: "Made to remain",
     intro:
-      "We work in small batches and one-of-a-kind pieces, valuing the provenance of our materials and the work of artisans and traditional communities. Beauty that generates income and respects nature.",
+      "Every natural fibre carries slight variations in colour and form. Caring for the piece preserves its material, the handwork and the story it holds.",
     steps: [
       {
         n: "01",
-        title: "Mindful harvesting",
-        text: "Materials gathered at the right time, respecting nature's cycles and the rules of each biome.",
+        title: "Natural variations",
+        text: "Tones and textures vary subtly from one piece to another — authentic signs of the fibre, never flaws.",
       },
       {
         n: "02",
-        title: "Artisanal preparation",
-        text: "Seeds and fibres are dried and hand-selected, piece by piece.",
+        title: "Wear mindfully",
+        text: "Avoid water, perfume and intense friction. When removing it, hold the structure without pulling the fibres.",
       },
       {
         n: "03",
-        title: "Made by hand",
-        text: "Every jewel is designed and assembled by hand — no two are exactly alike.",
+        title: "Store with care",
+        text: "Keep your bio-jewel dry, away from direct light and separate from other pieces to preserve its shape.",
       },
       {
         n: "04",
-        title: "Provenance",
-        text: "You receive a piece with a story, an origin and the care of those who made it.",
+        title: "Direct assistance",
+        text: "Production, availability and timing are confirmed with every order, with close support from Moikato.",
       },
     ],
   },
@@ -164,10 +168,11 @@ const dict = {
     title: "Shall we create something unique?",
     lead: "Orders, made-to-measure pieces or partnerships — get in touch. Every jewel begins with a conversation.",
     whatsapp: "Chat on WhatsApp",
+    instagram: "Message on Instagram",
     nav: {
       colecao: "Collection",
       jornada: "The journey",
-      sustentabilidade: "Sustainability",
+      sustentabilidade: "Care",
       contato: "Contact",
     },
     imageCredits: "Image credits",

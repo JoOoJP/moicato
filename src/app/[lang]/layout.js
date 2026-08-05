@@ -4,7 +4,6 @@ import { getDictionary, hasLocale, htmlLang, locales } from "./dictionaries";
 import { SITE_URL, OG_LOCALE, OG_IMAGE } from "../../lib/site";
 import { INSTAGRAM_URL } from "../../lib/contato";
 import LivingBackground from "../../components/LivingBackground";
-import GoldenThread from "../../components/GoldenThread";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 
@@ -108,9 +107,8 @@ export default async function RootLayout({ children, params }) {
           {skip}
         </a>
 
-        {/* Sistemas "vivos" (Campo Vivo) — leves, com fallback reduced-motion */}
+        {/* Atmosfera sutil de fundo, com fallback reduced-motion */}
         <LivingBackground />
-        <GoldenThread />
 
         {children}
 

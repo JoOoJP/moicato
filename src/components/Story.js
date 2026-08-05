@@ -2,14 +2,11 @@
 
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
-import Folhagem from "./Folhagem";
 
 // História única: o material (capim dourado) + a jornada (palco fixo, campo→joia)
 // + quem faz (Moikato/Samuel/comunidades). Uma narrativa só.
 const IMAGES = [
   "/story-nasce.jpg",
-  "/story-colheita.jpg",
-  "/story-brilho.jpg",
   "/story-costura.jpg",
   "/story-joia.jpg",
 ];
@@ -33,10 +30,9 @@ export default function Story({ dict }) {
   useEffect(() => {
     const els = stepRefs.current.filter(Boolean);
     if (!els.length) return;
-    if (!("IntersectionObserver" in window)) {
-      setActive(0);
-      return;
-    }
+    // Sem IntersectionObserver, fica na cena inicial — active já nasce 0,
+    // setState aqui era redundante (e proibido pelo set-state-in-effect).
+    if (!("IntersectionObserver" in window)) return;
     const ratios = new Map();
     const io = new IntersectionObserver(
       (entries) => {
@@ -75,23 +71,31 @@ export default function Story({ dict }) {
     <section
       id="jornada"
       aria-labelledby="jornada-titulo"
-      className="scroll-mt-24 border-y border-amarelomoikato/20 bg-gradient-to-b from-areia to-areia-100"
+      className="scroll-mt-24 border-t border-amarelomoikato/20 bg-gradient-to-b from-areia to-areia-100"
     >
       {/* 1) Abertura — o material */}
       <div className="mx-auto max-w-6xl px-6 pt-20 sm:pt-28">
-        <div className="flex items-center gap-3">
-          <span aria-hidden className="h-px w-10 bg-amarelomoikato-700" />
-          <span className="eyebrow text-amarelomoikato-700">{dict.eyebrow}</span>
+        <div className="grid gap-8 border-b border-verdemoikato/15 pb-10 md:grid-cols-2 md:items-end">
+          <div>
+            <div className="flex items-center gap-3">
+              <span aria-hidden className="h-px w-10 bg-amarelomoikato-700" />
+              <span className="eyebrow text-amarelomoikato-800">
+                {dict.eyebrow}
+              </span>
+            </div>
+            <h2
+              id="jornada-titulo"
+              className="mt-5 max-w-3xl text-4xl leading-[1.05] sm:text-5xl lg:text-6xl"
+            >
+              {dict.titleBefore}
+              <span className="italic text-amarelomoikato-700">
+                {dict.titleEm}
+              </span>
+              {dict.titleAfter}
+            </h2>
+          </div>
+          <p className="lead max-w-xl md:justify-self-end">{dict.lead}</p>
         </div>
-        <h2
-          id="jornada-titulo"
-          className="mt-5 max-w-3xl text-4xl leading-[1.05] sm:text-5xl lg:text-6xl"
-        >
-          {dict.titleBefore}
-          <span className="italic text-amarelomoikato-700">{dict.titleEm}</span>
-          {dict.titleAfter}
-        </h2>
-        <p className="lead mt-6 max-w-xl">{dict.lead}</p>
       </div>
 
       {/* Anúncio da etapa ativa para leitores de tela */}
@@ -102,16 +106,16 @@ export default function Story({ dict }) {
       {/* 2) A jornada — palco fixo + passos que deslizam */}
       <div className="mx-auto grid max-w-6xl gap-x-14 px-6 pb-6 pt-10 sm:pt-14 lg:grid-cols-2">
         {/* PALCO — fixo no topo (mobile) / à esquerda (desktop) */}
-        <div className="sticky top-16 z-10 -mx-6 mb-6 self-start bg-areia px-6 pb-5 pt-2 lg:top-28 lg:mx-0 lg:mb-0 lg:bg-transparent lg:px-0 lg:pb-0">
-          <div
-            aria-hidden
-            className="relative mx-auto aspect-[16/10] w-full overflow-hidden border border-amarelomoikato/30 sm:aspect-[16/9] lg:aspect-[4/5] lg:max-w-[400px]"
-          >
+        <div className="z-10 -mx-6 mb-6 self-start bg-areia px-6 pb-5 pt-2 lg:sticky lg:top-28 lg:mx-0 lg:mb-0 lg:bg-transparent lg:px-0 lg:pb-0">
+          {/* Moldura orgânica + sombra quente terracota — estilo que vestia o
+              catálogo; o número fica mais pra dentro (bottom/right em %) pra
+              não ser cortado pela borda irregular do clip. */}
+          <div className="relative mx-auto aspect-[16/10] w-full overflow-hidden bg-verdemoikato-900 sm:aspect-[16/9] lg:aspect-[4/5] lg:max-w-[400px]">
             {scenes.map((s, i) => (
               <Image
                 key={s.n}
                 src={IMAGES[i] ?? IMAGES[0]}
-                alt=""
+                alt={i === active ? s.alt : ""}
                 fill
                 sizes="(min-width: 1024px) 45vw, 100vw"
                 className="object-cover transition-opacity duration-700 ease-out motion-reduce:transition-none"
@@ -124,10 +128,14 @@ export default function Story({ dict }) {
             />
             <span
               aria-hidden
-              className="pointer-events-none absolute bottom-3 right-4 font-display text-4xl !text-areia/90 sm:text-5xl"
+              className="pointer-events-none absolute bottom-5 right-5 font-display text-4xl !text-areia/90 sm:text-5xl"
             >
               {scenes[active].n}
             </span>
+            <span
+              aria-hidden
+              className="pointer-events-none absolute inset-3 border border-areia/20"
+            />
           </div>
 
           <div className="mx-auto mt-4 flex w-full items-center justify-between lg:max-w-[400px]">
@@ -152,7 +160,7 @@ export default function Story({ dict }) {
                 </button>
               ))}
             </div>
-            <span className="eyebrow text-amarelomoikato-700">
+            <span className="eyebrow text-amarelomoikato-800">
               {String(active + 1).padStart(2, "0")} /{" "}
               {String(total).padStart(2, "0")}
             </span>
@@ -170,7 +178,7 @@ export default function Story({ dict }) {
                 ref={(el) => {
                   stepRefs.current[i] = el;
                 }}
-                className="flex min-h-[46vh] flex-col justify-center border-t border-amarelomoikato/15 py-8 first:border-t-0 lg:min-h-[54vh] lg:border-t-0"
+                className="flex flex-col justify-center border-t border-amarelomoikato/15 py-10 first:border-t-0 lg:min-h-[54vh] lg:border-t-0"
               >
                 <div
                   className={`transition-all duration-500 ease-out motion-reduce:transition-none ${
@@ -179,7 +187,7 @@ export default function Story({ dict }) {
                       : "opacity-40 lg:translate-x-1 lg:opacity-35"
                   }`}
                 >
-                  <span className="eyebrow text-[0.7rem] text-amarelomoikato-700 sm:text-xs">
+                  <span className="eyebrow text-amarelomoikato-800">
                     {s.n} — {s.tag}
                   </span>
                   <h3 className="mt-4 text-3xl leading-[1.1] sm:text-4xl">
@@ -197,10 +205,13 @@ export default function Story({ dict }) {
 
       {/* 3) Quem faz — a Moikato / Samuel / comunidades */}
       <div className="relative mx-auto max-w-6xl px-6 pt-8 sm:pt-12">
-        {/* Folhagem — motivo do manual de marca, textura baixíssima no canto */}
-        <Folhagem className="pointer-events-none absolute -top-4 right-0 h-28 w-28 text-amarelomoikato-700/10" />
-        <div className="grid items-center gap-10 border-t border-amarelomoikato/20 pt-14 lg:grid-cols-2 lg:gap-14">
-          <div className="relative aspect-[5/4] overflow-hidden border border-verdemoikato/15">
+        <div className="grid items-center gap-10 border-t border-amarelomoikato/20 pt-16 lg:grid-cols-[1.12fr_0.88fr] lg:gap-16">
+          <div className="relative pb-5 pl-5">
+            <span
+              aria-hidden
+              className="absolute bottom-0 left-0 h-[72%] w-[72%] bg-terra/10"
+            />
+            <div className="relative aspect-[5/4] overflow-hidden bg-areia-200">
             <Image
               src="/story-comunidade.jpg"
               alt={dict.makersTitle}
@@ -209,11 +220,16 @@ export default function Story({ dict }) {
               sizes="(min-width: 1024px) 45vw, 90vw"
               className="h-full w-full object-cover"
             />
+              <span
+                aria-hidden
+                className="pointer-events-none absolute inset-3 border border-areia/25"
+              />
+            </div>
           </div>
           <div>
             <div className="flex items-center gap-3">
               <span aria-hidden className="h-px w-10 bg-amarelomoikato-700" />
-              <span className="eyebrow text-amarelomoikato-700">
+              <span className="eyebrow text-amarelomoikato-800">
                 {dict.makersEyebrow}
               </span>
             </div>
@@ -232,24 +248,30 @@ export default function Story({ dict }) {
         </div>
       </div>
 
-      {/* 4) Ponte para a coleção */}
-      <div className="mx-auto max-w-6xl px-6 pb-20 pt-12 sm:pb-28">
-        {/* .gradiente-dourado no lugar do bg-amarelomoikato chapado — ecoa o
-            manual de marca. Hover só desloca/sombreia (a troca de cor de
-            fundo no hover foi removida: um bg-* do Tailwind não sobrescreve
-            de forma confiável o `background` da classe custom no cascade). */}
-        <a
-          href="#colecao"
-          className="group gradiente-dourado inline-flex items-center gap-2 px-8 py-4 text-sm font-medium tracking-wide text-amarelomoikato-900 outline-none ring-amarelomoikato/60 ring-offset-2 ring-offset-areia transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_10px_30px_-12px_rgba(160,127,41,0.6)] focus-visible:ring-2 active:translate-y-0 active:shadow-none motion-reduce:transition-none motion-reduce:hover:translate-y-0"
-        >
-          {dict.cta}
-          <span
-            aria-hidden
-            className="transition-transform duration-300 group-hover:translate-x-1 motion-reduce:transition-none"
+      {/* 4) Ponte editorial: encerra a origem e abre o capítulo das peças. */}
+      <div className="mx-auto max-w-6xl px-6 pb-8 pt-16 sm:pb-12 sm:pt-24">
+        <div className="grid gap-8 border-y border-verdemoikato/20 py-10 sm:py-14 md:grid-cols-[1fr_auto] md:items-end">
+          <div>
+            <span className="eyebrow text-amarelomoikato-800">
+              {dict.bridgeEyebrow}
+            </span>
+            <p className="mt-4 max-w-2xl font-display text-3xl leading-tight text-verdemoikato sm:text-4xl lg:text-5xl">
+              {dict.bridgeLead}
+            </p>
+          </div>
+          <a
+            href="#colecao"
+            className="group inline-flex min-h-12 items-center gap-4 border-b border-verdemoikato/40 text-sm font-medium tracking-wide text-verdemoikato outline-none ring-amarelomoikato/60 ring-offset-4 ring-offset-areia-100 transition-colors hover:border-terra-600 hover:text-terra-600 focus-visible:ring-2"
           >
-            →
-          </span>
-        </a>
+            {dict.cta}
+            <span
+              aria-hidden
+              className="text-xl transition-transform duration-300 group-hover:translate-x-1 motion-reduce:transition-none"
+            >
+              →
+            </span>
+          </a>
+        </div>
       </div>
     </section>
   );

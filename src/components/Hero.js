@@ -1,8 +1,6 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import Tucano from "./Tucano";
-import Folhagem from "./Folhagem";
 
 // Campo de capim dourado denso e felpudo (canvas 2D), com vento suave contínuo.
 // Chave para o scroll não travar / não "mexer" o capim:
@@ -240,20 +238,11 @@ export default function Hero({ dict }) {
         }}
       />
 
-      {/* Tucano pousado no céu dourado — motivo do manual de marca, citando
-          a composição do tote bag (folhagem + tucano no canto). Silhueta
-          discreta, não disputa com o campo de capim nem com o texto. */}
-      <Tucano className="pointer-events-none absolute right-[8%] top-[16%] h-12 w-12 text-verdemoikato-900/25 sm:h-16 sm:w-16" />
-
-      {/* Folhagem tropical — mesmo motivo, textura baixíssima atrás do
-          texto; escondida no mobile pra não brigar com a coluna de texto. */}
-      <Folhagem className="pointer-events-none absolute -left-6 bottom-16 hidden h-48 w-48 text-verdemoikato-900/10 sm:block" />
-
       {/* Conteúdo (mantém CTAs de venda) */}
       <div className="relative z-10 mx-auto w-full max-w-6xl px-6 pb-28 sm:pb-32">
         <div className="flex items-center gap-3">
           <span aria-hidden className="h-px w-10 bg-amarelomoikato-700" />
-          <span className="eyebrow text-amarelomoikato-700">{dict.eyebrow}</span>
+          <span className="eyebrow text-amarelomoikato-800">{dict.eyebrow}</span>
         </div>
         <h1 className="mt-6 max-w-3xl text-5xl leading-[1.0] sm:text-7xl lg:text-8xl">
           {dict.titleBefore}
@@ -294,9 +283,7 @@ export default function Hero({ dict }) {
         aria-hidden
         className="pointer-events-none absolute bottom-6 left-1/2 z-10 flex -translate-x-1/2 flex-col items-center gap-2"
       >
-        <span className="eyebrow text-[0.6rem] text-verdemoikato/50">
-          {dict.scroll}
-        </span>
+        <span className="eyebrow text-verdemoikato/70">{dict.scroll}</span>
         <span className="relative block h-10 w-px overflow-hidden bg-verdemoikato/20">
           <span className="absolute inset-x-[-0.5px] top-0 h-3 rounded-full bg-amarelomoikato motion-safe:animate-[scrollHint_1.9s_ease-in-out_infinite]" />
         </span>
