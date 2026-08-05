@@ -1,5 +1,3 @@
-import Folhagem from "./Folhagem";
-
 export default function About({ dict }) {
   return (
     <section
@@ -15,10 +13,6 @@ export default function About({ dict }) {
         aria-hidden
         className="pointer-events-none absolute -right-40 top-8 h-[34rem] w-[34rem] rounded-full bg-amarelomoikato/10 blur-3xl"
       />
-      {/* Folhagem — motivo do manual de marca, textura baixíssima no canto
-          oposto ao brilho dourado. */}
-      <Folhagem className="pointer-events-none absolute -left-10 bottom-0 h-40 w-40 text-amarelomoikato/15" />
-
       <div className="relative mx-auto max-w-6xl px-6 py-20 sm:py-24">
         <div className="max-w-2xl">
           <div className="flex items-center gap-3">
