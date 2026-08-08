@@ -1,4 +1,4 @@
-import PlaceholderImage from "./PlaceholderImage";
+import Image from "next/image";
 
 // Hero cinematográfico: foto full-bleed (placeholder), headline serifada branca,
 // botão dourado. Ref: modelo de costas em rua de Londres.
@@ -6,21 +6,24 @@ export default function Hero({ dict }) {
   return (
     <section
       id="topo"
-      className="relative flex min-h-[92svh] items-end overflow-hidden"
+      className="relative flex min-h-[100svh] items-end overflow-hidden"
     >
-      <PlaceholderImage
-        tone="dark"
-        label="Foto hero — modelo de costas, rua de Londres"
-        className="absolute inset-0 h-full w-full"
+      <Image
+        src="/hero.jpg"
+        alt=""
+        fill
+        priority
+        sizes="100vw"
+        className="object-cover object-center"
       />
-      {/* escurecedor à esquerda pra legibilidade do texto */}
+      {/* gradientes: esquerda p/ headline, topo p/ menu — preservam o brilho quente à direita */}
       <span
         aria-hidden="true"
-        className="pointer-events-none absolute inset-0 bg-gradient-to-r from-floresta-900/75 via-floresta-900/30 to-transparent"
+        className="pointer-events-none absolute inset-0 bg-gradient-to-r from-floresta-900/75 via-floresta-900/30 to-floresta-900/10"
       />
       <span
         aria-hidden="true"
-        className="pointer-events-none absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-floresta-900/60 to-transparent"
+        className="pointer-events-none absolute inset-0 bg-gradient-to-b from-floresta-900/45 via-transparent to-floresta-900/40"
       />
 
       <div className="relative z-10 mx-auto w-full max-w-6xl px-6 pb-24 sm:pb-28">

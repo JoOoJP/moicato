@@ -45,16 +45,14 @@ export default function LanguageSwitcher({ lang, className = "" }) {
             type="button"
             onClick={() => choose(o.code)}
             aria-current={lang === o.code ? "true" : undefined}
-            className={`outline-none ring-amarelomoikato/60 ring-offset-2 ring-offset-areia transition-colors focus-visible:ring-2 ${
-              lang === o.code
-                ? "font-medium text-verdemoikato"
-                : "text-verdemoikato-700/60 hover:text-verdemoikato"
+            className={`outline-none ring-amarelomoikato/60 ring-offset-2 ring-offset-transparent transition-opacity focus-visible:ring-2 ${
+              lang === o.code ? "font-semibold" : "opacity-55 hover:opacity-100"
             }`}
           >
             {o.label}
           </button>
           {i === 0 && (
-            <span aria-hidden className="text-verdemoikato/25">
+            <span aria-hidden className="opacity-30">
               /
             </span>
           )}

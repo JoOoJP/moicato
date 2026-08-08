@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Divider from "./Divider";
 import PlaceholderImage from "./PlaceholderImage";
 
@@ -14,21 +15,37 @@ export default function FilmSection({ dict }) {
       </div>
 
       <div className="relative grid grid-cols-1 sm:grid-cols-3">
-        <PlaceholderImage
-          tone="dark"
-          label="Foto — mãos tecendo o capim"
-          className="aspect-[4/3]"
-        />
+        <div className="relative aspect-[4/3]">
+          <Image
+            src="/tecendo.jpg"
+            alt=""
+            fill
+            sizes="(min-width: 640px) 33vw, 100vw"
+            className="object-cover brightness-[0.82] saturate-[0.7]"
+          />
+          <span
+            aria-hidden="true"
+            className="pointer-events-none absolute inset-0 bg-floresta-900/25"
+          />
+        </div>
         <PlaceholderImage
           tone="dark"
           label="Filme — campo de capim ao vento"
           className="aspect-[4/3]"
         />
-        <PlaceholderImage
-          tone="light"
-          label='Foto — xícara "Brasil" na mesa'
-          className="aspect-[4/3]"
-        />
+        <div className="relative aspect-[4/3]">
+          <Image
+            src="/mesa.jpg"
+            alt=""
+            fill
+            sizes="(min-width: 640px) 33vw, 100vw"
+            className="object-cover brightness-[0.82] saturate-[0.7]"
+          />
+          <span
+            aria-hidden="true"
+            className="pointer-events-none absolute inset-0 bg-floresta-900/25"
+          />
+        </div>
 
         <button
           type="button"

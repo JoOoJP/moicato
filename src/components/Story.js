@@ -1,23 +1,28 @@
-import PlaceholderImage from "./PlaceholderImage";
+import Image from "next/image";
 
-// "Nossa história" — split: foto P&B do fundador + citação serifada grande.
+// "Nossa história" — full-bleed: foto encostada na esquerda + texto à direita,
+// seção com altura de tela (sem margens brancas). Ref editorial.
 export default function Story({ dict }) {
   return (
     <section id="historia" className="scroll-mt-24 bg-osso">
-      <div className="mx-auto grid max-w-6xl items-stretch lg:grid-cols-2">
-        <PlaceholderImage
-          tone="dark"
-          label="Foto P&B — fundador no ateliê"
-          className="aspect-[4/3] w-full lg:aspect-auto lg:min-h-[28rem]"
-        />
-        <div className="flex flex-col justify-center px-6 py-16 lg:pl-14">
+      <div className="grid lg:min-h-svh lg:grid-cols-2">
+        <div className="relative min-h-[55svh] w-full lg:min-h-svh">
+          <Image
+            src="/story.jpg"
+            alt=""
+            fill
+            sizes="(min-width: 1024px) 50vw, 100vw"
+            className="object-cover"
+          />
+        </div>
+        <div className="flex flex-col justify-center px-6 py-16 sm:px-12 lg:px-16">
           <span className="eyebrow text-amarelomoikato-700">{dict.eyebrow}</span>
-          <p className="mt-5 font-display text-3xl font-light leading-snug text-verdemoikato sm:text-[2.15rem]">
+          <p className="mt-5 max-w-xl font-display text-3xl font-light leading-snug text-verdemoikato sm:text-[2.3rem]">
             {dict.quote}
           </p>
           <a
             href="#historia"
-            className="mt-7 inline-flex items-center gap-2 text-sm font-semibold uppercase tracking-[0.15em] text-amarelomoikato-700 transition-colors hover:text-amarelomoikato-800"
+            className="mt-8 inline-flex items-center gap-2 text-sm font-semibold uppercase tracking-[0.15em] text-amarelomoikato-700 transition-colors hover:text-amarelomoikato-800"
           >
             {dict.cta}
             <span aria-hidden="true">→</span>
