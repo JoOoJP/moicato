@@ -10,13 +10,10 @@ const dict = {
     nav: {
       collection: "Collection",
       story: "Our story",
-      journal: "Journal",
+      journal: "Events",
       worldwide: "Worldwide",
       resellers: "Resellers",
     },
-    search: "Search",
-    account: "Account",
-    cart: "Bag",
     mainNav: "Main navigation",
     menu: "Menu",
     openMenu: "Open menu",
@@ -24,17 +21,26 @@ const dict = {
     menuNav: "Navigation",
   },
   hero: {
-    title: "You never left Brazil.",
-    sub: "You just changed address.",
+    title: "Made in Brazil. Chosen by you.",
+    sub: "Handcrafted jewellery with history, identity and presence.",
     cta: "Explore the collection",
   },
   manifesto: {
+    eyebrow: "Material & memory",
     line: "Some people sell jewellery. We prefer to keep memories.",
-    film: "Watch the film",
+    film: "The Moikato film",
+    filmStatus: "In production",
+    craftAlt: "Hands working with natural fibres using artisanal techniques",
+    tableAlt: "Table setting with Brazilian objects and natural materials",
   },
   worn: {
     eyebrow: "Designed in Brazil.",
     title: "Worn around the world.",
+    caption: "Brazilian pieces finding new bodies, styles and stories.",
+    backstageAlt: "Model wearing a golden Moikato necklace and bracelet backstage at a fashion show",
+    backstageCaption: "Moikato in motion · backstage",
+    editorialAlt: "Model wearing handcrafted golden necklaces and a woven-fibre bag in a fashion editorial",
+    editorialCaption: "Brazilian materials · new perspectives",
     cta: "Shop the collection",
   },
   collection: {
@@ -50,9 +56,70 @@ const dict = {
   },
   story: {
     eyebrow: "Our story",
+    imageAlt: "Samuel Moikato presenting a pair of handcrafted earrings among his pieces",
     quote:
       "Before Moikato existed, there was a Brazilian trying to figure out how to keep carrying Brazil with him.",
     cta: "Read the story",
+  },
+  events: {
+    eyebrow: "Fairs & gatherings",
+    title: "Meet Moikato near you.",
+    intro:
+      "Meet us to see the pieces up close, discover their materials and talk about the Brazil each one carries.",
+    nextLabel: "Next event",
+    when: "When",
+    where: "Where",
+    routeCta: "Get directions",
+    previousTitle: "Where we have been",
+    demoNote: "Demonstration schedule",
+    events: [
+      {
+        day: "12–13",
+        month: "September",
+        monthShort: "Sep",
+        year: "2026",
+        name: "London Brazilian Design Fair",
+        place: "The Truman Brewery · London",
+        schedule: "Saturday and Sunday · 10am–6pm",
+        address: "91 Brick Lane, London E1 6QR",
+        mapUrl: "https://maps.google.com/?q=The+Truman+Brewery+London",
+        image: "/tecendo.jpg",
+        alt: "Demonstration of handcrafting with natural fibres",
+      },
+      {
+        day: "18",
+        month: "May",
+        monthShort: "May",
+        year: "2026",
+        name: "Brazilian Makers Market",
+        place: "Bristol · England",
+        image: "/event-samuel-fair.png",
+        imagePosition: "center 18%",
+        alt: "Samuel Moikato presenting his golden-grass pieces at a fair",
+      },
+      {
+        day: "2026",
+        month: "",
+        monthShort: "",
+        year: "2026",
+        name: "International Recognition",
+        place: "Moikato recognition · London",
+        image: "/event-award.jpeg",
+        imagePosition: "center 42%",
+        alt: "Samuel Moikato receiving an international recognition on stage",
+      },
+      {
+        day: "2026",
+        month: "",
+        monthShort: "",
+        year: "2026",
+        name: "Royal Castles Congress Day",
+        place: "London · England",
+        image: "/event-congress.png",
+        imagePosition: "center 35%",
+        alt: "Samuel Moikato at the Royal Castles Congress Day in London",
+      },
+    ],
   },
   world: {
     eyebrow: "Found around the world",
@@ -66,21 +133,36 @@ const dict = {
       { city: "Sydney", country: "Australia" },
     ],
   },
-  closing: {
-    lines: [
-      "Some people collect jewellery.",
-      "Others collect places.",
-      "Moikato belongs to both.",
+  eventInvitation: {
+    eyebrow: "Samuel Moikato · invitations",
+    title: "Bring the knowledge of the Cerrado to your audience.",
+    intro:
+      "Fairs, gatherings and conversations where audiences can discover Moikato's materials, pieces and stories up close.",
+    imageAlt: "Samuel Moikato smiling while wearing a handcrafted natural-fibre hat",
+    portraitAlt: "Samuel working on a Moikato piece",
+    imageCaption: "Samuel Moikato · craft, identity and gatherings",
+    availabilityLabel: "Open to invitations",
+    availability: "Fairs, gatherings and conversations across the UK and beyond.",
+    formats: ["Fairs and exhibitions", "Live demonstrations", "Talks and conversations"],
+    responseNote: "Tell us about your event on WhatsApp. We will reply with availability and the best format.",
+    options: [
+      {
+        title: "Bring Moikato to my event",
+        cta: "Check availability",
+        message:
+          "Hello, Samuel! I would like to invite Moikato to take part in a craft event. Could we talk?",
+      },
+      {
+        title: "Invite Samuel to speak",
+        cta: "Enquire about a talk",
+        message:
+          "Hello, Samuel! I would like to invite you to give a talk about craft and Brazilian culture. Could we talk?",
+      },
     ],
-  },
-  newsletter: {
-    title: "Stay close to Brazil.",
-    placeholder: "Your best email",
-    cta: "Subscribe",
-    note: "New pieces and stories, now and then. No spam.",
   },
   footer: {
     tagline: "Jewellery from Brazil, worn around the world.",
+    waMessage: "Hello! I came from Moikato's website and would like to see the pieces.",
     cols: [
       {
         title: "Collection",

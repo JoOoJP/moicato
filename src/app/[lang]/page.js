@@ -6,9 +6,9 @@ import FilmSection from "../../components/FilmSection";
 import Worn from "../../components/Worn";
 import Collection from "../../components/Collection";
 import Story from "../../components/Story";
+import Events from "../../components/Events";
 import WorldMap from "../../components/WorldMap";
-import Closing from "../../components/Closing";
-import Newsletter from "../../components/Newsletter";
+import EventInvitation from "../../components/EventInvitation";
 import Footer from "../../components/Footer";
 import Reveal from "../../components/Reveal";
 
@@ -69,20 +69,19 @@ export default async function Home({ params }) {
           <Story dict={dict.story} />
         </Reveal>
 
+        {/* Feiras e participações */}
+        <Reveal>
+          <Events dict={dict.events} />
+        </Reveal>
+
         {/* Encontrados pelo mundo */}
         <Reveal>
           <WorldMap dict={dict.world} />
         </Reveal>
 
-        {/* Manifesto de fecho */}
-        <Reveal>
-          <Closing dict={dict.closing} />
-        </Reveal>
+        {/* Convites para feiras, eventos e palestras */}
+        <EventInvitation dict={dict.eventInvitation} />
 
-        {/* Newsletter */}
-        <Reveal>
-          <Newsletter dict={dict.newsletter} />
-        </Reveal>
       </main>
 
       <Footer dict={dict.footer} />

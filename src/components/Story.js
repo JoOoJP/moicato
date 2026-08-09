@@ -5,17 +5,17 @@ import Image from "next/image";
 export default function Story({ dict }) {
   return (
     <section id="historia" className="scroll-mt-24 bg-osso">
-      <div className="grid lg:min-h-svh lg:grid-cols-2">
-        <div className="relative min-h-[55svh] w-full lg:min-h-svh">
+      <div className="grid md:grid-cols-2">
+        <div className="relative aspect-[4/5] w-full">
           <Image
-            src="/story.jpg"
-            alt=""
+            src="/story-samuel.png"
+            alt={dict.imageAlt}
             fill
-            sizes="(min-width: 1024px) 50vw, 100vw"
+            sizes="(min-width: 768px) 50vw, 100vw"
             className="object-cover"
           />
         </div>
-        <div className="flex flex-col justify-center px-6 py-16 sm:px-12 lg:px-16">
+        <div className="flex flex-col justify-center px-6 py-16 sm:px-10 lg:px-16">
           <span className="eyebrow text-amarelomoikato-700">{dict.eyebrow}</span>
           <p className="mt-5 max-w-xl font-display text-3xl font-light leading-snug text-verdemoikato sm:text-[2.3rem]">
             {dict.quote}

@@ -1,3 +1,15 @@
+import { INSTAGRAM_URL, waLink } from "../lib/contato";
+
+function footerHref(label, message) {
+  if (label === "WhatsApp" || label === "Fale conosco" || label === "Contact") {
+    return waLink(message);
+  }
+  if (label === "Instagram") return INSTAGRAM_URL;
+  if (label === "Home") return "#topo";
+  if (label === "Sobre nós" || label === "About us") return "#historia";
+  return "#";
+}
+
 // Mega footer editorial: wordmark + tagline + 4 colunas + copyright.
 export default function Footer({ dict }) {
   const year = new Date().getFullYear();
@@ -24,16 +36,22 @@ export default function Footer({ dict }) {
             <div key={i}>
               <p className="eyebrow text-amarelomoikato-700">{col.title}</p>
               <ul className="mt-4 space-y-2.5 text-sm text-verdemoikato/70">
-                {col.links.map((l, j) => (
-                  <li key={j}>
+                {col.links.map((l) => {
+                  const href = footerHref(l, dict.waMessage);
+                  const external = href.startsWith("http");
+                  return (
+                  <li key={l}>
                     <a
-                      href="#"
+                      href={href}
+                      target={external ? "_blank" : undefined}
+                      rel={external ? "noopener noreferrer" : undefined}
                       className="transition-colors hover:text-amarelomoikato-700"
                     >
                       {l}
                     </a>
                   </li>
-                ))}
+                  );
+                })}
               </ul>
             </div>
           ))}
