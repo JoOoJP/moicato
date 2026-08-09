@@ -8,7 +8,7 @@ const NAV = [
   { key: "story", href: "#historia" },
   { key: "journal", href: "#feiras" },
   { key: "worldwide", href: "#pelo-mundo" },
-  { key: "resellers", href: "#" },
+  { key: "resellers", href: "#revendedores" },
 ];
 
 function Wordmark({ className = "" }) {

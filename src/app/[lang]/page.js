@@ -8,6 +8,7 @@ import Collection from "../../components/Collection";
 import Story from "../../components/Story";
 import Events from "../../components/Events";
 import WorldMap from "../../components/WorldMap";
+import Resellers from "../../components/Resellers";
 import EventInvitation from "../../components/EventInvitation";
 import Footer from "../../components/Footer";
 import Reveal from "../../components/Reveal";
@@ -77,6 +78,11 @@ export default async function Home({ params }) {
         {/* Encontrados pelo mundo */}
         <Reveal>
           <WorldMap dict={dict.world} />
+        </Reveal>
+
+        {/* Revendedores e parcerias comerciais */}
+        <Reveal>
+          <Resellers dict={dict.resellers} />
         </Reveal>
 
         {/* Convites para feiras, eventos e palestras */}

@@ -58,8 +58,7 @@ const dict = {
     eyebrow: "Our story",
     imageAlt: "Samuel Moikato presenting a pair of handcrafted earrings among his pieces",
     quote:
-      "Before Moikato existed, there was a Brazilian trying to figure out how to keep carrying Brazil with him.",
-    cta: "Read the story",
+      "Samuel Moikato makes every piece by hand using golden grass and other Brazilian materials. The work begins at his table and has reached fairs and runways across the UK. That is Moikato's story so far.",
   },
   events: {
     eyebrow: "Fairs & gatherings",
@@ -132,6 +131,19 @@ const dict = {
       { city: "Toronto", country: "Canada" },
       { city: "Sydney", country: "Australia" },
     ],
+  },
+  resellers: {
+    eyebrow: "Stockists",
+    title: "Bring Moikato into your shop.",
+    intro:
+      "If you select independent design for a shop or cultural space, speak directly with Samuel about working together.",
+    details:
+      "Tell us where you are and what sort of pieces you are looking for. We can then discuss the selection, quantity and lead time.",
+    cta: "Enquire about stocking Moikato",
+    message:
+      "Hello, Samuel! I am interested in stocking Moikato pieces. May I tell you a little about my shop?",
+    imageAlt: "Samuel Moikato standing behind a display of jewellery and handcrafted pieces",
+    imageCaption: "A selection made with Samuel · direct contact",
   },
   eventInvitation: {
     eyebrow: "Samuel Moikato · invitations",

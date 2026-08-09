@@ -20,13 +20,6 @@ export default function Story({ dict }) {
           <p className="mt-5 max-w-xl font-display text-3xl font-light leading-snug text-verdemoikato sm:text-[2.3rem]">
             {dict.quote}
           </p>
-          <a
-            href="#historia"
-            className="mt-8 inline-flex items-center gap-2 text-sm font-semibold uppercase tracking-[0.15em] text-amarelomoikato-700 transition-colors hover:text-amarelomoikato-800"
-          >
-            {dict.cta}
-            <span aria-hidden="true">→</span>
-          </a>
         </div>
       </div>
     </section>

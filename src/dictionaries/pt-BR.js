@@ -59,8 +59,7 @@ const dict = {
     eyebrow: "Nossa história",
     imageAlt: "Samuel Moikato apresentando um par de brincos artesanais entre suas peças",
     quote:
-      "Antes da Moikato existir, existia um brasileiro tentando descobrir como continuar levando o Brasil consigo.",
-    cta: "Conheça a história",
+      "Samuel Moikato faz cada peça à mão, usando capim dourado e outros materiais brasileiros. O trabalho começa na mesa dele e já chegou a feiras e passarelas no Reino Unido. Essa é a história da Moikato até aqui.",
   },
   events: {
     eyebrow: "Feiras & encontros",
@@ -133,6 +132,19 @@ const dict = {
       { city: "Toronto", country: "Canadá" },
       { city: "Sydney", country: "Austrália" },
     ],
+  },
+  resellers: {
+    eyebrow: "Revendedores",
+    title: "Leve a Moikato para a sua loja.",
+    intro:
+      "Se você seleciona design autoral para uma loja ou espaço cultural, fale diretamente com Samuel sobre uma parceria.",
+    details:
+      "Conte onde você está e que tipo de peça procura. A partir daí, conversamos sobre seleção, quantidade e prazo.",
+    cta: "Conversar sobre revenda",
+    message:
+      "Olá, Samuel! Tenho interesse em revender peças da Moikato. Posso contar um pouco sobre a minha loja?",
+    imageAlt: "Samuel Moikato diante de uma banca com joias e peças artesanais",
+    imageCaption: "Seleção feita junto com Samuel · atendimento direto",
   },
   eventInvitation: {
     eyebrow: "Samuel Moikato · convites",

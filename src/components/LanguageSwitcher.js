@@ -6,7 +6,15 @@ const options = [
 ];
 
 // Seções-âncora na ordem do documento — pra preservar "onde estou" ao trocar idioma.
-const SECTION_IDS = ["topo", "jornada", "colecao", "sustentabilidade", "contato"];
+const SECTION_IDS = [
+  "topo",
+  "colecao",
+  "historia",
+  "feiras",
+  "pelo-mundo",
+  "revendedores",
+  "contato",
+];
 
 // Descobre a seção atual (âncora explícita ganha; senão, a última acima do topo
 // da viewport) pra manter o contexto ao recarregar no outro idioma.
