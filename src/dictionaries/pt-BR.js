@@ -272,20 +272,28 @@ const dict = {
     intro:
       "Explore todas as peças disponíveis. Cada uma tem sua própria página, com história, detalhes e contato direto para encomendar.",
     categoryNav: "Linhas do catálogo",
+    allLabel: "Tudo",
+    editorialLabel: "Moikato em movimento",
     viewPiece: "Conhecer a peça",
     categories: {
       joias: {
         label: "Coleção Joias",
+        shortLabel: "Joias",
+        editorialAlt: "Modelo usando joias artesanais da Moikato",
         description:
           "Brincos, colares, anéis e conjuntos em que o trançado brasileiro encontra formas contemporâneas.",
       },
       moda: {
         label: "Moikato Moda",
+        shortLabel: "Moda",
+        editorialAlt: "Modelo usando acessórios da Moikato em uma apresentação",
         description:
           "Bolsas e acessórios feitos para viajar, atravessar ocasiões e levar a identidade brasileira consigo.",
       },
       home: {
         label: "Moikato Home",
+        shortLabel: "Casa",
+        editorialAlt: "Peças artesanais da linha Moikato Home",
         description:
           "Objetos artesanais que levam textura, luz e o cuidado das mãos para dentro de casa.",
       },
@@ -383,6 +391,7 @@ const dict = {
   },
   footer: {
     tagline: "Joias brasileiras feitas à mão por Samuel Moikato.",
+    origin: "Brasil · Reino Unido",
     waMessage: "Olá! Vim pelo site da Moikato e gostaria de conhecer as peças.",
     exploreTitle: "Explore",
     explore: [
@@ -392,6 +401,7 @@ const dict = {
       { key: "resellers", label: "Revendedores" },
     ],
     contactTitle: "Contato",
+    createdBy: "Site criado por",
     backToTop: "Voltar ao topo",
     copyright: "© {year} Moikato. Todos os direitos reservados.",
   },

@@ -271,20 +271,28 @@ const dict = {
     intro:
       "Explore every available piece. Each has its own page with its story, details and a direct way to enquire.",
     categoryNav: "Catalogue lines",
+    allLabel: "All",
+    editorialLabel: "Moikato in motion",
     viewPiece: "Discover the piece",
     categories: {
       joias: {
         label: "Jewellery Collection",
+        shortLabel: "Jewellery",
+        editorialAlt: "Model wearing handcrafted Moikato jewellery",
         description:
           "Earrings, necklaces, rings and sets where Brazilian weaving meets contemporary form.",
       },
       moda: {
         label: "Moikato Fashion",
+        shortLabel: "Fashion",
+        editorialAlt: "Model wearing Moikato accessories at a presentation",
         description:
           "Bags and accessories made to travel, move between occasions and carry Brazilian identity with them.",
       },
       home: {
         label: "Moikato Home",
+        shortLabel: "Home",
+        editorialAlt: "Handcrafted pieces from the Moikato Home collection",
         description:
           "Handcrafted objects that bring texture, light and the care of the maker's hands into the home.",
       },
@@ -382,6 +390,7 @@ const dict = {
   },
   footer: {
     tagline: "Brazilian jewellery handmade by Samuel Moikato.",
+    origin: "Brazil · United Kingdom",
     waMessage: "Hello! I came from Moikato's website and would like to see the pieces.",
     exploreTitle: "Explore",
     explore: [
@@ -391,6 +400,7 @@ const dict = {
       { key: "resellers", label: "Stockists" },
     ],
     contactTitle: "Contact",
+    createdBy: "Website by",
     backToTop: "Back to top",
     copyright: "© {year} Moikato. All rights reserved.",
   },
