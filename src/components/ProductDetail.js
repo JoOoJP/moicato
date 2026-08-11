@@ -11,9 +11,9 @@ export default function ProductDetail({ piece, related, dict, lang }) {
   const message = dict.collection.waPiece.replace("{name}", piece.name).replace("{price}", price);
 
   return (
-    <main id="topo" className="bg-osso pt-20 motion-safe:animate-[pageEnter_400ms_ease-out]">
-      <div className="mx-auto max-w-7xl px-6 pb-20 pt-6 sm:px-8 sm:pb-28 sm:pt-8">
-        <nav aria-label={dict.productPage.breadcrumbLabel} className="mb-5 flex flex-wrap items-center gap-2 text-xs uppercase tracking-[0.12em] text-verdemoikato/55 sm:mb-6">
+    <main id="topo" className="bg-osso pt-[60px] motion-safe:animate-[pageEnter_400ms_ease-out] md:pt-20">
+      <div className="mx-auto max-w-7xl pb-20 pt-2 sm:px-8 sm:pb-28 sm:pt-6">
+        <nav aria-label={dict.productPage.breadcrumbLabel} className="mb-2 flex min-h-11 flex-wrap items-center gap-2 px-5 text-[0.68rem] uppercase tracking-[0.12em] text-verdemoikato/55 sm:mb-5 sm:px-0 sm:text-xs">
           <Link scroll={true} className="min-h-11 content-center transition-colors hover:text-verdemoikato" href={`/${lang}/catalogo`}>
             {dict.productPage.backToCatalog}
           </Link>
@@ -21,8 +21,8 @@ export default function ProductDetail({ piece, related, dict, lang }) {
           <span>{category}</span>
         </nav>
 
-        <article className="grid gap-9 min-[900px]:grid-cols-[minmax(0,1.08fr)_minmax(20rem,0.72fr)] min-[900px]:items-start min-[900px]:gap-10 lg:gap-14">
-          <div className="relative aspect-[4/5] overflow-hidden bg-areia-200 min-[900px]:h-[min(72vh,720px)] min-[900px]:min-h-[560px] min-[900px]:aspect-auto">
+        <article className="grid gap-0 sm:gap-9 min-[900px]:grid-cols-[minmax(0,1.08fr)_minmax(20rem,0.72fr)] min-[900px]:items-start min-[900px]:gap-10 lg:gap-14">
+          <div className="relative aspect-[4/3] overflow-hidden bg-areia-200 min-[900px]:h-[min(72vh,720px)] min-[900px]:min-h-[560px] min-[900px]:aspect-auto">
             <Image
               src={piece.image}
               alt={piece.imageAlt}
@@ -34,12 +34,12 @@ export default function ProductDetail({ piece, related, dict, lang }) {
             />
           </div>
 
-          <div className="min-[900px]:sticky min-[900px]:top-24 min-[900px]:self-start">
+          <div className="px-5 pt-7 sm:px-0 sm:pt-0 min-[900px]:sticky min-[900px]:top-24 min-[900px]:self-start">
             <p className="eyebrow text-amarelomoikato-700">{category}</p>
-            <h1 className="mt-3 font-display text-4xl font-light leading-[0.98] text-verdemoikato sm:text-5xl xl:text-6xl">
+            <h1 className="mt-2 font-display text-[2.6rem] font-light leading-[0.98] text-verdemoikato sm:mt-3 sm:text-5xl xl:text-6xl">
               {piece.name}
             </h1>
-            <p className="mt-5 font-display text-3xl text-verdemoikato">{piece.price}</p>
+            <p className="mt-3 font-display text-2xl text-verdemoikato sm:mt-5 sm:text-3xl">{piece.price}</p>
             {piece.priceNote && <p className="mt-1 text-sm text-verdemoikato/60">{piece.priceNote}</p>}
 
             <div className="mt-6 border-y border-verdemoikato/20 py-5 xl:py-6">
@@ -69,7 +69,7 @@ export default function ProductDetail({ piece, related, dict, lang }) {
           </div>
         </article>
 
-        <section className="mt-20 border-t border-verdemoikato/20 pt-10 sm:mt-28 sm:pt-14">
+        <section className="mx-5 mt-20 border-t border-verdemoikato/20 pt-10 sm:mx-0 sm:mt-28 sm:pt-14">
           <div className="flex items-end justify-between gap-6">
             <h2 className="font-display text-4xl text-verdemoikato sm:text-5xl">{dict.productPage.related}</h2>
             <Link scroll={true} href={`/${lang}/catalogo`} className="hidden min-h-11 items-center text-xs font-semibold uppercase tracking-[0.13em] text-amarelomoikato-700 sm:flex">
