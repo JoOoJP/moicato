@@ -86,6 +86,15 @@ const dict = {
           "The Solaris Table Centrepiece puts the golden weave at the heart of the table. Its carefully worked base and open sides cast changing patterns as the light passes through. Use it for fruit, bread or decorative arrangements to bring texture and Brazilian craft to the table.",
       },
       {
+        name: "Raízes Basket",
+        price: "£27",
+        image: "/product-cesto-raizes.png",
+        imagePosition: "center",
+        imageAlt: "Golden Raízes Basket with varied handcrafted weaves and dried branches",
+        description:
+          "The Raízes Basket brings the beauty of Brazilian weaving into the home. Different techniques create raised textures that catch the natural glow of golden grass. Its organic shape works as a decorative piece or as storage for small objects.",
+      },
+      {
         name: "Origem Set",
         price: "£75",
         image: "/product-conjunto-origem.png",
@@ -140,6 +149,15 @@ const dict = {
           "Lumière pairs a natural golden glow with points of light that bring out its delicate design. Curved forms move around the stones, while a leaf detail lends lightness to an elegant, easy-to-wear piece.",
       },
       {
+        name: "Aura Earrings",
+        price: "£33",
+        image: "/product-brinco-aura.png",
+        imagePosition: "center",
+        imageAlt: "Pair of spiral Aura Earrings in gold and rose tones with a central point of light",
+        description:
+          "Aura brings organic forms and movement together in a richly detailed design. Its spiral weave combines gold and rose tones, finished with a central point of light for a statement piece that still feels light.",
+      },
+      {
         name: "Royal Pearl Earrings",
         price: "£39",
         image: "/product-brinco-royal-pearl.webp",
@@ -165,6 +183,15 @@ const dict = {
         imageAlt: "Model holding Moikato's handcrafted golden Amalfi Clutch",
         description:
           "Inspired by the ease of Mediterranean summers, the Amalfi Clutch pairs a natural golden glow with pale details in a compact, striking handwoven piece made to travel.",
+      },
+      {
+        name: "Solar Hair Tie",
+        price: "£5",
+        image: "/product-rabico-solar.png",
+        imagePosition: "center",
+        imageAlt: "Black Solar Hair Tie with a handcrafted golden disc worn in a ponytail",
+        description:
+          "A simple detail that transforms a hairstyle. The Solar Hair Tie pairs a black elastic with a handcrafted golden-grass disc, adding texture and a point of light to ponytails, buns and relaxed styles. Price per item.",
       },
     ],
     waPiece: 'Hello! I\'m interested in "{name}" ({price}). Is it still available?',

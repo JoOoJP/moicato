@@ -86,6 +86,15 @@ const dict = {
           "O Centro de Mesa Solaris transforma o trançado dourado em protagonista. A base trabalhada e as laterais vazadas criam desenhos diferentes conforme a luz atravessa a peça. Pode receber frutas, pães ou composições decorativas, levando textura e artesanato brasileiro para a mesa.",
       },
       {
+        name: "Cesto Raízes",
+        price: "£27",
+        image: "/product-cesto-raizes.png",
+        imagePosition: "center",
+        imageAlt: "Cesto Raízes dourado com diferentes tramas artesanais e ramos secos",
+        description:
+          "O Cesto Raízes leva para a casa a beleza das tramas brasileiras. Diferentes técnicas de entrelaçamento criam relevos que valorizam o brilho natural do capim dourado. Com formato orgânico, funciona como peça decorativa ou para organizar pequenos objetos.",
+      },
+      {
         name: "Conjunto Origem",
         price: "£75",
         image: "/product-conjunto-origem.png",
@@ -140,6 +149,15 @@ const dict = {
           "O Brinco Lumière combina o brilho do dourado com pontos de luz que destacam seu desenho delicado. Formas curvas criam movimento ao redor das pedras, enquanto o detalhe em folha dá leveza a uma joia elegante e fácil de combinar.",
       },
       {
+        name: "Brinco Aura",
+        price: "£33",
+        image: "/product-brinco-aura.png",
+        imagePosition: "center",
+        imageAlt: "Par de brincos Aura em espiral com tons dourados e rosé e ponto de luz central",
+        description:
+          "O Brinco Aura une formas orgânicas e movimento num desenho rico em detalhes. O trabalho em espiral combina tons dourados e rosé, finalizados por um ponto de luz central, criando uma peça marcante sem perder a leveza.",
+      },
+      {
         name: "Brinco Royal Pearl",
         price: "£39",
         image: "/product-brinco-royal-pearl.webp",
@@ -165,6 +183,15 @@ const dict = {
         imageAlt: "Modelo segurando a Clutch Amalfi artesanal dourada da Moikato",
         description:
           "Inspirada na leveza dos verões mediterrâneos, a Clutch Amalfi combina o brilho natural do dourado com detalhes claros num trançado artesanal compacto e marcante, feito para viajar.",
+      },
+      {
+        name: "Rabicó Solar",
+        price: "£5",
+        image: "/product-rabico-solar.png",
+        imagePosition: "center",
+        imageAlt: "Rabicó Solar preto com disco artesanal dourado usado em um rabo de cavalo",
+        description:
+          "Um detalhe simples que transforma o penteado. O Rabicó Solar combina o elástico preto com um disco artesanal em capim dourado, trazendo textura e um ponto de luz aos cabelos. Leve e versátil para rabos de cavalo, coques ou penteados descontraídos. Preço por unidade.",
       },
     ],
     waPiece:
