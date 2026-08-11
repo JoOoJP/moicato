@@ -86,6 +86,33 @@ const dict = {
           "O Centro de Mesa Solaris transforma o trançado dourado em protagonista. A base trabalhada e as laterais vazadas criam desenhos diferentes conforme a luz atravessa a peça. Pode receber frutas, pães ou composições decorativas, levando textura e artesanato brasileiro para a mesa.",
       },
       {
+        name: "Conjunto Origem",
+        price: "£75",
+        image: "/product-conjunto-origem.png",
+        imagePosition: "center",
+        imageAlt: "Conjunto Origem com terço e par de brincos dourados artesanais sobre veludo vermelho",
+        description:
+          "Antes das bolsas, dos acessórios e das peças para casa, havia o terço. O Conjunto Origem resgata o primeiro capítulo da Moikato com esferas trabalhadas à mão, medalha, cruz e um par de brincos no mesmo trançado minucioso. Inclui colar e par de brincos.",
+      },
+      {
+        name: "Colar Elo",
+        price: "£37",
+        image: "/product-colar-elo.jpeg",
+        imagePosition: "center",
+        imageAlt: "Colar Elo em capim dourado com curvas entrelaçadas e esferas artesanais",
+        description:
+          "Formas que se encontram e se cruzam dão movimento ao Colar Elo. Curvas de capim dourado são finalizadas por esferas artesanais que criam ritmo e presença, transformando uma técnica brasileira numa joia contemporânea feita para ser o centro do look.",
+      },
+      {
+        name: "Colar Solaris",
+        price: "£30",
+        image: "/product-colar-solaris.png",
+        imagePosition: "center",
+        imageAlt: "Colar Solaris dourado com detalhes claros, esferas artesanais e grande medalhão central",
+        description:
+          "O Colar Solaris combina diferentes técnicas de trançado numa composição rica em textura e movimento. Detalhes claros contrastam com o dourado, enquanto as esferas artesanais conduzem o olhar até o grande medalhão central.",
+      },
+      {
         name: "Brinco Entrelaços",
         price: "£39",
         image: "/product-brinco-entrelacos.webp",
@@ -93,6 +120,24 @@ const dict = {
         imageAlt: "Par de brincos artesanais vermelhos e dourados com fios entrelaçados",
         description:
           "Um encontro entre cor, movimento e trabalho manual. Fios em vermelho intenso e dourado formam curvas orgânicas que tornam cada par expressivo, leve e único.",
+      },
+      {
+        name: "Brinco Serena",
+        price: "£32",
+        image: "/product-brinco-serena.jpeg",
+        imagePosition: "center",
+        imageAlt: "Par de brincos Serena dourados com curvas fluidas em diferentes camadas",
+        description:
+          "O Brinco Serena traduz a delicadeza do capim dourado em curvas fluidas que acompanham o movimento do corpo. Suas camadas criam volume e presença sem perder a leveza, transformando formas simples numa joia contemporânea e marcante.",
+      },
+      {
+        name: "Brinco Lumière",
+        price: "£27",
+        image: "/product-brinco-lumiere.png",
+        imagePosition: "center",
+        imageAlt: "Par de brincos Lumière dourados com pedras claras e detalhe em folha",
+        description:
+          "O Brinco Lumière combina o brilho do dourado com pontos de luz que destacam seu desenho delicado. Formas curvas criam movimento ao redor das pedras, enquanto o detalhe em folha dá leveza a uma joia elegante e fácil de combinar.",
       },
       {
         name: "Brinco Royal Pearl",
@@ -114,7 +159,7 @@ const dict = {
       },
       {
         name: "Clutch Amalfi",
-        price: "£89",
+        price: "£45",
         image: "/product-carteirinha.webp",
         imagePosition: "center 54%",
         imageAlt: "Modelo segurando a Clutch Amalfi artesanal dourada da Moikato",

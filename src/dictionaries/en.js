@@ -86,6 +86,33 @@ const dict = {
           "The Solaris Table Centrepiece puts the golden weave at the heart of the table. Its carefully worked base and open sides cast changing patterns as the light passes through. Use it for fruit, bread or decorative arrangements to bring texture and Brazilian craft to the table.",
       },
       {
+        name: "Origem Set",
+        price: "£75",
+        image: "/product-conjunto-origem.png",
+        imagePosition: "center",
+        imageAlt: "Origem Set with a handcrafted golden rosary necklace and matching earrings on red velvet",
+        description:
+          "Before the bags, accessories and pieces for the home, there was the rosary. The Origem Set returns to Moikato's first chapter through handworked beads, a medal and cross, accompanied by earrings made with the same meticulous weave. Includes the necklace and a pair of earrings.",
+      },
+      {
+        name: "Elo Necklace",
+        price: "£37",
+        image: "/product-colar-elo.jpeg",
+        imagePosition: "center",
+        imageAlt: "Golden-grass Elo Necklace with intertwined curves and handcrafted beads",
+        description:
+          "Meeting and crossing forms bring movement to the Elo Necklace. Curves of golden grass are finished with handcrafted beads that add rhythm and presence, turning a Brazilian technique into a contemporary statement piece.",
+      },
+      {
+        name: "Solaris Necklace",
+        price: "£30",
+        image: "/product-colar-solaris.png",
+        imagePosition: "center",
+        imageAlt: "Golden Solaris Necklace with pale details, handcrafted beads and a large central medallion",
+        description:
+          "The Solaris Necklace brings together different weaving techniques in a composition rich in texture and movement. Pale details contrast with the gold, while handcrafted beads lead the eye towards its generous central medallion.",
+      },
+      {
         name: "Entrelaços Earrings",
         price: "£39",
         image: "/product-brinco-entrelacos.webp",
@@ -93,6 +120,24 @@ const dict = {
         imageAlt: "Pair of handcrafted red and gold earrings made with intertwined threads",
         description:
           "A meeting of colour, movement and handcraft. Deep red and golden threads form organic curves, making each pair expressive, lightweight and unique.",
+      },
+      {
+        name: "Serena Earrings",
+        price: "£32",
+        image: "/product-brinco-serena.jpeg",
+        imagePosition: "center",
+        imageAlt: "Pair of golden Serena Earrings with fluid curves arranged in layered loops",
+        description:
+          "Serena translates the delicacy of golden grass into fluid curves that move naturally with the body. Its layers create volume and presence while remaining light, turning simple forms into a contemporary statement earring.",
+      },
+      {
+        name: "Lumière Earrings",
+        price: "£27",
+        image: "/product-brinco-lumiere.png",
+        imagePosition: "center",
+        imageAlt: "Pair of golden Lumière Earrings with clear stones and a leaf detail",
+        description:
+          "Lumière pairs a natural golden glow with points of light that bring out its delicate design. Curved forms move around the stones, while a leaf detail lends lightness to an elegant, easy-to-wear piece.",
       },
       {
         name: "Royal Pearl Earrings",
@@ -114,7 +159,7 @@ const dict = {
       },
       {
         name: "Amalfi Clutch",
-        price: "£89",
+        price: "£45",
         image: "/product-carteirinha.webp",
         imagePosition: "center 54%",
         imageAlt: "Model holding Moikato's handcrafted golden Amalfi Clutch",
