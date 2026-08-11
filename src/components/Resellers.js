@@ -4,8 +4,8 @@ import { waLink } from "../lib/contato";
 export default function Resellers({ dict }) {
   return (
     <section id="revendedores" className="scroll-mt-24 bg-osso">
-      <div className="mx-auto grid max-w-6xl border-y border-verdemoikato/15 lg:grid-cols-[0.86fr_1.14fr]">
-        <div className="flex flex-col justify-center px-6 py-16 sm:px-10 sm:py-20 lg:px-12 xl:px-14">
+      <div className="mx-auto grid max-w-6xl border-y border-verdemoikato/15 md:grid-cols-[0.95fr_1.05fr] lg:grid-cols-[0.86fr_1.14fr]">
+        <div className="flex flex-col justify-center px-6 py-14 sm:px-10 sm:py-16 md:px-8 md:py-16 lg:px-12 lg:py-20 xl:px-14">
           <p className="eyebrow text-amarelomoikato-700">{dict.eyebrow}</p>
           <h2 className="mt-5 max-w-lg font-display text-4xl font-light leading-[1.08] text-verdemoikato sm:text-5xl">
             {dict.title}
@@ -31,12 +31,12 @@ export default function Resellers({ dict }) {
           </a>
         </div>
 
-        <div className="relative min-h-[30rem] overflow-hidden sm:min-h-[38rem]">
+        <div className="relative aspect-[4/3] overflow-hidden md:aspect-auto md:min-h-[34rem] lg:min-h-[38rem]">
           <Image
-            src="/event-samuel-fair.png"
+            src="/event-samuel-fair.webp"
             alt={dict.imageAlt}
             fill
-            sizes="(min-width: 1024px) 57vw, 100vw"
+            sizes="(min-width: 1024px) 57vw, (min-width: 768px) 52vw, 100vw"
             className="object-cover object-[center_28%]"
           />
           <span

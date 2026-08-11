@@ -9,7 +9,7 @@ export default function Hero({ dict }) {
       className="relative flex min-h-[100svh] items-end overflow-hidden"
     >
       <Image
-        src="/hero.jpg"
+        src="/hero.webp"
         alt=""
         fill
         priority

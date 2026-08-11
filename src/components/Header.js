@@ -7,7 +7,6 @@ const NAV = [
   { key: "collection", href: "#colecao" },
   { key: "story", href: "#historia" },
   { key: "journal", href: "#feiras" },
-  { key: "worldwide", href: "#pelo-mundo" },
   { key: "resellers", href: "#revendedores" },
 ];
 
@@ -53,17 +52,17 @@ export default function Header({ dict, lang }) {
     >
       <div
         className={`mx-auto grid max-w-7xl grid-cols-[1fr_auto_1fr] items-center gap-4 px-5 transition-all duration-500 sm:px-8 ${
-          solid ? "py-4" : "py-6"
+          solid ? "py-2 md:py-4" : "py-3 md:py-6"
         } ${tone}`}
       >
         {/* Esquerda: hamburger (mobile) + logo */}
-        <div className="flex items-center gap-3 justify-self-start">
+        <div className="flex items-center justify-self-start">
           <button
             type="button"
             onClick={() => setOpen((v) => !v)}
             aria-label={open ? dict.closeMenu : dict.openMenu}
             aria-expanded={open}
-            className="md:hidden"
+            className="grid h-11 w-11 place-items-center outline-none ring-amarelomoikato/60 ring-offset-2 ring-offset-transparent focus-visible:ring-2 md:hidden"
           >
             <span className="relative block h-3 w-5">
               <span
@@ -83,10 +82,11 @@ export default function Header({ dict, lang }) {
               />
             </span>
           </button>
-          <Wordmark />
+          <Wordmark className="hidden md:block" />
         </div>
 
         {/* Centro: nav desktop */}
+        <Wordmark className="justify-self-center md:hidden" />
         <nav
           aria-label={dict.mainNav}
           className="hidden items-center gap-7 justify-self-center md:flex"
@@ -103,8 +103,8 @@ export default function Header({ dict, lang }) {
         </nav>
 
         {/* Direita: ícones + idioma */}
-        <div className="flex items-center gap-4 justify-self-end sm:gap-5">
-          <LanguageSwitcher lang={lang} className="hidden md:flex" />
+        <div className="flex items-center justify-self-end">
+          <LanguageSwitcher lang={lang} />
         </div>
       </div>
 
@@ -112,13 +112,13 @@ export default function Header({ dict, lang }) {
       <div
         onClick={() => setOpen(false)}
         aria-hidden="true"
-        className={`fixed inset-0 top-[57px] z-40 bg-floresta-900/30 transition-opacity md:hidden ${
+        className={`fixed inset-0 top-[61px] z-40 bg-floresta-900/30 transition-opacity md:hidden ${
           open ? "opacity-100" : "pointer-events-none opacity-0"
         }`}
       />
       <nav
         aria-label={dict.menuNav}
-        className={`fixed inset-x-0 top-[57px] z-50 origin-top border-b border-verdemoikato/10 bg-osso px-6 py-6 transition-transform duration-300 md:hidden ${
+        className={`fixed inset-x-0 top-[61px] z-50 origin-top border-b border-verdemoikato/10 bg-osso px-6 py-6 transition-transform duration-300 md:hidden ${
           open ? "translate-y-0" : "-translate-y-[130%]"
         }`}
       >
@@ -135,9 +135,6 @@ export default function Header({ dict, lang }) {
             </li>
           ))}
         </ul>
-        <div className="mt-4 border-t border-verdemoikato/10 pt-4">
-          <LanguageSwitcher lang={lang} />
-        </div>
       </nav>
     </header>
   );

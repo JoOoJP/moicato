@@ -21,33 +21,33 @@ export default function Worn({ dict }) {
           </a>
         </div>
 
-        <div className="grid grid-cols-[1.18fr_0.82fr] items-start gap-3 sm:gap-5">
-          <figure>
+        <div className="grid grid-cols-1 items-start sm:grid-cols-[1.18fr_0.82fr] sm:gap-5">
+          <figure className="mr-8 sm:mr-0">
             <div className="relative aspect-[4/5] overflow-hidden">
               <Image
-                src="/model-backstage.png"
+                src="/model-backstage.webp"
                 alt={dict.backstageAlt}
                 fill
-                sizes="(min-width: 1024px) 39vw, 58vw"
+                sizes="(min-width: 1024px) 39vw, (min-width: 640px) 58vw, 100vw"
                 className="object-cover"
               />
             </div>
-            <figcaption className="mt-3 text-[0.65rem] font-semibold uppercase tracking-[0.16em] text-verdemoikato/45">
+            <figcaption className="mt-3 text-xs font-semibold uppercase tracking-[0.14em] text-verdemoikato/65">
               {dict.backstageCaption}
             </figcaption>
           </figure>
 
-          <figure className="mt-14 sm:mt-20">
-            <div className="relative aspect-[3/4] overflow-hidden">
+          <figure className="relative z-10 -mt-16 ml-auto w-[78%] sm:mt-20 sm:w-auto">
+            <div className="relative aspect-[3/4] overflow-hidden ring-8 ring-osso sm:ring-0">
               <Image
-                src="/model-editorial.png"
+                src="/model-editorial.webp"
                 alt={dict.editorialAlt}
                 fill
-                sizes="(min-width: 1024px) 27vw, 38vw"
+                sizes="(min-width: 1024px) 27vw, (min-width: 640px) 38vw, 78vw"
                 className="object-cover"
               />
             </div>
-            <figcaption className="mt-3 text-[0.65rem] font-semibold uppercase tracking-[0.16em] text-verdemoikato/45">
+            <figcaption className="mt-3 text-xs font-semibold uppercase tracking-[0.14em] text-verdemoikato/65">
               {dict.editorialCaption}
             </figcaption>
           </figure>

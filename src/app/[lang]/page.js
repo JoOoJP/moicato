@@ -7,7 +7,6 @@ import Worn from "../../components/Worn";
 import Collection from "../../components/Collection";
 import Story from "../../components/Story";
 import Events from "../../components/Events";
-import WorldMap from "../../components/WorldMap";
 import Resellers from "../../components/Resellers";
 import EventInvitation from "../../components/EventInvitation";
 import Footer from "../../components/Footer";
@@ -23,20 +22,30 @@ export default async function Home({ params }) {
     "@context": "https://schema.org",
     "@type": "ItemList",
     name: dict.collection.eyebrow,
-    itemListElement: dict.collection.pieces.map((p, i) => ({
-      "@type": "ListItem",
-      position: i + 1,
-      item: {
-        "@type": "Product",
-        name: p.name,
-        brand: { "@type": "Brand", name: "Moikato" },
-        offers: {
-          "@type": "Offer",
-          priceCurrency: "GBP",
-          price: p.price.replace(/[^0-9.]/g, ""),
+    itemListElement: dict.collection.pieces.map((p, i) => {
+      const numericPrice = p.price.replace(/[^0-9.]/g, "");
+
+      return {
+        "@type": "ListItem",
+        position: i + 1,
+        item: {
+          "@type": "Product",
+          name: p.name,
+          ...(p.description ? { description: p.description } : {}),
+          ...(p.image ? { image: `${process.env.NEXT_PUBLIC_SITE_URL ?? "https://moikato.com"}${p.image}` } : {}),
+          brand: { "@type": "Brand", name: "Moikato" },
+          ...(numericPrice
+            ? {
+                offers: {
+                  "@type": "Offer",
+                  priceCurrency: "GBP",
+                  price: numericPrice,
+                },
+              }
+            : {}),
         },
-      },
-    })),
+      };
+    }),
   };
 
   return (
@@ -73,11 +82,6 @@ export default async function Home({ params }) {
         {/* Feiras e participações */}
         <Reveal>
           <Events dict={dict.events} />
-        </Reveal>
-
-        {/* Encontrados pelo mundo */}
-        <Reveal>
-          <WorldMap dict={dict.world} />
         </Reveal>
 
         {/* Revendedores e parcerias comerciais */}

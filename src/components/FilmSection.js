@@ -18,7 +18,7 @@ export default function FilmSection({ dict }) {
         <div className="grid min-h-[28rem] grid-cols-[1.45fr_0.75fr] sm:min-h-[34rem]">
           <div className="relative">
             <Image
-              src="/tecendo.jpg"
+              src="/tecendo.webp"
               alt={dict.craftAlt}
               fill
               sizes="(min-width: 1024px) 42vw, 70vw"
@@ -30,38 +30,27 @@ export default function FilmSection({ dict }) {
             />
           </div>
 
-          <div className="grid grid-rows-[1fr_auto]">
-            <div className="relative min-h-56">
-              <Image
-                src="/mesa.jpg"
-                alt={dict.tableAlt}
-                fill
-                sizes="(min-width: 1024px) 22vw, 30vw"
-                className="object-cover"
-              />
-            </div>
+          <div className="relative min-h-[28rem] overflow-hidden sm:min-h-[34rem]">
+            <Image
+              src="/mesa.webp"
+              alt={dict.tableAlt}
+              fill
+              sizes="(min-width: 1024px) 22vw, 30vw"
+              className="object-cover"
+            />
+            <span
+              aria-hidden="true"
+              className="pointer-events-none absolute inset-0 bg-gradient-to-b from-transparent from-[28%] via-floresta/75 via-[58%] to-floresta to-[78%]"
+            />
 
-            <div className="flex min-h-44 flex-col justify-between bg-floresta p-5 text-osso sm:min-h-52 sm:p-7">
+            <div className="absolute inset-x-0 bottom-0 flex min-h-52 flex-col justify-between p-5 text-osso sm:min-h-60 sm:p-7">
               <span className="eyebrow text-amarelomoikato-300">
-                {dict.film}
+                {dict.detailLabel}
               </span>
               <div>
-                <span
-                  aria-hidden="true"
-                  className="mb-4 flex h-10 w-10 items-center justify-center rounded-full border border-osso/40"
-                >
-                  <svg
-                    width="12"
-                    height="14"
-                    viewBox="0 0 20 22"
-                    fill="currentColor"
-                    className="ml-0.5"
-                  >
-                    <path d="M2 2l16 9-16 9V2z" />
-                  </svg>
-                </span>
-                <p className="text-xs font-semibold uppercase tracking-[0.17em] text-osso/65">
-                  {dict.filmStatus}
+                <span aria-hidden="true" className="mb-5 block h-px w-10 bg-amarelomoikato-300" />
+                <p className="max-w-xs font-display text-xl font-light leading-snug text-osso/80 sm:text-2xl">
+                  {dict.detail}
                 </p>
               </div>
             </div>
