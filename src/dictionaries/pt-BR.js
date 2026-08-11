@@ -50,7 +50,6 @@ const dict = {
     selectionLabel: "Seleção disponível",
     previewLabel: "Ver imagem de",
     featuredImage: "/product-bolsa-royale.webp",
-    featuredWatermark: true,
     featuredImagePosition: "44% center",
     featuredAlt: "Bolsa Royale dourada artesanal da Moikato fotografada à beira-mar",
     featuredCaption: "Bolsa Royale · peça principal",
@@ -63,7 +62,6 @@ const dict = {
         name: "Bolsa Royale",
         price: "£65",
         image: "/product-bolsa-royale.webp",
-        watermark: true,
         imagePosition: "44% center",
         imageAlt: "Bolsa Royale dourada artesanal com alças circulares à beira-mar",
         description:

@@ -50,7 +50,6 @@ const dict = {
     selectionLabel: "Available selection",
     previewLabel: "View image of",
     featuredImage: "/product-bolsa-royale.webp",
-    featuredWatermark: true,
     featuredImagePosition: "44% center",
     featuredAlt: "Moikato's handcrafted golden Royale Bag photographed by the sea",
     featuredCaption: "Royale Bag · featured piece",
@@ -63,7 +62,6 @@ const dict = {
         name: "Royale Bag",
         price: "£65",
         image: "/product-bolsa-royale.webp",
-        watermark: true,
         imagePosition: "44% center",
         imageAlt: "Golden handcrafted Royale Bag with circular handles by the sea",
         description:
