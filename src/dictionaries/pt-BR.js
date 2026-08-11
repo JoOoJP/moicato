@@ -2,7 +2,7 @@ const dict = {
   meta: {
     title: "Moikato | Joias brasileiras feitas à mão",
     description:
-      "Joias brasileiras feitas à mão com capim dourado e outros materiais naturais. Conheça as peças de Samuel Moikato.",
+      "Joias brasileiras feitas à mão com capim dourado e outros materiais naturais. Conheça nossas peças.",
   },
   header: {
     brand: "moikato",
@@ -26,7 +26,7 @@ const dict = {
   },
   manifesto: {
     eyebrow: "Matéria e ofício",
-    line: "Cada peça começa na mesa de Samuel, entre fibras brasileiras e trabalho manual.",
+    line: "Cada peça começa na nossa oficina, entre fibras brasileiras e trabalho manual.",
     detailLabel: "Na oficina",
     detail: "É na costura feita à mão que o capim dourado ganha forma.",
     craftAlt: "Mãos trabalhando artesanalmente com fibras naturais",
@@ -35,7 +35,7 @@ const dict = {
   worn: {
     eyebrow: "Feito no Brasil",
     title: "Usado pelo mundo.",
-    caption: "As peças da Moikato já apareceram em feiras e passarelas no Reino Unido.",
+    caption: "Nossas peças já apareceram em feiras e passarelas no Reino Unido.",
     backstageAlt: "Modelo usando colar e pulseira dourados da Moikato nos bastidores de um desfile",
     backstageCaption: "Moikato nos bastidores",
     editorialAlt: "Modelo usando colares artesanais dourados e bolsa de fibra em produção de moda",
@@ -46,7 +46,7 @@ const dict = {
     eyebrow: "Coleção",
     title: "Peças feitas uma a uma.",
     intro:
-      "Veja a seleção atual e fale com Samuel para confirmar os detalhes e a disponibilidade de cada peça.",
+      "Veja nossa seleção atual e fale com a gente para confirmar os detalhes e a disponibilidade de cada peça.",
     selectionLabel: "Seleção disponível",
     previewLabel: "Ver imagem de",
     featuredImage: "/product-bolsa-royale.webp",
@@ -56,7 +56,7 @@ const dict = {
     handmade: "Feito à mão. Consulte disponibilidade",
     order: "Encomendar",
     note:
-      "Como o trabalho é manual, a forma e o acabamento podem variar um pouco. Samuel confirma a peça, o prazo e o envio pelo WhatsApp antes do pedido.",
+      "Como o trabalho é manual, a forma e o acabamento podem variar um pouco. Confirmamos a peça, o prazo e o envio pelo WhatsApp antes do pedido.",
     viewCatalog: "Ver catálogo completo",
     viewPiece: "Conhecer a peça",
     pieces: [
@@ -158,7 +158,7 @@ const dict = {
         imagePosition: "center",
         imageAlt: "Dois anéis Espiral artesanais em capim dourado com detalhes verdes e terrosos",
         description:
-          "Uma pequena espiral que carrega a força das formas da natureza. Produzido artesanalmente em capim dourado, o Anel Espiral combina o brilho natural da fibra com detalhes coloridos. Há diferentes cores disponíveis; Samuel confirma as opções no momento da encomenda.",
+          "Uma pequena espiral que carrega a força das formas da natureza. Produzido artesanalmente em capim dourado, o Anel Espiral combina o brilho natural da fibra com detalhes coloridos. Há diferentes cores disponíveis; confirmamos as opções no momento da encomenda.",
       },
       {
         name: "Brinco Entrelaços",
@@ -308,7 +308,7 @@ const dict = {
     availabilityValue: "Confirmada no pedido",
     order: "Consultar pelo WhatsApp",
     orderNote:
-      "Samuel confirma disponibilidade, prazo e envio antes de concluir o pedido.",
+      "Confirmamos a disponibilidade, o prazo e o envio antes de concluir o pedido.",
     related: "Você também pode gostar",
     seeAll: "Ver todo o catálogo",
   },
@@ -316,13 +316,13 @@ const dict = {
     eyebrow: "Nossa história",
     imageAlt: "Samuel Moikato apresentando um par de brincos artesanais entre suas peças",
     quote:
-      "Samuel Moikato faz as peças à mão com capim dourado e outros materiais brasileiros. O trabalho começou na mesa dele e já chegou a feiras e passarelas no Reino Unido.",
+      "Fazemos cada peça à mão com capim dourado e outros materiais brasileiros. Nosso trabalho começou numa pequena mesa e já chegou a feiras e passarelas no Reino Unido.",
   },
   events: {
     eyebrow: "Feiras & encontros",
-    title: "Onde a Moikato já esteve.",
+    title: "Por onde já passamos.",
     intro:
-      "Samuel apresenta as peças em feiras e encontros fora da oficina. Estes são alguns desses registros.",
+      "Levamos nossas peças para feiras e encontros fora da oficina. Estes são alguns desses registros.",
     closing:
       "As próximas participações serão publicadas aqui quando estiverem confirmadas.",
     events: [
@@ -353,20 +353,20 @@ const dict = {
     eyebrow: "Revendedores",
     title: "Leve a Moikato para a sua loja.",
     intro:
-      "Lojas e espaços culturais podem falar diretamente com Samuel sobre revenda.",
+      "Se você representa uma loja ou um espaço cultural, fale com a gente sobre revenda.",
     details:
-      "Conte onde fica a sua loja e quais peças procura. Samuel responde sobre a seleção disponível, as quantidades e o prazo.",
+      "Conte onde fica a sua loja e quais peças procura. Enviamos a seleção disponível, as quantidades e o prazo.",
     cta: "Conversar sobre revenda",
     message:
       "Olá, Samuel! Tenho interesse em revender peças da Moikato. Posso contar um pouco sobre a minha loja?",
     imageAlt: "Samuel Moikato diante de uma banca com joias e peças artesanais",
-    imageCaption: "Seleção e atendimento direto com Samuel",
+    imageCaption: "Seleção disponível e atendimento direto",
   },
   eventInvitation: {
-    eyebrow: "Convites para Samuel Moikato",
-    title: "Convide Samuel para o seu evento.",
+    eyebrow: "Moikato em eventos",
+    title: "Leve a Moikato ou convide Samuel.",
     intro:
-      "Samuel participa de feiras, demonstrações e conversas sobre as peças e o trabalho com materiais brasileiros.",
+      "Você pode levar a Moikato para feiras e demonstrações ou convidar Samuel para conversas sobre artesanato e materiais brasileiros.",
     imageAlt: "Samuel Moikato sorrindo e usando um chapéu artesanal de fibras naturais",
     portraitAlt: "Samuel trabalhando em uma peça da Moikato",
     imageCaption: "Samuel Moikato em encontros e feiras",
@@ -390,7 +390,7 @@ const dict = {
     ],
   },
   footer: {
-    tagline: "Joias brasileiras feitas à mão por Samuel Moikato.",
+    tagline: "Criamos joias brasileiras à mão, uma peça de cada vez.",
     origin: "Brasil · Reino Unido",
     waMessage: "Olá! Vim pelo site da Moikato e gostaria de conhecer as peças.",
     exploreTitle: "Explore",

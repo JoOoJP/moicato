@@ -2,7 +2,7 @@ const dict = {
   meta: {
     title: "Moikato | Handmade Brazilian jewellery",
     description:
-      "Brazilian jewellery handmade with golden grass and other natural materials. Discover pieces by Samuel Moikato.",
+      "Brazilian jewellery handmade with golden grass and other natural materials. Discover our pieces.",
   },
   header: {
     brand: "moikato",
@@ -26,7 +26,7 @@ const dict = {
   },
   manifesto: {
     eyebrow: "Material and craft",
-    line: "Every piece begins at Samuel's table, with Brazilian fibres and work done by hand.",
+    line: "Every piece begins in our studio, with Brazilian fibres and work done by hand.",
     detailLabel: "In the studio",
     detail: "Hand stitching gives the golden grass its shape.",
     craftAlt: "Hands working with natural fibres using artisanal techniques",
@@ -35,7 +35,7 @@ const dict = {
   worn: {
     eyebrow: "Made in Brazil",
     title: "Worn around the world.",
-    caption: "Moikato pieces have appeared at fairs and on runways across the UK.",
+    caption: "Our pieces have appeared at fairs and on runways across the UK.",
     backstageAlt: "Model wearing a golden Moikato necklace and bracelet backstage at a fashion show",
     backstageCaption: "Moikato backstage",
     editorialAlt: "Model wearing handcrafted golden necklaces and a woven-fibre bag in a fashion editorial",
@@ -46,7 +46,7 @@ const dict = {
     eyebrow: "Collection",
     title: "Made one piece at a time.",
     intro:
-      "See the current selection and speak with Samuel to confirm the details and availability of each piece.",
+      "See our current selection and talk to us to confirm the details and availability of each piece.",
     selectionLabel: "Available selection",
     previewLabel: "View image of",
     featuredImage: "/product-bolsa-royale.webp",
@@ -56,7 +56,7 @@ const dict = {
     handmade: "Handmade. Check availability",
     order: "Order",
     note:
-      "As each piece is made by hand, its shape and finish may vary slightly. Samuel confirms the piece, lead time and delivery on WhatsApp before you order.",
+      "As each piece is made by hand, its shape and finish may vary slightly. We confirm the piece, lead time and delivery on WhatsApp before you order.",
     viewCatalog: "View the full catalogue",
     viewPiece: "Discover the piece",
     pieces: [
@@ -158,7 +158,7 @@ const dict = {
         imagePosition: "center",
         imageAlt: "Two handcrafted Spiral Rings in golden grass with green and earthy details",
         description:
-          "A small spiral shaped by the strength of natural forms. Handcrafted in golden grass, the Spiral Ring pairs the fibre's natural glow with coloured details. Several colours are available; Samuel will confirm the current options when you enquire.",
+          "A small spiral shaped by the strength of natural forms. Handcrafted in golden grass, the Spiral Ring pairs the fibre's natural glow with coloured details. Several colours are available; we confirm the current options when you enquire.",
       },
       {
         name: "Entrelaços Earrings",
@@ -307,7 +307,7 @@ const dict = {
     availabilityValue: "Confirmed when ordering",
     order: "Enquire on WhatsApp",
     orderNote:
-      "Samuel will confirm availability, lead time and delivery before completing your order.",
+      "We confirm availability, lead time and delivery before completing your order.",
     related: "You may also like",
     seeAll: "View the full catalogue",
   },
@@ -315,13 +315,13 @@ const dict = {
     eyebrow: "Our story",
     imageAlt: "Samuel Moikato presenting a pair of handcrafted earrings among his pieces",
     quote:
-      "Samuel Moikato makes the pieces by hand with golden grass and other Brazilian materials. The work began at his table and has since reached fairs and runways across the UK.",
+      "We make every piece by hand with golden grass and other Brazilian materials. Our work began at a small table and has since reached fairs and runways across the UK.",
   },
   events: {
     eyebrow: "Fairs & gatherings",
-    title: "Where Moikato has been.",
+    title: "Where we have been.",
     intro:
-      "Samuel presents his pieces at fairs and gatherings outside the studio. These are a few of those occasions.",
+      "We take our pieces to fairs and gatherings outside the studio. These are a few of those occasions.",
     closing:
       "Future appearances will be published here once they are confirmed.",
     events: [
@@ -352,20 +352,20 @@ const dict = {
     eyebrow: "Stockists",
     title: "Bring Moikato into your shop.",
     intro:
-      "Shops and cultural spaces can speak directly with Samuel about stocking Moikato.",
+      "If you represent a shop or cultural space, talk to us about stocking Moikato.",
     details:
-      "Tell Samuel where your shop is and which pieces you are looking for. He will reply with the available selection, quantities and lead time.",
+      "Tell us where your shop is and which pieces you are looking for. We will send the available selection, quantities and lead time.",
     cta: "Enquire about stocking Moikato",
     message:
       "Hello, Samuel! I am interested in stocking Moikato pieces. May I tell you a little about my shop?",
     imageAlt: "Samuel Moikato standing behind a display of jewellery and handcrafted pieces",
-    imageCaption: "Selection and direct contact with Samuel",
+    imageCaption: "Available selection and direct contact",
   },
   eventInvitation: {
-    eyebrow: "Invitations for Samuel Moikato",
-    title: "Invite Samuel to your event.",
+    eyebrow: "Moikato at events",
+    title: "Bring Moikato or invite Samuel.",
     intro:
-      "Samuel takes part in fairs, demonstrations and conversations about the pieces and his work with Brazilian materials.",
+      "You can bring Moikato to fairs and demonstrations or invite Samuel to speak about craft and Brazilian materials.",
     imageAlt: "Samuel Moikato smiling while wearing a handcrafted natural-fibre hat",
     portraitAlt: "Samuel working on a Moikato piece",
     imageCaption: "Samuel Moikato at fairs and gatherings",
@@ -389,7 +389,7 @@ const dict = {
     ],
   },
   footer: {
-    tagline: "Brazilian jewellery handmade by Samuel Moikato.",
+    tagline: "We make Brazilian jewellery by hand, one piece at a time.",
     origin: "Brazil · United Kingdom",
     waMessage: "Hello! I came from Moikato's website and would like to see the pieces.",
     exploreTitle: "Explore",
