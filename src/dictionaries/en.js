@@ -57,6 +57,8 @@ const dict = {
     order: "Order",
     note:
       "As each piece is made by hand, its shape and finish may vary slightly. Samuel confirms the piece, lead time and delivery on WhatsApp before you order.",
+    viewCatalog: "View the full catalogue",
+    viewPiece: "Discover the piece",
     pieces: [
       {
         name: "Royale Bag",
@@ -259,6 +261,47 @@ const dict = {
       },
     ],
     waPiece: 'Hello! I\'m interested in "{name}" ({price}). Is it still available?',
+  },
+  catalogPage: {
+    metaTitle: "Moikato Catalogue | Jewellery, fashion and home",
+    metaDescription:
+      "Explore the complete Moikato catalogue: jewellery, fashion accessories and home pieces handcrafted with Brazilian identity.",
+    eyebrow: "Moikato catalogue",
+    title: "Made by hand, for how you dress and live.",
+    intro:
+      "Explore every available piece. Each has its own page with its story, details and a direct way to enquire.",
+    categoryNav: "Catalogue lines",
+    viewPiece: "Discover the piece",
+    categories: {
+      joias: {
+        label: "Jewellery Collection",
+        description:
+          "Earrings, necklaces, rings and sets where Brazilian weaving meets contemporary form.",
+      },
+      moda: {
+        label: "Moikato Fashion",
+        description:
+          "Bags and accessories made to travel, move between occasions and carry Brazilian identity with them.",
+      },
+      home: {
+        label: "Moikato Home",
+        description:
+          "Handcrafted objects that bring texture, light and the care of the maker's hands into the home.",
+      },
+    },
+  },
+  productPage: {
+    breadcrumbLabel: "Product navigation",
+    backToCatalog: "Catalogue",
+    madeLabel: "Made",
+    madeValue: "By hand in Brazil",
+    availabilityLabel: "Availability",
+    availabilityValue: "Confirmed when ordering",
+    order: "Enquire on WhatsApp",
+    orderNote:
+      "Samuel will confirm availability, lead time and delivery before completing your order.",
+    related: "You may also like",
+    seeAll: "View the full catalogue",
   },
   story: {
     eyebrow: "Our story",

@@ -57,6 +57,8 @@ const dict = {
     order: "Encomendar",
     note:
       "Como o trabalho é manual, a forma e o acabamento podem variar um pouco. Samuel confirma a peça, o prazo e o envio pelo WhatsApp antes do pedido.",
+    viewCatalog: "Ver catálogo completo",
+    viewPiece: "Conhecer a peça",
     pieces: [
       {
         name: "Bolsa Royale",
@@ -260,6 +262,47 @@ const dict = {
     ],
     waPiece:
       'Olá! Tenho interesse na peça "{name}" ({price}). Ainda está disponível?',
+  },
+  catalogPage: {
+    metaTitle: "Catálogo Moikato | Joias, moda e casa",
+    metaDescription:
+      "Conheça o catálogo completo da Moikato: joias, acessórios de moda e peças para casa feitas artesanalmente com identidade brasileira.",
+    eyebrow: "Catálogo Moikato",
+    title: "Feito à mão, para vestir e viver.",
+    intro:
+      "Explore todas as peças disponíveis. Cada uma tem sua própria página, com história, detalhes e contato direto para encomendar.",
+    categoryNav: "Linhas do catálogo",
+    viewPiece: "Conhecer a peça",
+    categories: {
+      joias: {
+        label: "Coleção Joias",
+        description:
+          "Brincos, colares, anéis e conjuntos em que o trançado brasileiro encontra formas contemporâneas.",
+      },
+      moda: {
+        label: "Moikato Moda",
+        description:
+          "Bolsas e acessórios feitos para viajar, atravessar ocasiões e levar a identidade brasileira consigo.",
+      },
+      home: {
+        label: "Moikato Home",
+        description:
+          "Objetos artesanais que levam textura, luz e o cuidado das mãos para dentro de casa.",
+      },
+    },
+  },
+  productPage: {
+    breadcrumbLabel: "Navegação do produto",
+    backToCatalog: "Catálogo",
+    madeLabel: "Feitura",
+    madeValue: "Artesanal, no Brasil",
+    availabilityLabel: "Disponibilidade",
+    availabilityValue: "Confirmada no pedido",
+    order: "Consultar pelo WhatsApp",
+    orderNote:
+      "Samuel confirma disponibilidade, prazo e envio antes de concluir o pedido.",
+    related: "Você também pode gostar",
+    seeAll: "Ver todo o catálogo",
   },
   story: {
     eyebrow: "Nossa história",

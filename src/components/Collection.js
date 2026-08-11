@@ -1,20 +1,23 @@
-"use client";
+import Link from "next/link";
+import ProductCard from "./ProductCard";
+import { getCatalogPieces } from "../lib/catalog";
 
-import Image from "next/image";
-import { useState } from "react";
-import { waLink, whatsappReady } from "../lib/contato";
+const HOME_SELECTION = [
+  "bolsa-royale",
+  "brinco-helia",
+  "clutch-amalfi",
+  "brinco-entrelacos",
+  "centro-de-mesa-solaris",
+  "cesto-raizes",
+];
 
-const external = whatsappReady
-  ? { target: "_blank", rel: "noopener noreferrer" }
-  : {};
-
-export default function Collection({ dict }) {
-  const [activePiece, setActivePiece] = useState(null);
-  const active = activePiece === null ? null : dict.pieces[activePiece];
+export default function Collection({ dict, lang }) {
+  const allPieces = getCatalogPieces({ collection: dict });
+  const pieces = HOME_SELECTION.map((slug) => allPieces.find((piece) => piece.slug === slug)).filter(Boolean);
 
   return (
     <section id="colecao" className="scroll-mt-24 bg-osso">
-      <div className="mx-auto max-w-6xl px-6 py-20 sm:py-28">
+      <div className="mx-auto max-w-7xl px-6 py-20 sm:px-8 sm:py-28">
         <header className="grid gap-7 border-t border-verdemoikato/20 pt-7 md:grid-cols-[1fr_0.9fr] md:items-end">
           <div>
             <span className="eyebrow text-amarelomoikato-700">{dict.eyebrow}</span>
@@ -22,128 +25,38 @@ export default function Collection({ dict }) {
               {dict.title}
             </h2>
           </div>
-          <p className="max-w-lg text-base leading-relaxed text-verdemoikato/70 md:justify-self-end">
-            {dict.intro}
-          </p>
+          <div className="md:justify-self-end">
+            <p className="max-w-lg text-base leading-relaxed text-verdemoikato/70">{dict.intro}</p>
+            <Link
+              href={`/${lang}/catalogo`}
+              className="mt-5 inline-flex min-h-11 items-center border-b border-amarelomoikato-700 text-xs font-semibold uppercase tracking-[0.14em] text-amarelomoikato-700 transition-colors hover:text-verdemoikato focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amarelomoikato/70 motion-reduce:transition-none"
+            >
+              {dict.viewCatalog} →
+            </Link>
+          </div>
         </header>
 
-        <div className="mt-10 grid gap-9 md:grid-cols-[minmax(0,0.92fr)_minmax(0,1.08fr)] md:items-start md:gap-10 lg:mt-12 lg:gap-14">
-          <figure className="md:sticky md:top-24">
-            <div className="relative aspect-[4/5] overflow-hidden bg-areia-200">
-              {[
-                {
-                  image: dict.featuredImage,
-                  imageAlt: dict.featuredAlt,
-                  imagePosition: dict.featuredImagePosition,
-                },
-                ...dict.pieces,
-              ].map(
-                (piece, index) => {
-                  const visible = activePiece === null ? index === 0 : index === activePiece + 1;
-                  return (
-                    <Image
-                      key={`${piece.image}-${index}`}
-                      src={piece.image}
-                      alt={visible ? piece.imageAlt : ""}
-                      fill
-                      sizes="(min-width: 1024px) 42vw, (min-width: 768px) 44vw, 100vw"
-                      className={`object-cover transition-[opacity,transform] duration-500 ease-out motion-reduce:transition-none ${
-                        visible ? "scale-100 opacity-100" : "pointer-events-none scale-[1.015] opacity-0"
-                      }`}
-                      style={{ objectPosition: piece.imagePosition ?? "center" }}
-                    />
-                  );
-                }
-              )}
-            </div>
-            <figcaption className="mt-4 flex items-center justify-between gap-4 border-b border-verdemoikato/20 pb-4 text-xs uppercase tracking-[0.14em] text-verdemoikato/65">
-              <span>{active ? active.name : dict.featuredCaption}</span>
-              <span className="text-amarelomoikato-700">01</span>
-            </figcaption>
-          </figure>
+        <div className="mt-10 grid gap-x-6 gap-y-12 sm:grid-cols-2 lg:mt-14 lg:grid-cols-3">
+          {pieces.map((piece, index) => (
+            <ProductCard
+              key={piece.slug}
+              piece={piece}
+              lang={lang}
+              label={dict.viewPiece}
+              priority={index < 2}
+              featured={index === 0}
+            />
+          ))}
+        </div>
 
-          <div className="flex flex-col justify-center">
-            <p className="eyebrow text-verdemoikato/55">{dict.selectionLabel}</p>
-            <div className="mt-5 border-t border-verdemoikato/20">
-              {dict.pieces.map((piece, index) => (
-                <div
-                  key={piece.name}
-                  onMouseEnter={() => setActivePiece(index)}
-                  onMouseLeave={() => setActivePiece(null)}
-                  className={`group grid min-h-32 grid-cols-[1fr_auto] items-stretch border-b py-3 transition-colors sm:min-h-28 sm:py-2 ${
-                    activePiece === index
-                      ? "border-amarelomoikato-700"
-                      : "border-verdemoikato/20 hover:border-amarelomoikato-700"
-                  }`}
-                >
-                  <button
-                    type="button"
-                    aria-pressed={activePiece === index}
-                    aria-label={`${dict.previewLabel}: ${piece.name}`}
-                    onClick={() => setActivePiece(index)}
-                    onFocus={() => setActivePiece(index)}
-                    className="grid min-h-24 grid-cols-[4.25rem_1fr] items-center gap-3 py-3 pr-3 text-left outline-none ring-inset ring-amarelomoikato/60 focus-visible:ring-2 sm:grid-cols-[3rem_1fr] sm:gap-4"
-                  >
-                    <span className="relative block h-20 w-16 overflow-hidden bg-areia-200 sm:hidden">
-                      <Image
-                        src={piece.image}
-                        alt=""
-                        fill
-                        sizes="64px"
-                        className="object-cover"
-                        style={{ objectPosition: piece.imagePosition ?? "center" }}
-                      />
-                      <span className="absolute left-1.5 top-1.5 bg-osso/90 px-1.5 py-0.5 font-display text-sm italic text-amarelomoikato-700">
-                        0{index + 1}
-                      </span>
-                    </span>
-                    <span className="hidden font-display text-xl italic text-amarelomoikato-700 sm:block">
-                      0{index + 1}
-                    </span>
-                    <span>
-                      <span className="block font-display text-xl text-verdemoikato sm:text-2xl">
-                        {piece.name}
-                      </span>
-                      <span className="mt-1.5 block text-xs uppercase tracking-[0.12em] text-verdemoikato/55">
-                        {dict.handmade}
-                      </span>
-                    </span>
-                  </button>
-
-                  <a
-                    href={waLink(
-                      dict.waPiece
-                        .replace("{name}", piece.name)
-                        .replace(
-                          "{price}",
-                          piece.priceNote
-                            ? `${piece.price} · ${piece.priceNote}`
-                            : piece.price
-                        )
-                    )}
-                    {...external}
-                    className="flex min-h-24 min-w-[6.5rem] flex-col items-end justify-center py-3 pl-3 text-right outline-none ring-inset ring-amarelomoikato/60 focus-visible:ring-2"
-                  >
-                    <span className="block text-sm text-verdemoikato/75">{piece.price}</span>
-                    {piece.priceNote && (
-                      <span className="mt-0.5 block max-w-28 text-[0.65rem] leading-tight text-verdemoikato/55">
-                        {piece.priceNote}
-                      </span>
-                    )}
-                    <span className="mt-2 block text-xs font-semibold uppercase tracking-[0.12em] text-amarelomoikato-700 transition-transform group-hover:translate-x-1 motion-reduce:transition-none">
-                      {dict.order} →
-                    </span>
-                  </a>
-                </div>
-              ))}
-            </div>
-
-            <div className="mt-8 border-l border-amarelomoikato-700 pl-5">
-              <p className="text-sm leading-relaxed text-verdemoikato/65">
-                {active?.description ?? dict.note}
-              </p>
-            </div>
-          </div>
+        <div className="mt-14 flex justify-center">
+          <Link
+            href={`/${lang}/catalogo`}
+            className="inline-flex min-h-14 items-center justify-between gap-12 bg-verdemoikato px-7 text-sm font-semibold uppercase tracking-[0.13em] text-osso transition-colors hover:bg-floresta focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amarelomoikato focus-visible:ring-offset-2 motion-reduce:transition-none"
+          >
+            {dict.viewCatalog}
+            <span aria-hidden>→</span>
+          </Link>
         </div>
       </div>
     </section>

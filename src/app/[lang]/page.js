@@ -71,7 +71,7 @@ export default async function Home({ params }) {
 
         {/* Coleção */}
         <Reveal>
-          <Collection dict={dict.collection} />
+          <Collection dict={dict.collection} lang={lang} />
         </Reveal>
 
         {/* Nossa história */}
@@ -94,7 +94,7 @@ export default async function Home({ params }) {
 
       </main>
 
-      <Footer dict={dict.footer} />
+      <Footer dict={dict.footer} lang={lang} />
     </>
   );
 }

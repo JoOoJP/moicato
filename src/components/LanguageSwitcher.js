@@ -20,6 +20,7 @@ const SECTION_IDS = [
 function currentHash() {
   if (typeof window === "undefined") return "";
   if (window.location.hash) return window.location.hash;
+  if (window.location.pathname.split("/").filter(Boolean).length > 1) return "";
   const y = window.scrollY + 120; // logo abaixo do header fixo
   let current = "";
   for (const id of SECTION_IDS) {
@@ -35,7 +36,9 @@ function currentHash() {
 // não permite atribuição em globais (document/window) dentro do corpo dele.
 function goToLocale(code) {
   document.cookie = `NEXT_LOCALE=${code}; path=/; max-age=31536000; samesite=lax`;
-  window.location.href = `/${code}${currentHash()}`;
+  const segments = window.location.pathname.split("/").filter(Boolean);
+  const rest = segments.slice(1).join("/");
+  window.location.href = `/${code}${rest ? `/${rest}` : ""}${currentHash()}`;
 }
 
 export default function LanguageSwitcher({ lang, className = "" }) {

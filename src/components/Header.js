@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { useEffect, useState } from "react";
 import LanguageSwitcher from "./LanguageSwitcher";
 
@@ -11,10 +12,10 @@ const NAV = [
   { key: "resellers", href: "#revendedores" },
 ];
 
-function Wordmark({ className = "", inverted = false }) {
+function Wordmark({ className = "", inverted = false, lang }) {
   return (
-    <a
-      href="#topo"
+    <Link
+      href={`/${lang}#topo`}
       aria-label="Moikato"
       className={`relative block h-10 w-24 ${className}`}
     >
@@ -28,11 +29,11 @@ function Wordmark({ className = "", inverted = false }) {
           inverted ? "brightness-0 invert" : ""
         }`}
       />
-    </a>
+    </Link>
   );
 }
 
-export default function Header({ dict, lang }) {
+export default function Header({ dict, lang, alwaysSolid = false }) {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
 
@@ -50,8 +51,11 @@ export default function Header({ dict, lang }) {
     };
   }, [open]);
 
-  const solid = scrolled || open;
+  const solid = alwaysSolid || scrolled || open;
   const tone = solid ? "text-verdemoikato" : "text-osso";
+
+  const destination = (key, anchor) =>
+    key === "collection" ? `/${lang}/catalogo` : `/${lang}/#${anchor}`;
 
   return (
     <header
@@ -93,23 +97,23 @@ export default function Header({ dict, lang }) {
               />
             </span>
           </button>
-          <Wordmark className="hidden md:block md:w-28" inverted={!solid} />
+          <Wordmark className="hidden md:block md:w-28" inverted={!solid} lang={lang} />
         </div>
 
         {/* Centro: nav desktop */}
-        <Wordmark className="justify-self-center md:hidden" inverted={!solid} />
+        <Wordmark className="justify-self-center md:hidden" inverted={!solid} lang={lang} />
         <nav
           aria-label={dict.mainNav}
           className="hidden items-center gap-7 justify-self-center md:flex"
         >
           {NAV.map((l) => (
-            <a
+            <Link
               key={l.key}
-              href={l.href}
+              href={destination(l.key, l.href.slice(1))}
               className="text-[0.7rem] font-semibold uppercase tracking-[0.16em] opacity-80 transition-opacity hover:opacity-100"
             >
               {dict.nav[l.key]}
-            </a>
+            </Link>
           ))}
         </nav>
 
@@ -136,13 +140,13 @@ export default function Header({ dict, lang }) {
         <ul className="flex flex-col gap-1">
           {NAV.map((l) => (
             <li key={l.key}>
-              <a
-                href={l.href}
+              <Link
+                href={destination(l.key, l.href.slice(1))}
                 onClick={() => setOpen(false)}
                 className="block py-2.5 font-display text-xl text-verdemoikato"
               >
                 {dict.nav[l.key]}
-              </a>
+              </Link>
             </li>
           ))}
         </ul>

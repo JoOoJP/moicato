@@ -8,15 +8,17 @@ const destinations = {
   resellers: "#revendedores",
 };
 
-export default function Footer({ dict }) {
+export default function Footer({ dict, lang = "pt-BR" }) {
   const year = new Date().getFullYear();
+  const destination = (key) =>
+    key === "collection" ? `/${lang}/catalogo` : `/${lang}${destinations[key]}`;
 
   return (
     <footer id="contato" className="scroll-mt-24 border-t border-osso/15 bg-floresta">
       <div className="mx-auto max-w-6xl px-6 py-16 sm:py-20">
         <div className="grid gap-12 md:grid-cols-[1.5fr_1fr_1fr]">
           <div>
-            <a href="#topo" className="font-display text-3xl italic lowercase text-osso">
+            <a href={`/${lang}#topo`} className="font-display text-3xl italic lowercase text-osso">
               moikato
             </a>
             <p className="mt-4 max-w-xs text-sm leading-relaxed text-osso/65">
@@ -29,7 +31,7 @@ export default function Footer({ dict }) {
             <ul className="mt-5 space-y-3 text-sm text-osso/70">
               {dict.explore.map((link) => (
                 <li key={link.key}>
-                  <a className="transition-colors hover:text-amarelomoikato-300" href={destinations[link.key]}>
+                  <a className="transition-colors hover:text-amarelomoikato-300" href={destination(link.key)}>
                     {link.label}
                   </a>
                 </li>
@@ -48,7 +50,7 @@ export default function Footer({ dict }) {
 
         <div className="mt-14 flex flex-wrap items-center justify-between gap-4 border-t border-osso/15 pt-6 text-xs text-osso/55">
           <span>{dict.copyright.replace("{year}", String(year))}</span>
-          <a href="#topo" className="uppercase tracking-[0.12em] transition-colors hover:text-amarelomoikato-300">{dict.backToTop} ↑</a>
+          <a href={`/${lang}#topo`} className="uppercase tracking-[0.12em] transition-colors hover:text-amarelomoikato-300">{dict.backToTop} ↑</a>
         </div>
       </div>
     </footer>
