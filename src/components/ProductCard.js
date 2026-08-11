@@ -5,6 +5,7 @@ export default function ProductCard({ piece, lang, label, priority = false, feat
   return (
     <Link
       href={`/${lang}/catalogo/${piece.slug}`}
+      scroll={true}
       className={`group block min-w-0 outline-none ring-amarelomoikato/70 ring-offset-4 ring-offset-osso focus-visible:ring-2 ${
         featured ? "md:col-span-2" : ""
       }`}

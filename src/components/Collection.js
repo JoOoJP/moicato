@@ -29,6 +29,7 @@ export default function Collection({ dict, lang }) {
             <p className="max-w-lg text-base leading-relaxed text-verdemoikato/70">{dict.intro}</p>
             <Link
               href={`/${lang}/catalogo`}
+              scroll={true}
               className="mt-5 inline-flex min-h-11 items-center border-b border-amarelomoikato-700 text-xs font-semibold uppercase tracking-[0.14em] text-amarelomoikato-700 transition-colors hover:text-verdemoikato focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amarelomoikato/70 motion-reduce:transition-none"
             >
               {dict.viewCatalog} →
@@ -52,6 +53,7 @@ export default function Collection({ dict, lang }) {
         <div className="mt-14 flex justify-center">
           <Link
             href={`/${lang}/catalogo`}
+            scroll={true}
             className="inline-flex min-h-14 items-center justify-between gap-12 bg-verdemoikato px-7 text-sm font-semibold uppercase tracking-[0.13em] text-osso transition-colors hover:bg-floresta focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amarelomoikato focus-visible:ring-offset-2 motion-reduce:transition-none"
           >
             {dict.viewCatalog}

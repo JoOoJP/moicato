@@ -5,7 +5,7 @@ export default function CatalogGrid({ dict, lang }) {
   const pieces = getCatalogPieces(dict);
 
   return (
-    <main id="topo" className="bg-osso pt-20">
+    <main id="topo" className="bg-osso pt-20 motion-safe:animate-[pageEnter_400ms_ease-out]">
       <section className="mx-auto max-w-7xl px-6 pb-12 pt-14 sm:px-8 sm:pb-16 sm:pt-20">
         <p className="eyebrow text-amarelomoikato-700">{dict.catalogPage.eyebrow}</p>
         <div className="mt-5 grid gap-7 border-t border-verdemoikato/20 pt-7 md:grid-cols-[1.2fr_0.8fr] md:items-end">
