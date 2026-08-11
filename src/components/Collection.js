@@ -11,6 +11,8 @@ const external = whatsappReady
 export default function Collection({ dict }) {
   const [activePiece, setActivePiece] = useState(null);
   const active = activePiece === null ? null : dict.pieces[activePiece];
+  const showWatermark =
+    activePiece === null ? dict.featuredWatermark : active?.watermark;
 
   return (
     <section id="colecao" className="scroll-mt-24 bg-osso">
@@ -55,6 +57,20 @@ export default function Collection({ dict }) {
                   );
                 }
               )}
+              <span
+                aria-hidden="true"
+                className={`pointer-events-none absolute bottom-3 right-3 h-14 w-[18%] min-w-20 max-w-28 transition-opacity duration-500 motion-reduce:transition-none sm:bottom-5 sm:right-5 ${
+                  showWatermark ? "opacity-55" : "opacity-0"
+                }`}
+              >
+                <Image
+                  src="/logo-moikato-header.png"
+                  alt=""
+                  fill
+                  sizes="112px"
+                  className="object-contain brightness-0 invert"
+                />
+              </span>
             </div>
             <figcaption className="mt-4 flex items-center justify-between gap-4 border-b border-verdemoikato/20 pb-4 text-xs uppercase tracking-[0.14em] text-verdemoikato/65">
               <span>{active ? active.name : dict.featuredCaption}</span>
