@@ -86,6 +86,24 @@ const dict = {
           "The Solaris Table Centrepiece puts the golden weave at the heart of the table. Its carefully worked base and open sides cast changing patterns as the light passes through. Use it for fruit, bread or decorative arrangements to bring texture and Brazilian craft to the table.",
       },
       {
+        name: "Golden Charger Plate",
+        price: "£35 each",
+        image: "/product-sousplat-dourado.png",
+        imagePosition: "center",
+        imageAlt: "Handcrafted Golden Charger Plate styled with pale tableware and a green napkin",
+        description:
+          "A beautiful table begins with the details. The Golden Charger Plate brings the texture and natural glow of woven fibre to each setting, creating an elegant foundation for special lunches and everyday meals alike. A piece that brings Moikato's handcrafted eye into the home.",
+      },
+      {
+        name: "Golden Napkin Ring",
+        price: "£10 each",
+        image: "/product-sousplat-dourado.png",
+        imagePosition: "center",
+        imageAlt: "Handcrafted Golden Napkin Ring styled with a green napkin on a laid table",
+        description:
+          "A small detail that can transform the entire table. Its golden weave and handcrafted finish bring texture and elegance to the setting, pairing naturally with the Moikato Home charger plates.",
+      },
+      {
         name: "Raízes Basket",
         price: "£27",
         image: "/product-cesto-raizes.png",
@@ -175,6 +193,33 @@ const dict = {
         imageAlt: "Pair of spiral Aura Earrings in gold and rose tones with a central point of light",
         description:
           "Aura brings organic forms and movement together in a richly detailed design. Its spiral weave combines gold and rose tones, finished with a central point of light for a statement piece that still feels light.",
+      },
+      {
+        name: "Tree of Life Earrings",
+        price: "£33",
+        image: "/product-brinco-arvore-da-vida.png",
+        imagePosition: "center",
+        imageAlt: "Pair of golden Tree of Life Earrings framed by circular handcrafted fibres",
+        description:
+          "A symbol of strength, roots and growth translated into a striking piece. A handcrafted golden-fibre frame surrounds the Tree of Life, bringing nature, meaning and Brazilian design together. Light yet expressive, it transforms an outfit with ease.",
+      },
+      {
+        name: "Essência Earrings",
+        price: "£33",
+        image: "/product-brinco-essencia.png",
+        imagePosition: "center",
+        imageAlt: "Pair of golden Essência Earrings with a black central sphere on red velvet",
+        description:
+          "The contrast between gold and black gives Essência its distinctive character. A central sphere adds depth, while the golden finish brings out every detail. An original, elegant statement piece that carries Brazilian craft in an unexpected way.",
+      },
+      {
+        name: "Pimenta Earrings",
+        price: "£27",
+        image: "/product-brinco-pimenta.png",
+        imagePosition: "center",
+        imageAlt: "Pair of golden earrings with red and green chilli pepper charms",
+        description:
+          "A touch of Brazil for those drawn to pieces with personality. Golden weaving meets vivid red and green chilli charms, bringing colour and playful character to the look. Light, striking and impossible to overlook.",
       },
       {
         name: "Royal Pearl Earrings",

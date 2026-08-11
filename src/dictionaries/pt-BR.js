@@ -86,6 +86,24 @@ const dict = {
           "O Centro de Mesa Solaris transforma o trançado dourado em protagonista. A base trabalhada e as laterais vazadas criam desenhos diferentes conforme a luz atravessa a peça. Pode receber frutas, pães ou composições decorativas, levando textura e artesanato brasileiro para a mesa.",
       },
       {
+        name: "Sousplat Dourado",
+        price: "£35 cada",
+        image: "/product-sousplat-dourado.png",
+        imagePosition: "center",
+        imageAlt: "Sousplat Dourado artesanal compondo uma mesa com louça clara e guardanapo verde",
+        description:
+          "A beleza da mesa começa nos detalhes. O Sousplat Dourado traz a textura e o brilho natural da fibra trançada para a composição, criando uma base elegante que valoriza desde um almoço especial até a mesa do dia a dia. Uma peça que leva o olhar artesanal da Moikato para dentro de casa.",
+      },
+      {
+        name: "Porta-Guardanapo Dourado",
+        price: "£10 cada",
+        image: "/product-sousplat-dourado.png",
+        imagePosition: "center",
+        imageAlt: "Porta-Guardanapo Dourado artesanal com guardanapo verde em uma mesa posta",
+        description:
+          "Um pequeno detalhe capaz de transformar toda a mesa. Com trama dourada e acabamento artesanal, traz textura e elegância à composição e combina perfeitamente com os sousplats da Moikato Home.",
+      },
+      {
         name: "Cesto Raízes",
         price: "£27",
         image: "/product-cesto-raizes.png",
@@ -175,6 +193,33 @@ const dict = {
         imageAlt: "Par de brincos Aura em espiral com tons dourados e rosé e ponto de luz central",
         description:
           "O Brinco Aura une formas orgânicas e movimento num desenho rico em detalhes. O trabalho em espiral combina tons dourados e rosé, finalizados por um ponto de luz central, criando uma peça marcante sem perder a leveza.",
+      },
+      {
+        name: "Brinco Árvore da Vida",
+        price: "£33",
+        image: "/product-brinco-arvore-da-vida.png",
+        imagePosition: "center",
+        imageAlt: "Par de brincos Árvore da Vida dourados com contorno artesanal circular",
+        description:
+          "Um símbolo de força, raízes e crescimento traduzido numa peça marcante. O contorno artesanal em fibra dourada envolve a Árvore da Vida, criando um encontro entre natureza, significado e design brasileiro. Leve e expressivo, transforma o look sem precisar de muito.",
+      },
+      {
+        name: "Brinco Essência",
+        price: "£33",
+        image: "/product-brinco-essencia.png",
+        imagePosition: "center",
+        imageAlt: "Par de brincos Essência dourados com esfera central preta sobre veludo vermelho",
+        description:
+          "O contraste entre o dourado e o preto dá personalidade ao Brinco Essência. A esfera central traz profundidade, enquanto o acabamento dourado valoriza cada detalhe. Uma peça autoral, elegante e com presença, para carregar o Brasil de um jeito nada óbvio.",
+      },
+      {
+        name: "Brinco Pimenta",
+        price: "£27",
+        image: "/product-brinco-pimenta.png",
+        imagePosition: "center",
+        imageAlt: "Par de brincos dourados com pingentes de pimenta vermelha e verde",
+        description:
+          "Um toque de Brasil para quem gosta de peças com personalidade. A trama dourada encontra o pingente de pimenta em vermelho e verde, trazendo cor e irreverência ao visual. Marcante, leve e impossível de passar despercebido.",
       },
       {
         name: "Brinco Royal Pearl",
