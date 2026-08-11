@@ -95,6 +95,16 @@ const dict = {
           "The Raízes Basket brings the beauty of Brazilian weaving into the home. Different techniques create raised textures that catch the natural glow of golden grass. Its organic shape works as a decorative piece or as storage for small objects.",
       },
       {
+        name: "Essência Boxes",
+        price: "£28 each",
+        priceNote: "Set of 3 · £75",
+        image: "/product-caixas-essencia.png",
+        imagePosition: "center",
+        imageAlt: "Three handcrafted golden Essência Boxes with lids and different woven patterns",
+        description:
+          "The Essência Boxes pair golden grass with varied handwoven patterns, turning a functional object into part of the room. Carefully finished and fitted with lids, they hold jewellery, accessories and small keepsakes. The handmade process gives each piece its own character.",
+      },
+      {
         name: "Origem Set",
         price: "£75",
         image: "/product-conjunto-origem.png",
@@ -120,6 +130,15 @@ const dict = {
         imageAlt: "Golden Solaris Necklace with pale details, handcrafted beads and a large central medallion",
         description:
           "The Solaris Necklace brings together different weaving techniques in a composition rich in texture and movement. Pale details contrast with the gold, while handcrafted beads lead the eye towards its generous central medallion.",
+      },
+      {
+        name: "Spiral Ring",
+        price: "£17",
+        image: "/product-anel-espiral.png",
+        imagePosition: "center",
+        imageAlt: "Two handcrafted Spiral Rings in golden grass with green and earthy details",
+        description:
+          "A small spiral shaped by the strength of natural forms. Handcrafted in golden grass, the Spiral Ring pairs the fibre's natural glow with coloured details. Several colours are available; Samuel will confirm the current options when you enquire.",
       },
       {
         name: "Entrelaços Earrings",

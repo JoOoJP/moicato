@@ -114,12 +114,22 @@ export default function Collection({ dict }) {
                     href={waLink(
                       dict.waPiece
                         .replace("{name}", piece.name)
-                        .replace("{price}", piece.price)
+                        .replace(
+                          "{price}",
+                          piece.priceNote
+                            ? `${piece.price} · ${piece.priceNote}`
+                            : piece.price
+                        )
                     )}
                     {...external}
                     className="flex min-h-24 min-w-[6.5rem] flex-col items-end justify-center py-3 pl-3 text-right outline-none ring-inset ring-amarelomoikato/60 focus-visible:ring-2"
                   >
                     <span className="block text-sm text-verdemoikato/75">{piece.price}</span>
+                    {piece.priceNote && (
+                      <span className="mt-0.5 block max-w-28 text-[0.65rem] leading-tight text-verdemoikato/55">
+                        {piece.priceNote}
+                      </span>
+                    )}
                     <span className="mt-2 block text-xs font-semibold uppercase tracking-[0.12em] text-amarelomoikato-700 transition-transform group-hover:translate-x-1 motion-reduce:transition-none">
                       {dict.order} →
                     </span>

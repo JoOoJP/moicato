@@ -95,6 +95,16 @@ const dict = {
           "O Cesto Raízes leva para a casa a beleza das tramas brasileiras. Diferentes técnicas de entrelaçamento criam relevos que valorizam o brilho natural do capim dourado. Com formato orgânico, funciona como peça decorativa ou para organizar pequenos objetos.",
       },
       {
+        name: "Caixas Essência",
+        price: "£28 cada",
+        priceNote: "Kit com 3 · £75",
+        image: "/product-caixas-essencia.png",
+        imagePosition: "center",
+        imageAlt: "Três Caixas Essência artesanais douradas com tampa e diferentes tramas",
+        description:
+          "As Caixas Essência unem capim dourado e diferentes tramas artesanais, transformando um objeto funcional em parte da decoração. Com tampa e acabamento cuidadoso, guardam joias, acessórios e pequenos objetos. Cada peça traz particularidades próprias do trabalho manual.",
+      },
+      {
         name: "Conjunto Origem",
         price: "£75",
         image: "/product-conjunto-origem.png",
@@ -120,6 +130,15 @@ const dict = {
         imageAlt: "Colar Solaris dourado com detalhes claros, esferas artesanais e grande medalhão central",
         description:
           "O Colar Solaris combina diferentes técnicas de trançado numa composição rica em textura e movimento. Detalhes claros contrastam com o dourado, enquanto as esferas artesanais conduzem o olhar até o grande medalhão central.",
+      },
+      {
+        name: "Anel Espiral",
+        price: "£17",
+        image: "/product-anel-espiral.png",
+        imagePosition: "center",
+        imageAlt: "Dois anéis Espiral artesanais em capim dourado com detalhes verdes e terrosos",
+        description:
+          "Uma pequena espiral que carrega a força das formas da natureza. Produzido artesanalmente em capim dourado, o Anel Espiral combina o brilho natural da fibra com detalhes coloridos. Há diferentes cores disponíveis; Samuel confirma as opções no momento da encomenda.",
       },
       {
         name: "Brinco Entrelaços",

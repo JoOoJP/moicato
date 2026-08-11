@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useEffect, useState } from "react";
 import LanguageSwitcher from "./LanguageSwitcher";
 
@@ -10,13 +11,23 @@ const NAV = [
   { key: "resellers", href: "#revendedores" },
 ];
 
-function Wordmark({ className = "" }) {
+function Wordmark({ className = "", inverted = false }) {
   return (
     <a
       href="#topo"
-      className={`font-display text-2xl italic lowercase leading-none tracking-tight ${className}`}
+      aria-label="Moikato"
+      className={`relative block h-10 w-24 ${className}`}
     >
-      moikato
+      <Image
+        src="/logo-moikato-header.png"
+        alt=""
+        fill
+        priority
+        sizes="112px"
+        className={`object-contain transition-[filter] duration-500 ${
+          inverted ? "brightness-0 invert" : ""
+        }`}
+      />
     </a>
   );
 }
@@ -82,11 +93,11 @@ export default function Header({ dict, lang }) {
               />
             </span>
           </button>
-          <Wordmark className="hidden md:block" />
+          <Wordmark className="hidden md:block md:w-28" inverted={!solid} />
         </div>
 
         {/* Centro: nav desktop */}
-        <Wordmark className="justify-self-center md:hidden" />
+        <Wordmark className="justify-self-center md:hidden" inverted={!solid} />
         <nav
           aria-label={dict.mainNav}
           className="hidden items-center gap-7 justify-self-center md:flex"
