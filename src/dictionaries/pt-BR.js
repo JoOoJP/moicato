@@ -20,7 +20,7 @@ const dict = {
     menuNav: "Navegação",
   },
   hero: {
-    title: "Feita no Brasil. Escolhida por você.",
+    title: "Feito no Brasil. Escolhido por você.",
     sub: "Joias artesanais com história, identidade e presença.",
     cta: "Explore a coleção",
   },
@@ -62,7 +62,7 @@ const dict = {
     pieces: [
       {
         name: "Bolsa Royale",
-        price: "£65",
+        price: "£170",
         image: "/product-bolsa-royale.webp",
         imagePosition: "44% center",
         imageAlt: "Bolsa Royale dourada artesanal com alças circulares à beira-mar",
@@ -71,7 +71,7 @@ const dict = {
       },
       {
         name: "Bolsa Riviera",
-        price: "£65",
+        price: "£150",
         image: "/product-bolsa-riviera.webp",
         imagePosition: "center",
         imageAlt: "Bolsa Riviera artesanal em fibras claras e douradas diante do mar",
@@ -80,7 +80,7 @@ const dict = {
       },
       {
         name: "Centro de Mesa Solaris",
-        price: "£37",
+        price: "£58",
         image: "/product-centro-mesa-solaris.png",
         imagePosition: "center",
         imageAlt: "Centro de Mesa Solaris em trançado dourado com limões sobre uma mesa",
@@ -89,7 +89,7 @@ const dict = {
       },
       {
         name: "Sousplat Dourado",
-        price: "£35 cada",
+        price: "£50 cada",
         image: "/product-sousplat-dourado.png",
         imagePosition: "center",
         imageAlt: "Sousplat Dourado artesanal compondo uma mesa com louça clara e guardanapo verde",
@@ -107,7 +107,7 @@ const dict = {
       },
       {
         name: "Cesto Raízes",
-        price: "£27",
+        price: "£49",
         image: "/product-cesto-raizes.png",
         imagePosition: "center",
         imageAlt: "Cesto Raízes dourado com diferentes tramas artesanais e ramos secos",
@@ -126,7 +126,8 @@ const dict = {
       },
       {
         name: "Conjunto Origem",
-        price: "£75",
+        price: "£100",
+        priceNote: "Terço · £80 | Brincos · £32",
         image: "/product-conjunto-origem.png",
         imagePosition: "center",
         imageAlt: "Conjunto Origem com terço e par de brincos dourados artesanais sobre veludo vermelho",
@@ -135,7 +136,7 @@ const dict = {
       },
       {
         name: "Colar Elo",
-        price: "£37",
+        price: "£60",
         image: "/product-colar-elo.jpeg",
         imagePosition: "center",
         imageAlt: "Colar Elo em capim dourado com curvas entrelaçadas e esferas artesanais",
@@ -144,7 +145,7 @@ const dict = {
       },
       {
         name: "Colar Solaris",
-        price: "£30",
+        price: "£45",
         image: "/product-colar-solaris.png",
         imagePosition: "center",
         imageAlt: "Colar Solaris dourado com detalhes claros, esferas artesanais e grande medalhão central",

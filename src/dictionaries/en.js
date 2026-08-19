@@ -62,7 +62,7 @@ const dict = {
     pieces: [
       {
         name: "Royale Bag",
-        price: "£65",
+        price: "£170",
         image: "/product-bolsa-royale.webp",
         imagePosition: "44% center",
         imageAlt: "Golden handcrafted Royale Bag with circular handles by the sea",
@@ -71,7 +71,7 @@ const dict = {
       },
       {
         name: "Riviera Bag",
-        price: "£65",
+        price: "£150",
         image: "/product-bolsa-riviera.webp",
         imagePosition: "center",
         imageAlt: "Handcrafted Riviera Bag in pale and golden fibres overlooking the sea",
@@ -80,7 +80,7 @@ const dict = {
       },
       {
         name: "Solaris Table Centrepiece",
-        price: "£37",
+        price: "£58",
         image: "/product-centro-mesa-solaris.png",
         imagePosition: "center",
         imageAlt: "Golden woven Solaris Table Centrepiece filled with lemons on a dining table",
@@ -89,7 +89,7 @@ const dict = {
       },
       {
         name: "Golden Charger Plate",
-        price: "£35 each",
+        price: "£50 each",
         image: "/product-sousplat-dourado.png",
         imagePosition: "center",
         imageAlt: "Handcrafted Golden Charger Plate styled with pale tableware and a green napkin",
@@ -107,7 +107,7 @@ const dict = {
       },
       {
         name: "Raízes Basket",
-        price: "£27",
+        price: "£49",
         image: "/product-cesto-raizes.png",
         imagePosition: "center",
         imageAlt: "Golden Raízes Basket with varied handcrafted weaves and dried branches",
@@ -126,7 +126,8 @@ const dict = {
       },
       {
         name: "Origem Set",
-        price: "£75",
+        price: "£100",
+        priceNote: "Rosary · £80 | Earrings · £32",
         image: "/product-conjunto-origem.png",
         imagePosition: "center",
         imageAlt: "Origem Set with a handcrafted golden rosary necklace and matching earrings on red velvet",
@@ -135,7 +136,7 @@ const dict = {
       },
       {
         name: "Elo Necklace",
-        price: "£37",
+        price: "£60",
         image: "/product-colar-elo.jpeg",
         imagePosition: "center",
         imageAlt: "Golden-grass Elo Necklace with intertwined curves and handcrafted beads",
@@ -144,7 +145,7 @@ const dict = {
       },
       {
         name: "Solaris Necklace",
-        price: "£30",
+        price: "£45",
         image: "/product-colar-solaris.png",
         imagePosition: "center",
         imageAlt: "Golden Solaris Necklace with pale details, handcrafted beads and a large central medallion",
