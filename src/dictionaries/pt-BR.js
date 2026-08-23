@@ -330,14 +330,6 @@ const dict = {
       "As próximas participações serão publicadas aqui quando estiverem confirmadas.",
     events: [
       {
-        name: "Feira Vivi Convida Marketing",
-        date: "19 ago 2026",
-        place: "Londres · Inglaterra",
-        image: "/event-2026-vivi-convida.webp",
-        imagePosition: "center 38%",
-        alt: "Samuel Moikato e suas peças expostas na Feira Vivi Convida Marketing em Londres",
-      },
-      {
         name: "Destaque Internacional",
         date: "2026",
         place: "Reconhecimento à Moikato · Londres · 2026",
@@ -432,6 +424,14 @@ const dict = {
         image: "/event-2024-surbiton.webp",
         imagePosition: "center",
         alt: "Mesa com joias e acessórios da Moikato na Feira de Surbiton",
+      },
+      {
+        name: "Feira Vivi Convida Marketing",
+        date: "30 abr 2024",
+        place: "Londres · Inglaterra",
+        image: "/event-2026-vivi-convida.webp",
+        imagePosition: "center 38%",
+        alt: "Samuel Moikato e suas peças expostas na Feira Vivi Convida Marketing em Londres",
       },
       {
         name: "Encontro em Milão",

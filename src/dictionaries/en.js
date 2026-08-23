@@ -329,14 +329,6 @@ const dict = {
       "Future appearances will be published here once they are confirmed.",
     events: [
       {
-        name: "Vivi Convida Marketing Fair",
-        date: "19 Aug 2026",
-        place: "London · England",
-        image: "/event-2026-vivi-convida.webp",
-        imagePosition: "center 38%",
-        alt: "Samuel Moikato and his pieces at the Vivi Convida Marketing Fair in London",
-      },
-      {
         name: "International Recognition",
         date: "2026",
         place: "Moikato recognition · London · 2026",
@@ -431,6 +423,14 @@ const dict = {
         image: "/event-2024-surbiton.webp",
         imagePosition: "center",
         alt: "Table of Moikato jewellery and accessories at Surbiton Fair",
+      },
+      {
+        name: "Vivi Convida Marketing Fair",
+        date: "30 Apr 2024",
+        place: "London · England",
+        image: "/event-2026-vivi-convida.webp",
+        imagePosition: "center 38%",
+        alt: "Samuel Moikato and his pieces at the Vivi Convida Marketing Fair in London",
       },
       {
         name: "Gathering in Milan",
