@@ -25,7 +25,7 @@ export default function Events({ dict }) {
           </p>
         </div>
 
-        <div className="-mx-6 mt-7 flex snap-x snap-mandatory gap-4 overflow-x-auto px-6 pb-6 sm:gap-6 md:mx-0 md:px-0">
+        <div className="events-scroll -mx-6 mt-7 flex snap-x snap-mandatory gap-4 overflow-x-auto px-6 pb-6 sm:gap-6 md:mx-0 md:px-0">
           {dict.events.map((event, index) => (
             <article
               key={`${event.date}-${event.name}`}
