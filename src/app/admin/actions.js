@@ -8,7 +8,7 @@ import { and, count, eq } from "drizzle-orm";
 import { db } from "../../lib/db";
 import { productImages, productTranslations, products, productVariants } from "../../lib/db/schema";
 import { auth } from "../../lib/auth/server";
-import { ADMIN_LOGIN_PATH, getAdmin, requireAdmin } from "../../lib/auth/admin";
+import { ADMIN_LOGIN_PATH, requireAdmin } from "../../lib/auth/admin";
 import { parseBRLToCents } from "../../lib/money";
 
 const CATEGORIES = ["joias", "moda", "home"];
@@ -51,10 +51,8 @@ export async function signInAction(_prev, formData) {
   const { error } = await auth.signIn.email({ email, password });
   if (error) return { error: "E-mail ou senha incorretos.", email };
 
-  if (!(await getAdmin())) {
-    await auth.signOut();
-    return { error: "Esta conta não tem acesso ao painel.", email };
-  }
+  // O cookie de sessão recém-criado só aparece na PRÓXIMA requisição (o SDK lê
+  // os cookies do request). Por isso o papel admin é checado no /admin, não aqui.
   redirect("/admin");
 }
 
