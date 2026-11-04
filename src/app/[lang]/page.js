@@ -11,20 +11,20 @@ import Resellers from "../../components/Resellers";
 import EventInvitation from "../../components/EventInvitation";
 import Footer from "../../components/Footer";
 import Reveal from "../../components/Reveal";
+import { getCatalogPieces } from "../../lib/products";
 
 export default async function Home({ params }) {
   const { lang } = await params;
   if (!hasLocale(lang)) notFound();
   const dict = await getDictionary(lang);
+  const pieces = await getCatalogPieces(lang);
 
   // Dados estruturados da coleção (JSON-LD ItemList) para rich results.
   const catalogJsonLd = {
     "@context": "https://schema.org",
     "@type": "ItemList",
     name: dict.collection.eyebrow,
-    itemListElement: dict.collection.pieces.map((p, i) => {
-      const numericPrice = p.price.replace(/[^0-9.]/g, "");
-
+    itemListElement: pieces.map((p, i) => {
       return {
         "@type": "ListItem",
         position: i + 1,
@@ -34,12 +34,12 @@ export default async function Home({ params }) {
           ...(p.description ? { description: p.description } : {}),
           ...(p.image ? { image: `${process.env.NEXT_PUBLIC_SITE_URL ?? "https://moikato.com"}${p.image}` } : {}),
           brand: { "@type": "Brand", name: "Moikato" },
-          ...(numericPrice
+          ...(p.offer
             ? {
                 offers: {
                   "@type": "Offer",
-                  priceCurrency: "GBP",
-                  price: numericPrice,
+                  priceCurrency: p.offer.currency,
+                  price: p.offer.price,
                 },
               }
             : {}),

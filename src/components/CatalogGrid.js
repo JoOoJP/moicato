@@ -2,15 +2,16 @@ import Image from "next/image";
 import { Fragment } from "react";
 import CatalogNav from "./CatalogNav";
 import ProductCard from "./ProductCard";
-import { CATEGORY_ORDER, getCatalogPieces } from "../lib/catalog";
+import { CATEGORY_ORDER } from "../lib/catalog";
+import { getCatalogPieces } from "../lib/products";
 
 const EDITORIAL_IMAGES = {
   joias: { src: "/model-editorial.webp", position: "center 28%" },
   moda: { src: "/model-backstage.webp", position: "center 30%" },
 };
 
-export default function CatalogGrid({ dict, lang }) {
-  const pieces = getCatalogPieces(dict);
+export default async function CatalogGrid({ dict, lang }) {
+  const pieces = await getCatalogPieces(lang);
   const categories = CATEGORY_ORDER.map((category) => ({
     id: category,
     label: dict.catalogPage.categories[category].shortLabel,

@@ -1,3 +1,10 @@
+// Ordem das categorias na vitrine. Os produtos em si vivem no Neon
+// (src/lib/products.js).
+export const CATEGORY_ORDER = ["joias", "moda", "home"];
+
+// Fonte do seed inicial (scripts/seed.mjs), casada por índice com
+// dict.collection.pieces. Sai junto com as peças dos dicionários quando o
+// admin passar a ser a única forma de cadastrar produtos.
 export const CATALOG_ITEMS = [
   { slug: "bolsa-royale", category: "moda" },
   { slug: "bolsa-riviera", category: "moda" },
@@ -22,23 +29,3 @@ export const CATALOG_ITEMS = [
   { slug: "clutch-amalfi", category: "moda" },
   { slug: "rabico-solar", category: "moda" },
 ];
-
-export const CATEGORY_ORDER = ["joias", "moda", "home"];
-
-export function getCatalogPieces(dict) {
-  return dict.collection.pieces.map((piece, index) => ({
-    ...piece,
-    ...CATALOG_ITEMS[index],
-  }));
-}
-
-export function getPieceBySlug(dict, slug) {
-  return getCatalogPieces(dict).find((piece) => piece.slug === slug);
-}
-
-export function getRelatedPieces(dict, piece, limit = 3) {
-  return getCatalogPieces(dict)
-    .filter((candidate) => candidate.slug !== piece.slug)
-    .sort((a, b) => Number(b.category === piece.category) - Number(a.category === piece.category))
-    .slice(0, limit);
-}

@@ -3,18 +3,19 @@ import { getDictionary, hasLocale, locales } from "../../dictionaries";
 import Header from "../../../../components/Header";
 import ProductDetail from "../../../../components/ProductDetail";
 import Footer from "../../../../components/Footer";
-import { CATALOG_ITEMS, getPieceBySlug, getRelatedPieces } from "../../../../lib/catalog";
+import { getActiveSlugs, getPieceBySlug, getRelatedPieces } from "../../../../lib/products";
 import { SITE_URL } from "../../../../lib/site";
 
-export function generateStaticParams() {
-  return locales.flatMap((lang) => CATALOG_ITEMS.map(({ slug }) => ({ lang, slug })));
+export async function generateStaticParams() {
+  const slugs = await getActiveSlugs();
+  return locales.flatMap((lang) => slugs.map((slug) => ({ lang, slug })));
 }
 
 export async function generateMetadata({ params }) {
   const { lang, slug } = await params;
   if (!hasLocale(lang)) return {};
   const dict = await getDictionary(lang);
-  const piece = getPieceBySlug(dict, slug);
+  const piece = await getPieceBySlug(lang, slug);
   if (!piece) return {};
 
   return {
@@ -42,10 +43,9 @@ export default async function ProductPage({ params }) {
   const { lang, slug } = await params;
   if (!hasLocale(lang)) notFound();
   const dict = await getDictionary(lang);
-  const piece = getPieceBySlug(dict, slug);
+  const piece = await getPieceBySlug(lang, slug);
   if (!piece) notFound();
-  const related = getRelatedPieces(dict, piece);
-  const numericPrice = piece.price.replace(/[^0-9.]/g, "");
+  const related = await getRelatedPieces(lang, piece);
 
   const productJsonLd = {
     "@context": "https://schema.org",
@@ -54,12 +54,12 @@ export default async function ProductPage({ params }) {
     description: piece.description,
     image: `${SITE_URL}${piece.image}`,
     brand: { "@type": "Brand", name: "Moikato" },
-    ...(numericPrice
+    ...(piece.offer
       ? {
           offers: {
             "@type": "Offer",
-            priceCurrency: "GBP",
-            price: numericPrice,
+            priceCurrency: piece.offer.currency,
+            price: piece.offer.price,
             availability: "https://schema.org/LimitedAvailability",
             url: `${SITE_URL}/${lang}/catalogo/${slug}`,
           },
