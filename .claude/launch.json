@@ -4,14 +4,32 @@
     {
       "name": "moikato-prod",
       "runtimeExecutable": "npm",
-      "runtimeArgs": ["run", "start"],
+      "runtimeArgs": [
+        "run",
+        "start"
+      ],
       "port": 3000
     },
     {
       "name": "moikato-dev",
       "runtimeExecutable": "npm",
-      "runtimeArgs": ["run", "dev", "--", "-p", "3001"],
+      "runtimeArgs": [
+        "run",
+        "dev",
+        "--",
+        "-p",
+        "3001"
+      ],
       "port": 3001
+    },
+    {
+      "name": "moikato-dev-loja-aberta",
+      "runtimeExecutable": "bash",
+      "runtimeArgs": [
+        "-c",
+        "DEV_FORCE_SALES=1 npm run dev -- -p 3002"
+      ],
+      "port": 3002
     }
   ]
 }

@@ -1,14 +1,25 @@
-import Image from "next/image";
 import Link from "next/link";
 import ProductCard from "./ProductCard";
-import { waLink, whatsappReady } from "../lib/contato";
+import ProductGallery from "./shop/ProductGallery";
+import ProductPurchase from "./shop/ProductPurchase";
 
-const external = whatsappReady ? { target: "_blank", rel: "noopener noreferrer" } : {};
+function Accordion({ title, children, open = false }) {
+  return (
+    <details open={open} className="group border-b border-verdemoikato/15">
+      <summary className="flex min-h-14 cursor-pointer list-none items-center justify-between text-sm font-semibold uppercase tracking-[0.12em] text-verdemoikato [&::-webkit-details-marker]:hidden">
+        {title}
+        <span aria-hidden className="text-xl font-light transition-transform group-open:rotate-45">
+          +
+        </span>
+      </summary>
+      <div className="pb-5 text-[0.95rem] leading-7 text-verdemoikato/75">{children}</div>
+    </details>
+  );
+}
 
-export default function ProductDetail({ piece, related, dict, lang }) {
+export default function ProductDetail({ piece, related, dict, lang, pricing, salesLive, shippingReady }) {
+  const t = dict.shop;
   const category = dict.catalogPage.categories[piece.category].label;
-  const price = piece.priceNote ? `${piece.price} · ${piece.priceNote}` : piece.price;
-  const message = dict.collection.waPiece.replace("{name}", piece.name).replace("{price}", price);
 
   return (
     <main id="topo" className="bg-osso pt-[60px] motion-safe:animate-[pageEnter_400ms_ease-out] md:pt-20">
@@ -18,54 +29,44 @@ export default function ProductDetail({ piece, related, dict, lang }) {
             {dict.productPage.backToCatalog}
           </Link>
           <span aria-hidden>/</span>
-          <span>{category}</span>
+          <Link scroll={true} className="min-h-11 content-center transition-colors hover:text-verdemoikato" href={`/${lang}/catalogo#${piece.category}`}>
+            {category}
+          </Link>
         </nav>
 
-        <article className="grid gap-0 sm:gap-9 min-[900px]:grid-cols-[minmax(0,1.08fr)_minmax(20rem,0.72fr)] min-[900px]:items-start min-[900px]:gap-10 lg:gap-14">
-          <div className="relative aspect-[4/3] overflow-hidden bg-areia-200 min-[900px]:h-[min(72vh,720px)] min-[900px]:min-h-[560px] min-[900px]:aspect-auto">
-            <Image
-              src={piece.image}
-              alt={piece.imageAlt}
-              fill
-              priority
-              sizes="(min-width: 900px) 58vw, 100vw"
-              className="object-contain"
-              style={{ objectPosition: piece.imagePosition ?? "center" }}
-            />
-          </div>
+        <article className="grid gap-0 sm:gap-9 min-[900px]:grid-cols-[minmax(0,1.1fr)_minmax(20rem,0.75fr)] min-[900px]:items-start min-[900px]:gap-12 lg:gap-16">
+          <ProductGallery images={piece.images} name={piece.name} />
 
           <div className="px-5 pt-7 sm:px-0 sm:pt-0 min-[900px]:sticky min-[900px]:top-24 min-[900px]:self-start">
             <p className="eyebrow text-amarelomoikato-700">{category}</p>
             <h1 className="mt-2 font-display text-[2.6rem] font-light leading-[0.98] text-verdemoikato sm:mt-3 sm:text-5xl xl:text-6xl">
               {piece.name}
             </h1>
-            <p className="mt-3 font-display text-2xl text-verdemoikato sm:mt-5 sm:text-3xl">{piece.price}</p>
-            {piece.priceNote && <p className="mt-1 text-sm text-verdemoikato/60">{piece.priceNote}</p>}
 
-            <div className="mt-6 border-y border-verdemoikato/20 py-5 xl:py-6">
-              <p className="text-[0.95rem] leading-7 text-verdemoikato/75 xl:text-base">{piece.description}</p>
+            <ProductPurchase piece={piece} pricing={pricing} salesLive={salesLive} shippingReady={shippingReady} t={t} />
+
+            <ul className="mt-7 grid grid-cols-3 gap-px border-y border-verdemoikato/15 bg-verdemoikato/10 text-center">
+              {t.trust.map((item) => (
+                <li key={item.title} className="bg-osso px-2 py-4">
+                  <p className="text-[0.7rem] font-semibold uppercase tracking-[0.1em] text-verdemoikato">{item.title}</p>
+                  <p className="mt-1 text-[0.72rem] leading-snug text-verdemoikato/60">{item.text}</p>
+                </li>
+              ))}
+            </ul>
+
+            <div className="mt-2">
+              <Accordion title={t.details} open>
+                {piece.description && <p>{piece.description}</p>}
+                {piece.details && <p className="mt-3 whitespace-pre-line">{piece.details}</p>}
+                <p className="mt-3 text-sm text-verdemoikato/60">{t.handmadeNote}</p>
+              </Accordion>
+              <Accordion title={t.care}>
+                <p className="whitespace-pre-line">{piece.care || t.careDefault}</p>
+              </Accordion>
+              <Accordion title={t.shippingReturns}>
+                <p>{t.shippingReturnsText}</p>
+              </Accordion>
             </div>
-
-            <dl className="grid grid-cols-2 gap-px bg-verdemoikato/15 border-b border-verdemoikato/15">
-              <div className="bg-osso py-5 pr-4">
-                <dt className="text-xs uppercase tracking-[0.13em] text-verdemoikato/50">{dict.productPage.madeLabel}</dt>
-                <dd className="mt-2 text-sm leading-snug text-verdemoikato">{dict.productPage.madeValue}</dd>
-              </div>
-              <div className="bg-osso py-5 pl-4">
-                <dt className="text-xs uppercase tracking-[0.13em] text-verdemoikato/50">{dict.productPage.availabilityLabel}</dt>
-                <dd className="mt-2 text-sm leading-snug text-verdemoikato">{dict.productPage.availabilityValue}</dd>
-              </div>
-            </dl>
-
-            <a
-              href={waLink(message)}
-              {...external}
-              className="mt-6 flex min-h-14 w-full items-center justify-between bg-verdemoikato px-6 text-sm font-semibold uppercase tracking-[0.13em] text-osso transition-colors hover:bg-floresta focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amarelomoikato focus-visible:ring-offset-2 motion-reduce:transition-none"
-            >
-              <span>{dict.productPage.order}</span>
-              <span aria-hidden>→</span>
-            </a>
-            <p className="mt-4 text-sm leading-relaxed text-verdemoikato/55">{dict.productPage.orderNote}</p>
           </div>
         </article>
 
@@ -78,7 +79,7 @@ export default function ProductDetail({ piece, related, dict, lang }) {
           </div>
           <div className="mt-8 grid gap-10 sm:grid-cols-2 lg:grid-cols-3">
             {related.map((relatedPiece) => (
-              <ProductCard key={relatedPiece.slug} piece={relatedPiece} lang={lang} label={dict.catalogPage.viewPiece} />
+              <ProductCard key={relatedPiece.slug} piece={relatedPiece} lang={lang} label={dict.catalogPage.viewPiece} pricing={pricing} t={t} />
             ))}
           </div>
         </section>

@@ -23,7 +23,17 @@ const securityHeaders = [
   { key: "X-DNS-Prefetch-Control", value: "on" },
 ];
 
+// Fotos enviadas pelo painel ficam no Neon Object Storage (bucket público).
+const storageHost = process.env.AWS_ENDPOINT_URL_S3 ? new URL(process.env.AWS_ENDPOINT_URL_S3).hostname : null;
+
 const nextConfig = {
+  images: {
+    remotePatterns: storageHost ? [{ protocol: "https", hostname: storageHost, pathname: "/products/**" }] : [],
+  },
+  experimental: {
+    // Upload de fotos (já reduzidas no navegador para ~2000 px WebP).
+    serverActions: { bodySizeLimit: "4mb" },
+  },
   turbopack: {
     // Ensure turbopack uses this folder as the workspace root
     root: import.meta.dirname,

@@ -71,7 +71,7 @@ export default async function Home({ params }) {
 
         {/* Coleção */}
         <Reveal>
-          <Collection dict={dict.collection} lang={lang} />
+          <Collection dict={dict.collection} shop={dict.shop} lang={lang} />
         </Reveal>
 
         {/* Nossa história */}

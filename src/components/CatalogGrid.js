@@ -4,6 +4,7 @@ import CatalogNav from "./CatalogNav";
 import ProductCard from "./ProductCard";
 import { CATEGORY_ORDER } from "../lib/catalog";
 import { getCatalogPieces } from "../lib/products";
+import { getStoreSettings, publicPricing } from "../lib/settings";
 
 const EDITORIAL_IMAGES = {
   joias: { src: "/model-editorial.webp", position: "center 28%" },
@@ -11,7 +12,8 @@ const EDITORIAL_IMAGES = {
 };
 
 export default async function CatalogGrid({ dict, lang }) {
-  const pieces = await getCatalogPieces(lang);
+  const [pieces, settings] = await Promise.all([getCatalogPieces(lang), getStoreSettings()]);
+  const pricing = publicPricing(settings);
   const categories = CATEGORY_ORDER.map((category) => ({
     id: category,
     label: dict.catalogPage.categories[category].shortLabel,
@@ -66,7 +68,7 @@ export default async function CatalogGrid({ dict, lang }) {
               <div className="mt-7 grid grid-cols-2 gap-x-3 gap-y-9 sm:mt-9 sm:gap-x-5 sm:gap-y-12 lg:grid-cols-3">
                 {categoryPieces.map((piece, index) => (
                   <Fragment key={piece.slug}>
-                    <ProductCard piece={piece} lang={lang} label={dict.catalogPage.viewPiece} priority={sectionIndex === 0 && index < 2} featured={index === 0 && categoryPieces.length > 4} minimal inverted={category === "moda"} />
+                    <ProductCard piece={piece} lang={lang} label={dict.catalogPage.viewPiece} pricing={pricing} t={dict.shop} priority={sectionIndex === 0 && index < 2} featured={index === 0 && categoryPieces.length > 4} minimal inverted={category === "moda"} />
                     {index === 3 && EDITORIAL_IMAGES[category] && (
                       <figure className="relative col-span-2 min-h-[26rem] overflow-hidden sm:min-h-[34rem] lg:col-span-1 lg:min-h-0">
                         <Image src={EDITORIAL_IMAGES[category].src} alt={copy.editorialAlt} fill sizes="(min-width: 1024px) 33vw, 100vw" className="object-cover" style={{ objectPosition: EDITORIAL_IMAGES[category].position }} />

@@ -1,6 +1,7 @@
 import Link from "next/link";
 import ProductCard from "./ProductCard";
 import { getCatalogPieces } from "../lib/products";
+import { getStoreSettings, publicPricing } from "../lib/settings";
 
 const HOME_SELECTION = [
   "bolsa-royale",
@@ -11,8 +12,9 @@ const HOME_SELECTION = [
   "cesto-raizes",
 ];
 
-export default async function Collection({ dict, lang }) {
-  const allPieces = await getCatalogPieces(lang);
+export default async function Collection({ dict, shop, lang }) {
+  const [allPieces, settings] = await Promise.all([getCatalogPieces(lang), getStoreSettings()]);
+  const pricing = publicPricing(settings);
   const pieces = HOME_SELECTION.map((slug) => allPieces.find((piece) => piece.slug === slug)).filter(Boolean);
 
   return (
@@ -44,6 +46,8 @@ export default async function Collection({ dict, lang }) {
               piece={piece}
               lang={lang}
               label={dict.viewPiece}
+              pricing={pricing}
+              t={shop}
               priority={index < 2}
               featured={index === 0}
             />
