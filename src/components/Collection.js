@@ -1,6 +1,6 @@
 import Link from "next/link";
 import ProductCard from "./ProductCard";
-import { getCatalogPieces } from "../lib/catalog";
+import { getCatalogPieces } from "../lib/products";
 
 const HOME_SELECTION = [
   "bolsa-royale",
@@ -11,8 +11,8 @@ const HOME_SELECTION = [
   "cesto-raizes",
 ];
 
-export default function Collection({ dict, lang }) {
-  const allPieces = getCatalogPieces({ collection: dict });
+export default async function Collection({ dict, lang }) {
+  const allPieces = await getCatalogPieces(lang);
   const pieces = HOME_SELECTION.map((slug) => allPieces.find((piece) => piece.slug === slug)).filter(Boolean);
 
   return (

@@ -1,8 +1,8 @@
 import { SITE_URL } from "../lib/site";
-import { CATALOG_ITEMS } from "../lib/catalog";
+import { getActiveSlugs } from "../lib/products";
 
 // Sitemap com as duas versões de idioma e hreflang recíproco.
-export default function sitemap() {
+export default async function sitemap() {
   const languages = {
     "pt-BR": `${SITE_URL}/pt-BR`,
     "en-GB": `${SITE_URL}/en`,
@@ -49,7 +49,8 @@ export default function sitemap() {
     },
   ];
 
-  const products = CATALOG_ITEMS.flatMap(({ slug }) => {
+  const slugs = await getActiveSlugs();
+  const products = slugs.flatMap((slug) => {
     const productLanguages = {
       "pt-BR": `${SITE_URL}/pt-BR/catalogo/${slug}`,
       "en-GB": `${SITE_URL}/en/catalogo/${slug}`,
