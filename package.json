@@ -13,6 +13,7 @@
     "db:studio": "drizzle-kit studio"
   },
   "dependencies": {
+    "@neon/auth": "^0.8.2",
     "@neon/config": "^1.10.2",
     "@neon/env": "^1.6.10",
     "@neondatabase/serverless": "^1.2.0",

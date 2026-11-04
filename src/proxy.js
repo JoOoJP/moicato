@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { auth } from "./lib/auth/server";
 
 const locales = ["pt-BR", "en"];
 const defaultLocale = "pt-BR";
@@ -24,8 +25,20 @@ function getLocale(request) {
   return defaultLocale;
 }
 
+// Painel: renova a sessão e manda quem não está logado para o login. A
+// autorização (papel "admin") é checada de novo em cada página/ação.
+const adminGuard = auth.middleware({
+  loginUrl: "/admin/entrar",
+  publicRoutes: ["/admin/entrar", "/admin/recuperar"],
+});
+
 export function proxy(request) {
   const { pathname } = request.nextUrl;
+
+  // /admin é só pt-BR e fica fora do prefixo de idioma.
+  if (pathname === "/admin" || pathname.startsWith("/admin/")) {
+    return adminGuard(request);
+  }
 
   const hasLocale = locales.some(
     (l) => pathname === `/${l}` || pathname.startsWith(`/${l}/`)

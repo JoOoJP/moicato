@@ -5,12 +5,7 @@ import { cache } from "react";
 import { and, asc, eq, inArray } from "drizzle-orm";
 import { db } from "./db";
 import { productImages, productTranslations, products, productVariants } from "./db/schema";
-
-const brl = new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL" });
-
-export function formatBRL(cents) {
-  return brl.format(cents / 100);
-}
+import { formatBRL } from "./money";
 
 // Preço em R$ (quando definido) tem prioridade; senão cai no texto legado.
 function toOffer(variant, legacyLabel) {
