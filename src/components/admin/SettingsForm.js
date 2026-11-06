@@ -64,6 +64,13 @@ export default function SettingsForm({ settings, paymentsReady, shippingReady })
             </span>
           </label>
         </div>
+        <label className="mt-5 flex min-h-11 items-center gap-3">
+          <input type="checkbox" name="giftWrapEnabled" defaultChecked={settings.giftWrapEnabled} className="size-5 accent-verdemoikato" />
+          <span>
+            <span className="font-medium">Oferecer embalagem para presente</span>
+            <span className="block text-xs text-verdemoikato/55">Caixa com laço e cartão, sem custo. Aparece na sacola e no checkout.</span>
+          </span>
+        </label>
         <p className="mt-4 text-xs text-verdemoikato/55">
           Exemplo: com 3 parcelas e mínima de R$ 50,00, uma peça de R$ 120 aparece como “ou 2x de R$ 60,00 sem juros”.
         </p>

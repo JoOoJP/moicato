@@ -70,8 +70,8 @@ function Summary({ items, t, shippingCents }) {
   );
 }
 
-export default function CheckoutForm({ lang, t, cartLabels, shippingLabels, salesLive }) {
-  const { items, ready } = useCart();
+export default function CheckoutForm({ lang, t, cartLabels, shippingLabels, salesLive, giftWrapEnabled }) {
+  const { items, ready, gift, setGift } = useCart();
   const [state, formAction, pending] = useActionState(placeOrderAction, null);
   const [address, setAddress] = useState({ cep: "", street: "", district: "", city: "", uf: "" });
   const [shipping, setShipping] = useState({ status: "idle", options: [], selected: null });
@@ -187,9 +187,32 @@ export default function CheckoutForm({ lang, t, cartLabels, shippingLabels, sale
 
         <Section step="4" title={t.payment}>
           <p className="text-sm text-verdemoikato/70">{t.paymentNote}</p>
+          {giftWrapEnabled && (
+            <label className="mt-5 flex cursor-pointer items-start gap-3">
+              <input
+                type="checkbox"
+                name="giftWrap"
+                checked={gift.wrap}
+                onChange={(e) => setGift({ ...gift, wrap: e.target.checked })}
+                className="mt-1 size-4 accent-verdemoikato"
+              />
+              <span className="text-sm text-verdemoikato">
+                {cartLabels.gift.wrap}
+                <span className="block text-xs text-verdemoikato/55">{cartLabels.gift.note}</span>
+              </span>
+            </label>
+          )}
           <label className="mt-5 block">
             <span className="text-xs font-semibold uppercase tracking-[0.12em] text-verdemoikato/60">{t.gift}</span>
-            <textarea name="gift" rows={2} maxLength={300} className={input} />
+            <textarea
+              name="gift"
+              rows={2}
+              maxLength={300}
+              value={gift.message}
+              onChange={(e) => setGift({ ...gift, message: e.target.value })}
+              placeholder={cartLabels.gift.placeholder}
+              className={input}
+            />
           </label>
         </Section>
 

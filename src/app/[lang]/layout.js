@@ -6,6 +6,7 @@ import { INSTAGRAM_URL } from "../../lib/contato";
 import LivingBackground from "../../components/LivingBackground";
 import { CartProvider } from "../../components/shop/CartProvider";
 import CartDrawer from "../../components/shop/CartDrawer";
+import { getStoreSettings } from "../../lib/settings";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 
@@ -83,6 +84,17 @@ export default async function RootLayout({ children, params }) {
   const { lang } = await params;
   const skip = lang === "en" ? "Skip to content" : "Pular para o conteúdo";
   const dict = await getDictionary(hasLocale(lang) ? lang : "pt-BR");
+  const settings = await getStoreSettings();
+  const cartLabels = {
+    ...dict.cart,
+    gift: {
+      wrap: dict.shop.giftWrap,
+      note: dict.shop.giftWrapNote,
+      message: dict.shop.giftMessage,
+      placeholder: dict.shop.giftMessagePlaceholder,
+    },
+  };
+  const shopConfig = { giftWrapEnabled: settings.giftWrapEnabled, freeShippingCents: settings.freeShippingCents };
 
   // Dados estruturados da marca (JSON-LD Organization) — entidade + rich results.
   const orgJsonLd = {
@@ -111,7 +123,7 @@ export default async function RootLayout({ children, params }) {
         {/* Atmosfera sutil de fundo, com fallback reduced-motion */}
         <LivingBackground />
 
-        <CartProvider lang={hasLocale(lang) ? lang : "pt-BR"} labels={dict.cart}>
+        <CartProvider lang={hasLocale(lang) ? lang : "pt-BR"} labels={cartLabels} config={shopConfig}>
           {children}
           <CartDrawer />
         </CartProvider>

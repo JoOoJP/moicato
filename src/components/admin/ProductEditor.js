@@ -5,6 +5,7 @@ import { useActionState, useEffect, useMemo, useState } from "react";
 import { saveProductAction } from "../../app/admin/actions";
 import { centsToInput } from "../../lib/money";
 import ImagesField, { newKey } from "./ImagesField";
+import { KINDS } from "../../lib/kinds";
 import { FormMessage } from "./ui";
 
 const input =
@@ -55,6 +56,8 @@ function initialState(product) {
     madeToOrder: p.madeToOrder ?? false,
     weightG: p.weightG ?? "",
     packageId: p.packageId ?? "",
+    kind: p.kind ?? "",
+    collectionId: p.collectionId ?? "",
     pt: { name: p.pt?.name ?? "", description: p.pt?.description ?? "", details: p.pt?.details ?? "", care: p.pt?.care ?? "" },
     en: { name: p.en?.name ?? "", description: p.en?.description ?? "", details: p.en?.details ?? "", care: p.en?.care ?? "" },
     variants: (p.variants?.length ? p.variants : [{}]).map((v) => ({
@@ -85,7 +88,7 @@ const toPayload = (s) =>
     images: s.images.map(({ key, ...img }) => img),
   });
 
-export default function ProductEditor({ product, packages, legacyPrice }) {
+export default function ProductEditor({ product, packages, collections = [], legacyPrice }) {
   const [form, setForm] = useState(() => initialState(product));
   const [saved, setSaved] = useState(() => toPayload(initialState(product)));
   const [lang, setLang] = useState("pt");
@@ -253,6 +256,27 @@ export default function ProductEditor({ product, packages, legacyPrice }) {
                 <option value="home">Casa</option>
               </select>
             </Label>
+            <Label className="mt-3">
+              <span className={labelText}>Tipo</span>
+              <select value={form.kind} onChange={(e) => set({ kind: e.target.value })} className={input}>
+                <option value="" disabled>Escolha…</option>
+                {KINDS.map((kind) => (
+                  <option key={kind.id} value={kind.id}>{kind.pt}</option>
+                ))}
+              </select>
+            </Label>
+            <Label className="mt-3" hint="Agrupa a peça no catálogo.">
+              <span className={labelText}>Coleção</span>
+              <select value={form.collectionId} onChange={(e) => set({ collectionId: e.target.value })} className={input}>
+                <option value="">Sem coleção</option>
+                {collections.map((c) => (
+                  <option key={c.id} value={c.id}>{c.namePt}</option>
+                ))}
+              </select>
+            </Label>
+            <Link href="/admin/colecoes" className="mt-2 inline-block text-xs text-verdemoikato/60 underline-offset-4 hover:underline">
+              Gerenciar coleções
+            </Link>
             <div className="mt-3 space-y-1 text-sm">
               <label className="flex min-h-10 items-center gap-2">
                 <input type="checkbox" checked={form.isUnique} onChange={(e) => set({ isUnique: e.target.checked })} className="size-4 accent-verdemoikato" />

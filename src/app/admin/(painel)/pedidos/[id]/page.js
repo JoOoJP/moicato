@@ -49,6 +49,11 @@ export default async function OrderDetailPage({ params }) {
             <div className="flex justify-between"><dt className="text-verdemoikato/60">Frete ({order.shippingService})</dt><dd>{formatBRL(order.shippingCents)}</dd></div>
             <div className="flex justify-between font-medium"><dt>Total</dt><dd>{formatBRL(order.totalCents)}</dd></div>
           </dl>
+          {order.giftWrap && (
+            <p className="mt-4 border-l-2 border-amarelomoikato bg-amarelomoikato/10 px-3 py-2 text-sm">
+              <strong>Embalar para presente</strong> (caixa Moikato com laço e cartão)
+            </p>
+          )}
           {order.giftMessage && (
             <p className="mt-4 border-l-2 border-amarelomoikato bg-amarelomoikato/10 px-3 py-2 text-sm">
               <strong>Mensagem para presente:</strong> {order.giftMessage}

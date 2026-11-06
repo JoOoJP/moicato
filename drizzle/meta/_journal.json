@@ -15,6 +15,13 @@
       "when": 1793830004224,
       "tag": "0001_happy_microchip",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1793969142218,
+      "tag": "0002_awesome_vector",
+      "breakpoints": true
     }
   ]
 }

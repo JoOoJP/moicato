@@ -3,7 +3,7 @@
 import "server-only";
 import { and, asc, desc, eq, inArray } from "drizzle-orm";
 import { db } from "./db";
-import { orderItems, orders, packages, productImages, productTranslations, products, productVariants } from "./db/schema";
+import { collections, orderItems, orders, packages, productImages, productTranslations, products, productVariants } from "./db/schema";
 
 export async function listProductsForAdmin() {
   const rows = await db.select().from(products).orderBy(asc(products.sortOrder), asc(products.id));
@@ -93,4 +93,8 @@ export async function getOrderForAdmin(id) {
   if (!order) return null;
   const items = await db.select().from(orderItems).where(eq(orderItems.orderId, id));
   return { ...order, items };
+}
+
+export async function listCollectionsForAdmin() {
+  return db.select().from(collections).orderBy(asc(collections.sortOrder), asc(collections.id));
 }

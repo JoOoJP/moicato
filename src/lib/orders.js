@@ -78,7 +78,7 @@ export async function loadCartLines(items, lang) {
 }
 
 // Cria o pedido "pending" + itens + reservas. Retorna o id.
-export async function createPendingOrder({ lines, customer, address, shipping, discountCents, giftMessage, lang }) {
+export async function createPendingOrder({ lines, customer, address, shipping, discountCents, giftMessage, giftWrap = false, lang }) {
   const subtotalCents = lines.reduce((sum, line) => sum + line.unitPriceCents * line.qty, 0);
   const totalCents = subtotalCents + shipping.priceCents - discountCents;
 
@@ -97,6 +97,7 @@ export async function createPendingOrder({ lines, customer, address, shipping, d
       totalCents,
       shippingService: shipping.label,
       giftMessage,
+      giftWrap,
       locale: lang,
     })
     .returning({ id: orders.id });

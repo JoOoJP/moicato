@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import Image from "next/image";
+import { useEffect, useRef, useState } from "react";
 import { formatBRL } from "../../lib/money";
 import { installmentsFor, pixPriceFor } from "../../lib/pricing";
 import { useCart } from "./CartProvider";
@@ -10,20 +11,41 @@ import ShippingEstimator from "./ShippingEstimator";
 const BUYABLE = new Set(["available", "low"]);
 
 function stockLabel(variant, piece, t) {
-  if (variant.state === "soldout") return { text: t.soldOut, tone: "text-terra-700" };
-  if (piece.madeToOrder) return { text: t.madeToOrder, tone: "text-verdemoikato/70" };
-  if (piece.isUnique || variant.stock === 1) return { text: piece.isUnique ? t.uniquePiece : t.lastUnit, tone: "text-amarelomoikato-700" };
-  if (variant.state === "low") return { text: t.lowStock.replace("{n}", variant.stock), tone: "text-amarelomoikato-700" };
-  if (variant.stock != null) return { text: t.inStock, tone: "text-verdemoikato/70" };
+  if (variant.state === "soldout") return t.soldOut;
+  if (piece.madeToOrder) return t.madeToOrder;
+  if (piece.isUnique) return t.uniquePiece;
+  if (variant.stock === 1) return t.lastUnit;
+  if (variant.state === "low") return t.lowStock.replace("{n}", variant.stock);
   return null;
 }
 
-export default function ProductPurchase({ piece, pricing, salesLive, shippingReady, t }) {
-  const { add, labels: cartLabels } = useCart();
+export default function ProductPurchase({ piece, pricing, salesLive, shippingReady, giftWrapEnabled, t }) {
+  const { add, open, lastAdded, labels: cartLabels } = useCart();
   const initial = piece.variants.find((v) => BUYABLE.has(v.state)) ?? piece.variants[0];
   const [variantId, setVariantId] = useState(initial?.id);
   const [qty, setQty] = useState(1);
+  const [ctaVisible, setCtaVisible] = useState(true);
+  const [confirmation, setConfirmation] = useState(null);
+  const ctaRef = useRef(null);
   const variant = piece.variants.find((v) => v.id === variantId) ?? initial;
+
+  // Barra fixa no celular quando o botão principal sai da tela.
+  useEffect(() => {
+    const el = ctaRef.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(([entry]) => setCtaVisible(entry.isIntersecting), { threshold: 0 });
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
+  // Confirmação discreta quando ESTA peça entra na sacola; some sozinha.
+  useEffect(() => {
+    if (!lastAdded || lastAdded.slug !== piece.slug) return;
+    setConfirmation(lastAdded);
+    const timer = setTimeout(() => setConfirmation(null), 7000);
+    return () => clearTimeout(timer);
+  }, [lastAdded, piece.slug]);
+
   if (!variant) return null;
 
   const maxQty = piece.isUnique ? 1 : variant.stock ?? 10;
@@ -53,85 +75,118 @@ export default function ProductPurchase({ piece, pricing, salesLive, shippingRea
     );
   }
 
+  const button = (extra = "") => (
+    <button
+      type="button"
+      onClick={addToCart}
+      disabled={!canBuy}
+      className={`flex min-h-12 items-center justify-center bg-floresta px-6 text-[0.78rem] tracking-[0.14em] text-osso transition-colors hover:bg-verdemoikato disabled:cursor-not-allowed disabled:bg-verdemoikato/25 disabled:text-verdemoikato/70 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amarelomoikato focus-visible:ring-offset-2 ${extra}`}
+    >
+      {cta.toUpperCase()}
+    </button>
+  );
+
   return (
     <div>
       {/* Preço */}
-      <div className="mt-4">
+      <div className="mt-5">
         {priced ? (
           <>
-            <p className="font-display text-3xl text-verdemoikato sm:text-4xl">{formatBRL(variant.priceCents)}</p>
-            {installments && (
-              <p className="mt-1 text-sm text-verdemoikato/70">
-                {t.installments.replace("{count}", installments.count).replace("{each}", formatBRL(installments.eachCents))}
-              </p>
-            )}
-            {pix && (
-              <p className="mt-0.5 text-sm text-verdemoikato/70">
-                {t.pix.replace("{price}", formatBRL(pix))}{" "}
-                <span className="font-semibold text-amarelomoikato-700">{t.pixOff.replace("{pct}", pricing.pixDiscountPercent)}</span>
-              </p>
-            )}
+            <p className="font-display text-[1.9rem] leading-none text-verdemoikato">{formatBRL(variant.priceCents)}</p>
+            <p className="mt-2 text-[0.85rem] text-verdemoikato/60">
+              {installments && t.installments.replace("{count}", installments.count).replace("{each}", formatBRL(installments.eachCents))}
+              {pix && (
+                <>
+                  {installments ? " · " : ""}
+                  {t.pix.replace("{price}", formatBRL(pix))} ({t.pixOff.replace("{pct}", pricing.pixDiscountPercent)})
+                </>
+              )}
+            </p>
           </>
         ) : (
           <>
-            <p className="font-display text-3xl text-verdemoikato sm:text-4xl">{piece.price}</p>
-            {piece.priceNote && <p className="mt-1 text-sm text-verdemoikato/60">{piece.priceNote}</p>}
+            <p className="font-display text-[1.9rem] leading-none text-verdemoikato">{piece.price}</p>
+            {piece.priceNote && <p className="mt-2 text-[0.85rem] text-verdemoikato/55">{piece.priceNote}</p>}
           </>
         )}
       </div>
 
-      {/* Variações */}
+      {/* Opções */}
       {piece.variants.length > 1 && (
-        <fieldset className="mt-6">
-          <legend className="text-xs font-semibold uppercase tracking-[0.12em] text-verdemoikato/60">{t.option}</legend>
-          <div className="mt-2 flex flex-wrap gap-2">
-            {piece.variants.map((option) => (
-              <button
-                key={option.id}
-                type="button"
-                onClick={() => {
-                  setVariantId(option.id);
-                  setQty(1);
-                }}
-                aria-pressed={option.id === variant.id}
-                className={`min-h-11 border px-4 text-sm transition-colors ${
-                  option.id === variant.id
-                    ? "border-verdemoikato bg-verdemoikato text-osso"
-                    : "border-verdemoikato/25 text-verdemoikato hover:border-verdemoikato"
-                } ${option.state === "soldout" ? "line-through opacity-50" : ""}`}
-              >
-                {option.label ?? option.sku}
-                {option.priceCents != null && option.priceCents !== piece.priceCents && (
-                  <span className="ml-2 opacity-70">{formatBRL(option.priceCents)}</span>
-                )}
-              </button>
-            ))}
+        <fieldset className="mt-7">
+          <legend className="text-[0.78rem] text-verdemoikato/60">{t.option}</legend>
+          <div className="mt-2.5 flex flex-wrap gap-2">
+            {piece.variants.map((option) => {
+              const selected = option.id === variant.id;
+              return (
+                <button
+                  key={option.id}
+                  type="button"
+                  onClick={() => {
+                    setVariantId(option.id);
+                    setQty(1);
+                  }}
+                  aria-pressed={selected}
+                  className={`min-h-11 border px-4 text-[0.85rem] transition-colors ${
+                    selected ? "border-verdemoikato text-verdemoikato" : "border-verdemoikato/20 text-verdemoikato/70 hover:border-verdemoikato/60"
+                  } ${option.state === "soldout" ? "line-through opacity-50" : ""}`}
+                >
+                  {option.label ?? option.sku}
+                  {option.priceCents != null && option.priceCents !== piece.priceCents && (
+                    <span className="ml-2 text-verdemoikato/50">{formatBRL(option.priceCents)}</span>
+                  )}
+                </button>
+              );
+            })}
           </div>
         </fieldset>
       )}
 
-      {stock && <p className={`mt-5 text-sm font-medium ${stock.tone}`}>● {stock.text}</p>}
+      {stock && <p className="mt-6 text-[0.82rem] text-amarelomoikato-700">{stock}</p>}
 
       {/* Compra */}
-      <div className="mt-5 flex gap-3">
-        {canBuy && maxQty > 1 && (
-          <QtyStepper qty={qty} max={maxQty} onChange={(next) => setQty(Math.max(1, next))} labels={cartLabels} size="lg" />
-        )}
-        <button
-          type="button"
-          onClick={addToCart}
-          disabled={!canBuy}
-          className="flex min-h-12 flex-1 items-center justify-center bg-verdemoikato px-6 text-sm font-semibold uppercase tracking-[0.13em] text-osso transition-colors hover:bg-floresta disabled:cursor-not-allowed disabled:bg-verdemoikato/35 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amarelomoikato focus-visible:ring-offset-2"
-        >
-          {cta}
-        </button>
+      <div ref={ctaRef} className={`flex gap-3 ${stock ? "mt-3" : "mt-7"}`}>
+        {canBuy && maxQty > 1 && <QtyStepper qty={qty} max={maxQty} onChange={(next) => setQty(Math.max(1, next))} labels={cartLabels} size="lg" />}
+        {button("flex-1")}
       </div>
-      {priced && !salesLive && variant.state !== "soldout" && <p className="mt-3 text-sm text-verdemoikato/60">{t.salesSoonNote}</p>}
-      {pricing.freeShippingCents != null && priced && (
-        <p className="mt-3 text-sm text-verdemoikato/70">{t.freeShippingFrom.replace("{value}", formatBRL(pricing.freeShippingCents))}</p>
+
+      {confirmation && (
+        <div role="status" className="mt-4 flex items-center gap-3 border border-verdemoikato/15 bg-white/60 p-3 motion-safe:animate-[pageEnter_300ms_ease-out]">
+          {confirmation.image && (
+            <div className="relative size-12 shrink-0 overflow-hidden bg-areia-100">
+              <Image src={confirmation.image} alt="" fill sizes="48px" className="object-cover" />
+            </div>
+          )}
+          <p className="flex-1 text-[0.85rem] text-verdemoikato">{t.addedTitle}</p>
+          <button type="button" onClick={open} className="min-h-11 text-[0.82rem] text-verdemoikato underline underline-offset-4 hover:text-floresta">
+            {t.viewBag}
+          </button>
+        </div>
       )}
 
+      {priced && !salesLive && variant.state !== "soldout" && <p className="mt-3 text-[0.82rem] text-verdemoikato/55">{t.salesSoonNote}</p>}
+
+      <ul className="mt-6 space-y-1.5 text-[0.82rem] text-verdemoikato/65">
+        {pricing.freeShippingCents != null && priced && <li>{t.freeShippingFrom.replace("{value}", formatBRL(pricing.freeShippingCents))}</li>}
+        {giftWrapEnabled && <li>{t.giftWrapNote}</li>}
+      </ul>
+
       {shippingReady && priced && <ShippingEstimator items={[{ variantId: variant.id, qty }]} labels={t.shipping} />}
+
+      {/* Barra fixa no celular */}
+      <div
+        aria-hidden={ctaVisible}
+        inert={ctaVisible}
+        className={`fixed inset-x-0 bottom-0 z-40 flex items-center gap-3 border-t border-verdemoikato/15 bg-osso/95 px-4 py-3 backdrop-blur-md transition-transform duration-300 min-[900px]:hidden ${
+          ctaVisible ? "translate-y-full" : "translate-y-0"
+        }`}
+      >
+        <div className="min-w-0 flex-1">
+          <p className="truncate font-display text-base leading-tight text-verdemoikato">{piece.name}</p>
+          <p className="text-[0.8rem] text-verdemoikato/65">{priced ? formatBRL(variant.priceCents) : piece.price}</p>
+        </div>
+        {button("shrink-0")}
+      </div>
     </div>
   );
 }

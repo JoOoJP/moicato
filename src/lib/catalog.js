@@ -1,7 +1,4 @@
-// Ordem das categorias na vitrine. Os produtos em si vivem no Neon
-// (src/lib/products.js).
-export const CATEGORY_ORDER = ["joias", "moda", "home"];
-
+// Os produtos vivem no Neon (src/lib/products.js).
 // Fonte do seed inicial (scripts/seed.mjs), casada por índice com
 // dict.collection.pieces. Sai junto com as peças dos dicionários quando o
 // admin passar a ser a única forma de cadastrar produtos.

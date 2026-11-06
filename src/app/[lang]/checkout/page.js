@@ -18,6 +18,10 @@ export default async function CheckoutPage({ params }) {
   const { lang } = await params;
   if (!hasLocale(lang)) notFound();
   const [dict, settings] = await Promise.all([getDictionary(lang), getStoreSettings()]);
+  const cartLabels = {
+    ...dict.cart,
+    gift: { wrap: dict.shop.giftWrap, note: dict.shop.giftWrapNote, placeholder: dict.shop.giftMessagePlaceholder },
+  };
 
   return (
     <>
@@ -29,7 +33,11 @@ export default async function CheckoutPage({ params }) {
           </Link>
           <h1 className="mt-3 font-display text-5xl font-light text-verdemoikato">{dict.checkout.title}</h1>
           <div className="mt-8">
-            <CheckoutForm lang={lang} t={dict.checkout} cartLabels={dict.cart} shippingLabels={dict.shop.shipping} salesLive={settings.salesLive} />
+            <CheckoutForm lang={lang} t={dict.checkout} cartLabels={cartLabels}
+              shippingLabels={dict.shop.shipping}
+              salesLive={settings.salesLive}
+              giftWrapEnabled={settings.giftWrapEnabled}
+            />
           </div>
         </div>
       </main>

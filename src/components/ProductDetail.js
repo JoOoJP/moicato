@@ -5,8 +5,8 @@ import ProductPurchase from "./shop/ProductPurchase";
 
 function Accordion({ title, children, open = false }) {
   return (
-    <details open={open} className="group border-b border-verdemoikato/15">
-      <summary className="flex min-h-14 cursor-pointer list-none items-center justify-between text-sm font-semibold uppercase tracking-[0.12em] text-verdemoikato [&::-webkit-details-marker]:hidden">
+    <details open={open} className="group border-b border-verdemoikato/10">
+      <summary className="flex min-h-14 cursor-pointer list-none items-center justify-between text-[0.88rem] text-verdemoikato [&::-webkit-details-marker]:hidden">
         {title}
         <span aria-hidden className="text-xl font-light transition-transform group-open:rotate-45">
           +
@@ -17,7 +17,7 @@ function Accordion({ title, children, open = false }) {
   );
 }
 
-export default function ProductDetail({ piece, related, dict, lang, pricing, salesLive, shippingReady }) {
+export default function ProductDetail({ piece, related, dict, lang, pricing, salesLive, shippingReady, giftWrapEnabled }) {
   const t = dict.shop;
   const category = dict.catalogPage.categories[piece.category].label;
 
@@ -29,27 +29,40 @@ export default function ProductDetail({ piece, related, dict, lang, pricing, sal
             {dict.productPage.backToCatalog}
           </Link>
           <span aria-hidden>/</span>
-          <Link scroll={true} className="min-h-11 content-center transition-colors hover:text-verdemoikato" href={`/${lang}/catalogo#${piece.category}`}>
-            {category}
-          </Link>
+          {piece.collection ? (
+            <Link scroll={true} className="min-h-11 content-center transition-colors hover:text-verdemoikato" href={`/${lang}/catalogo#${piece.collection.slug}`}>
+              {piece.collection.name}
+            </Link>
+          ) : (
+            <span className="min-h-11 content-center">{category}</span>
+          )}
         </nav>
 
-        <article className="grid gap-0 sm:gap-9 min-[900px]:grid-cols-[minmax(0,1.1fr)_minmax(20rem,0.75fr)] min-[900px]:items-start min-[900px]:gap-12 lg:gap-16">
+        <article className="grid gap-0 sm:gap-9 min-[900px]:grid-cols-[minmax(0,1.35fr)_minmax(20rem,0.65fr)] min-[900px]:items-start min-[900px]:gap-14 lg:gap-20">
           <ProductGallery images={piece.images} name={piece.name} />
 
-          <div className="px-5 pt-7 sm:px-0 sm:pt-0 min-[900px]:sticky min-[900px]:top-24 min-[900px]:self-start">
-            <p className="eyebrow text-amarelomoikato-700">{category}</p>
-            <h1 className="mt-2 font-display text-[2.6rem] font-light leading-[0.98] text-verdemoikato sm:mt-3 sm:text-5xl xl:text-6xl">
+          <div className="px-5 pt-8 sm:px-0 sm:pt-0 min-[900px]:sticky min-[900px]:top-28 min-[900px]:self-start">
+            <p className="text-[0.72rem] tracking-[0.14em] text-amarelomoikato-700">
+              {piece.collection ? `${t.fromCollection.toUpperCase()} ${piece.collection.name.toUpperCase()}` : (piece.kindLabel ?? category).toUpperCase()}
+            </p>
+            <h1 className="mt-3 font-display text-[2.4rem] font-light leading-[1] text-verdemoikato sm:text-5xl">
               {piece.name}
             </h1>
 
-            <ProductPurchase piece={piece} pricing={pricing} salesLive={salesLive} shippingReady={shippingReady} t={t} />
+            <ProductPurchase
+              piece={piece}
+              pricing={pricing}
+              salesLive={salesLive}
+              shippingReady={shippingReady}
+              giftWrapEnabled={giftWrapEnabled}
+              t={t}
+            />
 
-            <ul className="mt-7 grid grid-cols-3 gap-px border-y border-verdemoikato/15 bg-verdemoikato/10 text-center">
+            <ul className="mt-8 grid grid-cols-3 gap-4 border-t border-verdemoikato/10 pt-6">
               {t.trust.map((item) => (
-                <li key={item.title} className="bg-osso px-2 py-4">
-                  <p className="text-[0.7rem] font-semibold uppercase tracking-[0.1em] text-verdemoikato">{item.title}</p>
-                  <p className="mt-1 text-[0.72rem] leading-snug text-verdemoikato/60">{item.text}</p>
+                <li key={item.title}>
+                  <p className="text-[0.78rem] text-verdemoikato">{item.title}</p>
+                  <p className="mt-0.5 text-[0.72rem] leading-snug text-verdemoikato/50">{item.text}</p>
                 </li>
               ))}
             </ul>

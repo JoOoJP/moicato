@@ -4,9 +4,10 @@ import "server-only";
 import { cache } from "react";
 import { and, asc, eq, inArray } from "drizzle-orm";
 import { db } from "./db";
-import { productImages, productTranslations, products, productVariants } from "./db/schema";
+import { collections, productImages, productTranslations, products, productVariants } from "./db/schema";
 import { formatBRL } from "./money";
 import { stockState } from "./pricing";
+import { kindLabel, kindName } from "./kinds";
 
 // Preço em R$ (quando definido) tem prioridade; senão cai no texto legado.
 function toOffer(variant, legacyLabel) {
@@ -16,6 +17,19 @@ function toOffer(variant, legacyLabel) {
   const legacy = legacyLabel?.replace(/[^0-9.]/g, "");
   return legacy ? { price: legacy, currency: "GBP" } : null;
 }
+
+// Coleções na ordem do painel, já no idioma pedido.
+export const getCollections = cache(async (lang) => {
+  const rows = await db.select().from(collections).orderBy(asc(collections.sortOrder), asc(collections.id));
+  const isEn = lang === "en";
+  return rows.map((c) => ({
+    id: c.id,
+    slug: c.slug,
+    name: (isEn ? c.nameEn : c.namePt) || c.namePt,
+    tagline: (isEn ? c.taglineEn : c.taglinePt) || c.taglinePt || null,
+    image: c.imageUrl,
+  }));
+});
 
 export const getCatalogPieces = cache(async (lang) => {
   const rows = await db
@@ -31,7 +45,7 @@ export const getCatalogPieces = cache(async (lang) => {
   if (rows.length === 0) return [];
   const ids = rows.map(({ product }) => product.id);
 
-  const [images, variants] = await Promise.all([
+  const [images, variants, collectionList] = await Promise.all([
     db
       .select()
       .from(productImages)
@@ -42,6 +56,7 @@ export const getCatalogPieces = cache(async (lang) => {
       .from(productVariants)
       .where(inArray(productVariants.productId, ids))
       .orderBy(asc(productVariants.position), asc(productVariants.id)),
+    getCollections(lang),
   ]);
 
   const isEn = lang === "en";
@@ -72,6 +87,11 @@ export const getCatalogPieces = cache(async (lang) => {
     return {
       slug: product.slug,
       category: product.category,
+      kind: product.kind,
+      kindLabel: kindLabel(product.kind, lang),
+      kindName: kindName(product.kind, lang),
+      collection: collectionList.find((c) => c.id === product.collectionId) ?? null,
+      hoverImage: pieceImages[1] ?? null,
       name: t.name,
       description: t.description,
       // Texto de preço: R$ (menor preço) quando definido, senão o legado (£).
