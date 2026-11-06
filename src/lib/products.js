@@ -6,6 +6,7 @@ import { and, asc, eq, inArray } from "drizzle-orm";
 import { db } from "./db";
 import { productImages, productTranslations, products, productVariants } from "./db/schema";
 import { formatBRL } from "./money";
+import { stockState } from "./pricing";
 
 // Preço em R$ (quando definido) tem prioridade; senão cai no texto legado.
 function toOffer(variant, legacyLabel) {
@@ -58,29 +59,40 @@ export const getCatalogPieces = cache(async (lang) => {
       .map((variant) => ({
         id: variant.id,
         sku: variant.sku,
-        label: isEn ? variant.labelEn : variant.labelPt,
+        label: (isEn ? variant.labelEn : variant.labelPt) ?? variant.labelPt ?? null,
         priceCents: variant.priceCents,
         stock: variant.stock,
+        state: stockState(variant),
       }));
     const main = pieceImages[0];
     const firstVariant = pieceVariants[0];
+    const prices = pieceVariants.map((v) => v.priceCents).filter((cents) => cents != null);
+    const buyable = pieceVariants.filter((v) => v.state === "available" || v.state === "low");
 
     return {
       slug: product.slug,
       category: product.category,
       name: t.name,
       description: t.description,
-      price:
-        firstVariant?.priceCents != null ? formatBRL(firstVariant.priceCents) : t.legacyPriceLabel ?? "",
-      priceNote: t.legacyPriceNote ?? undefined,
+      // Texto de preço: R$ (menor preço) quando definido, senão o legado (£).
+      price: prices.length ? formatBRL(Math.min(...prices)) : t.legacyPriceLabel ?? "",
+      priceNote: prices.length ? undefined : t.legacyPriceNote ?? undefined,
       offer: toOffer(firstVariant, t.legacyPriceLabel),
       image: main?.src,
       imageAlt: main?.alt,
       imagePosition: main?.position,
       images: pieceImages,
       variants: pieceVariants,
+      details: t.details,
+      care: t.care,
+      // Menor preço em R$ (null = ainda só preço legado).
+      priceCents: prices.length ? Math.min(...prices) : null,
+      hasPriceRange: new Set(prices).size > 1,
+      soldOut: prices.length > 0 && buyable.length === 0 && pieceVariants.every((v) => v.state !== "unpriced"),
       isUnique: product.isUnique,
       madeToOrder: product.madeToOrder,
+      packageId: product.packageId,
+      weightG: product.weightG,
     };
   });
 });

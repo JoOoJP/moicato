@@ -3,6 +3,10 @@ import { defineConfig } from "@neon/config/v1";
 export default defineConfig({
   // Declare your Neon services here
   auth: true,
+  // Fotos das peças (upload pelo painel). Leitura pública; escrita só pelo servidor.
+  buckets: {
+    products: { access: "public_read" },
+  },
   // Branch policy: per-branch tuning
   branch: (branch) => {
     if (branch.isDefault) {

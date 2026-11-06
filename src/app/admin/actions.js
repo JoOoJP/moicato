@@ -4,12 +4,21 @@
 // requireAdmin() — não confie só no proxy/redirect das páginas.
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
-import { and, count, eq } from "drizzle-orm";
+import { and, eq, inArray, notInArray } from "drizzle-orm";
 import { db } from "../../lib/db";
-import { productImages, productTranslations, products, productVariants } from "../../lib/db/schema";
+import {
+  orders,
+  packages,
+  productImages,
+  productTranslations,
+  products,
+  productVariants,
+  storeSettings,
+} from "../../lib/db/schema";
 import { auth } from "../../lib/auth/server";
 import { ADMIN_LOGIN_PATH, requireAdmin } from "../../lib/auth/admin";
 import { parseBRLToCents } from "../../lib/money";
+import { isStorageUrl, uploadProductImage } from "../../lib/storage";
 
 const CATEGORIES = ["joias", "moda", "home"];
 const STATUSES = ["draft", "active", "archived"];
@@ -82,187 +91,262 @@ export async function resetPasswordAction(_prev, formData) {
   redirect(`${ADMIN_LOGIN_PATH}?senha=ok`);
 }
 
-// ── Produtos ────────────────────────────────────────────────────────────────
+// ── Peça (um único "Salvar" para tudo) ──────────────────────────────────────
 
+const LOCAL_IMAGE_RE = /^\/[\w./-]+\.(webp|png|jpe?g|avif|svg)$/i;
+
+function cleanText(value, max = 5000) {
+  const str = String(value ?? "").trim().slice(0, max);
+  return str || null;
+}
+
+function intOrNull(value) {
+  if (value === "" || value == null) return null;
+  const n = Number(value);
+  return Number.isInteger(n) && n >= 0 ? n : NaN;
+}
+
+// payload (JSON, montado pelo editor):
+// { id?, slug, category, status, isUnique, madeToOrder, weightG, packageId,
+//   pt: {name, description, details, care}, en: {...},
+//   variants: [{ id?, sku, labelPt, labelEn, price, stock }],
+//   images: [{ id?, url, altPt, altEn, objectPosition }] }
 export async function saveProductAction(_prev, formData) {
   await requireAdmin();
-  const id = idFrom(formData);
+  let input;
+  try {
+    input = JSON.parse(String(formData.get("payload") ?? ""));
+  } catch {
+    return { error: "Não foi possível ler o formulário. Recarregue a página." };
+  }
 
+  const id = Number.isInteger(input.id) && input.id > 0 ? input.id : null;
   const values = {
-    slug: text(formData, "slug").toLowerCase(),
-    category: text(formData, "category"),
-    status: text(formData, "status") || "draft",
-    isUnique: formData.get("isUnique") === "on",
-    madeToOrder: formData.get("madeToOrder") === "on",
-    weightG: optionalInt(formData, "weightG"),
+    slug: String(input.slug ?? "").trim().toLowerCase(),
+    category: input.category,
+    status: input.status ?? "draft",
+    isUnique: Boolean(input.isUnique),
+    madeToOrder: Boolean(input.madeToOrder),
+    weightG: intOrNull(input.weightG),
+    packageId: Number.isInteger(Number(input.packageId)) && Number(input.packageId) > 0 ? Number(input.packageId) : null,
+  };
+  const translation = (locale, t = {}) => ({
+    locale,
+    name: cleanText(t.name, 120),
+    description: cleanText(t.description),
+    details: cleanText(t.details),
+    care: cleanText(t.care),
+  });
+  const pt = translation("pt-BR", input.pt);
+  const en = translation("en", input.en);
+  if (!en.name) en.name = pt.name;
+
+  if (!pt.name) return { error: "Dê um nome para a peça." };
+  if (!SLUG_RE.test(values.slug)) return { error: "Endereço (slug) inválido: use letras minúsculas, números e hífens." };
+  if (!CATEGORIES.includes(values.category)) return { error: "Escolha uma categoria." };
+  if (!STATUSES.includes(values.status)) return { error: "Status inválido." };
+  if (Number.isNaN(values.weightG)) return { error: "O peso deve ser um número inteiro em gramas." };
+
+  const variants = [];
+  for (const [index, v] of (input.variants ?? []).entries()) {
+    const priceCents = parseBRLToCents(v.price);
+    const stock = intOrNull(v.stock);
+    const sku = String(v.sku ?? "").trim().toUpperCase() || `MK-${values.slug.toUpperCase()}-${index + 1}`;
+    if (Number.isNaN(priceCents)) return { error: `Preço inválido na opção ${index + 1}. Use, por exemplo, 89,90.` };
+    if (Number.isNaN(stock)) return { error: `Estoque inválido na opção ${index + 1}.` };
+    variants.push({
+      id: Number.isInteger(v.id) && v.id > 0 ? v.id : null,
+      sku,
+      labelPt: cleanText(v.labelPt, 60),
+      labelEn: cleanText(v.labelEn, 60),
+      priceCents,
+      stock,
+      position: index,
+    });
+  }
+  if (variants.length === 0) return { error: "A peça precisa de pelo menos um preço." };
+  if (new Set(variants.map((v) => v.sku)).size !== variants.length) return { error: "Há SKUs repetidos nas opções." };
+  if (variants.length > 1 && variants.some((v) => !v.labelPt)) return { error: "Dê um nome para cada opção (ex.: Unidade, Kit com 3)." };
+
+  const images = [];
+  for (const [index, img] of (input.images ?? []).entries()) {
+    const url = String(img.url ?? "").trim();
+    if (!LOCAL_IMAGE_RE.test(url) && !isStorageUrl(url)) return { error: "Uma das fotos tem endereço inválido." };
+    images.push({
+      id: Number.isInteger(img.id) && img.id > 0 ? img.id : null,
+      url,
+      altPt: cleanText(img.altPt, 200),
+      altEn: cleanText(img.altEn, 200),
+      objectPosition: cleanText(img.objectPosition, 40),
+      position: index,
+    });
+  }
+  if (values.status === "active" && images.length === 0) return { error: "Adicione pelo menos uma foto antes de colocar a peça na loja." };
+
+  let productId = id;
+  try {
+    if (!productId) {
+      const [created] = await db.insert(products).values(values).returning({ id: products.id });
+      productId = created.id;
+    }
+
+    const keepVariantIds = variants.filter((v) => v.id).map((v) => v.id);
+    const keepImageIds = images.filter((img) => img.id).map((img) => img.id);
+    const upsertT = (t) =>
+      db
+        .insert(productTranslations)
+        .values({ productId, ...t })
+        .onConflictDoUpdate({
+          target: [productTranslations.productId, productTranslations.locale],
+          set: { name: t.name, description: t.description, details: t.details, care: t.care },
+        });
+
+    await db.batch([
+      db.update(products).set(values).where(eq(products.id, productId)),
+      upsertT(pt),
+      upsertT(en),
+      // Remove o que saiu do formulário (só desta peça).
+      db
+        .delete(productVariants)
+        .where(
+          keepVariantIds.length
+            ? and(eq(productVariants.productId, productId), notInArray(productVariants.id, keepVariantIds))
+            : eq(productVariants.productId, productId)
+        ),
+      db
+        .delete(productImages)
+        .where(
+          keepImageIds.length
+            ? and(eq(productImages.productId, productId), notInArray(productImages.id, keepImageIds))
+            : eq(productImages.productId, productId)
+        ),
+      ...variants.map(({ id: variantId, ...v }) =>
+        variantId
+          ? db.update(productVariants).set(v).where(and(eq(productVariants.id, variantId), eq(productVariants.productId, productId)))
+          : db.insert(productVariants).values({ productId, ...v })
+      ),
+      ...images.map(({ id: imageId, ...img }) =>
+        imageId
+          ? db.update(productImages).set(img).where(and(eq(productImages.id, imageId), eq(productImages.productId, productId)))
+          : db.insert(productImages).values({ productId, ...img })
+      ),
+    ]);
+  } catch (error) {
+    if (isUniqueViolation(error)) {
+      return { error: String(error?.cause?.detail ?? error?.detail ?? "").includes("sku") ? "Esse SKU já é usado por outra peça." : "Já existe uma peça com esse endereço (slug)." };
+    }
+    throw error;
+  }
+
+  revalidateCatalog();
+  if (!id) redirect(`/admin/produtos/${productId}?salvo=1`);
+  return { ok: "Alterações salvas. A loja já foi atualizada.", savedAt: Date.now() };
+}
+
+// Edição rápida na lista: preço e estoque de uma variação.
+export async function quickUpdateVariantAction(_prev, formData) {
+  await requireAdmin();
+  const variantId = idFrom(formData, "variantId");
+  const priceCents = parseBRLToCents(formData.get("price"));
+  const stock = optionalInt(formData, "stock");
+  if (!variantId) return { error: "Inválido" };
+  if (Number.isNaN(priceCents)) return { error: "Preço inválido" };
+  if (Number.isNaN(stock)) return { error: "Estoque inválido" };
+
+  await db.update(productVariants).set({ priceCents, stock }).where(eq(productVariants.id, variantId));
+  revalidateCatalog();
+  return { ok: "Salvo", savedAt: Date.now() };
+}
+
+export async function setProductStatusAction(formData) {
+  await requireAdmin();
+  const id = idFrom(formData);
+  const status = text(formData, "status");
+  if (!id || !STATUSES.includes(status)) return;
+  await db.update(products).set({ status }).where(eq(products.id, id));
+  revalidateCatalog();
+}
+
+// Upload de foto (já reduzida no navegador). Retorna a URL pública.
+export async function uploadImageAction(formData) {
+  await requireAdmin();
+  const file = formData.get("file");
+  if (!file || typeof file === "string") return { error: "Nenhum arquivo recebido." };
+  try {
+    return { url: await uploadProductImage(file) };
+  } catch (error) {
+    return { error: error.message === "Arquivo muito grande" ? "Foto muito grande (máx. 4 MB)." : "Não foi possível enviar a foto." };
+  }
+}
+
+// ── Embalagens ──────────────────────────────────────────────────────────────
+
+export async function savePackageAction(_prev, formData) {
+  await requireAdmin();
+  const id = idFrom(formData);
+  const values = {
+    name: text(formData, "name"),
     lengthCm: optionalInt(formData, "lengthCm"),
     widthCm: optionalInt(formData, "widthCm"),
     heightCm: optionalInt(formData, "heightCm"),
-    sortOrder: optionalInt(formData, "sortOrder") ?? 0,
+    weightG: optionalInt(formData, "weightG") ?? 0,
   };
-  const translation = (locale, prefix) => ({
-    locale,
-    name: text(formData, `${prefix}_name`),
-    description: optionalText(formData, `${prefix}_description`),
-    details: optionalText(formData, `${prefix}_details`),
-    care: optionalText(formData, `${prefix}_care`),
-  });
-  const pt = translation("pt-BR", "pt");
-  const en = translation("en", "en");
-  if (!en.name) en.name = pt.name;
-
-  if (!SLUG_RE.test(values.slug)) return { error: "Slug inválido: use letras minúsculas, números e hífens." };
-  if (!CATEGORIES.includes(values.category)) return { error: "Escolha uma categoria." };
-  if (!STATUSES.includes(values.status)) return { error: "Status inválido." };
-  if (!pt.name) return { error: "O nome em português é obrigatório." };
-  for (const key of ["weightG", "lengthCm", "widthCm", "heightCm", "sortOrder"]) {
-    if (Number.isNaN(values[key])) return { error: "Peso, medidas e ordem devem ser números inteiros." };
+  if (!values.name) return { error: "Dê um nome para a embalagem." };
+  for (const key of ["lengthCm", "widthCm", "heightCm"]) {
+    if (!values[key]) return { error: "Informe comprimento, largura e altura em centímetros." };
   }
+  if (Number.isNaN(values.weightG)) return { error: "Peso inválido." };
 
-  let createdId = null;
-  try {
-    if (id) {
-      const upsert = (t) =>
-        db
-          .insert(productTranslations)
-          .values({ productId: id, ...t })
-          .onConflictDoUpdate({
-            target: [productTranslations.productId, productTranslations.locale],
-            set: { name: t.name, description: t.description, details: t.details, care: t.care },
-          });
-      await db.batch([db.update(products).set(values).where(eq(products.id, id)), upsert(pt), upsert(en)]);
-    } else {
-      const [created] = await db.insert(products).values(values).returning({ id: products.id });
-      await db.batch([
-        db.insert(productTranslations).values([
-          { productId: created.id, ...pt },
-          { productId: created.id, ...en },
-        ]),
-        db.insert(productVariants).values({ productId: created.id, sku: `MK-${values.slug.toUpperCase()}` }),
-      ]);
-      createdId = created.id;
-    }
-  } catch (error) {
-    if (isUniqueViolation(error)) return { error: "Já existe uma peça com esse slug." };
-    throw error;
-  }
-
-  revalidateCatalog();
-  if (createdId) redirect(`/admin/produtos/${createdId}?salvo=1`);
-  return { ok: "Peça salva." };
+  if (id) await db.update(packages).set(values).where(eq(packages.id, id));
+  else await db.insert(packages).values(values);
+  revalidatePath("/admin", "layout");
+  return { ok: id ? "Embalagem salva." : "Embalagem criada.", savedAt: Date.now() };
 }
 
-// ── Variações (preço e estoque) ─────────────────────────────────────────────
-
-export async function saveVariantAction(_prev, formData) {
+export async function deletePackageAction(formData) {
   await requireAdmin();
   const id = idFrom(formData);
-  const productId = idFrom(formData, "productId");
-  if (!productId) return { error: "Peça inválida." };
+  if (!id) return;
+  await db.delete(packages).where(eq(packages.id, id)); // peças ficam sem embalagem (set null)
+  revalidatePath("/admin", "layout");
+}
 
-  const priceCents = parseBRLToCents(formData.get("price"));
-  const stock = optionalInt(formData, "stock");
+// ── Configurações ───────────────────────────────────────────────────────────
+
+export async function saveSettingsAction(_prev, formData) {
+  await requireAdmin();
   const values = {
-    sku: text(formData, "sku").toUpperCase(),
-    labelPt: optionalText(formData, "labelPt"),
-    labelEn: optionalText(formData, "labelEn"),
-    priceCents,
-    stock,
-    position: optionalInt(formData, "position") ?? 0,
+    salesOpen: formData.get("salesOpen") === "on",
+    pixDiscountPercent: optionalInt(formData, "pixDiscountPercent") ?? 0,
+    maxInstallments: optionalInt(formData, "maxInstallments") ?? 1,
+    minInstallmentCents: parseBRLToCents(formData.get("minInstallment")) ?? 0,
+    freeShippingCents: parseBRLToCents(formData.get("freeShipping")),
   };
-
-  if (!values.sku) return { error: "Informe o SKU." };
-  if (Number.isNaN(priceCents)) return { error: "Preço inválido. Use, por exemplo, 89,90." };
-  if (Number.isNaN(stock) || Number.isNaN(values.position)) return { error: "Estoque e ordem devem ser inteiros." };
-
-  try {
-    if (id) {
-      await db
-        .update(productVariants)
-        .set(values)
-        .where(and(eq(productVariants.id, id), eq(productVariants.productId, productId)));
-    } else {
-      await db.insert(productVariants).values({ productId, ...values });
-    }
-  } catch (error) {
-    if (isUniqueViolation(error)) return { error: "Esse SKU já está em uso." };
-    throw error;
-  }
-
-  revalidateCatalog();
-  return { ok: id ? "Variação salva." : "Variação adicionada." };
-}
-
-export async function deleteVariantAction(formData) {
-  await requireAdmin();
-  const id = idFrom(formData);
-  const productId = idFrom(formData, "productId");
-  if (!id || !productId) return;
-
-  // Toda peça precisa de ao menos uma variação.
-  const [{ total }] = await db
-    .select({ total: count() })
-    .from(productVariants)
-    .where(eq(productVariants.productId, productId));
-  if (total <= 1) return;
+  if (Object.values(values).some((value) => Number.isNaN(value))) return { error: "Revise os valores: use números (ex.: 50,00)." };
+  if (values.pixDiscountPercent > 30) return { error: "Desconto no Pix acima de 30% parece engano." };
+  if (values.maxInstallments < 1 || values.maxInstallments > 12) return { error: "Parcelas: de 1 a 12." };
 
   await db
-    .delete(productVariants)
-    .where(and(eq(productVariants.id, id), eq(productVariants.productId, productId)));
+    .insert(storeSettings)
+    .values({ id: 1, ...values })
+    .onConflictDoUpdate({ target: storeSettings.id, set: values });
   revalidateCatalog();
+  return { ok: "Configurações salvas.", savedAt: Date.now() };
 }
 
-// ── Imagens ─────────────────────────────────────────────────────────────────
+// ── Pedidos ─────────────────────────────────────────────────────────────────
 
-function imageValues(formData) {
-  return {
-    url: text(formData, "url"),
-    altPt: optionalText(formData, "altPt"),
-    altEn: optionalText(formData, "altEn"),
-    objectPosition: optionalText(formData, "objectPosition"),
-    position: optionalInt(formData, "position") ?? 0,
-  };
-}
-
-function validateImage(values) {
-  // Só arquivos do próprio site por enquanto (next/image recusa domínios não
-  // configurados). Upload para o Object Storage entra depois.
-  if (!/^\/[\w./-]+\.(webp|png|jpe?g|avif|svg)$/i.test(values.url)) {
-    return "Use um arquivo do site, por exemplo /product-brinco-aura.png.";
-  }
-  if (Number.isNaN(values.position)) return "A ordem deve ser um número inteiro.";
-  return null;
-}
-
-export async function saveImageAction(_prev, formData) {
+export async function markShippedAction(_prev, formData) {
   await requireAdmin();
   const id = idFrom(formData);
-  const productId = idFrom(formData, "productId");
-  if (!productId) return { error: "Peça inválida." };
+  const trackingCode = text(formData, "trackingCode").toUpperCase();
+  if (!id) return { error: "Pedido inválido." };
+  if (!trackingCode) return { error: "Informe o código de rastreio." };
 
-  const values = imageValues(formData);
-  const invalid = validateImage(values);
-  if (invalid) return { error: invalid };
-
-  if (id) {
-    await db
-      .update(productImages)
-      .set(values)
-      .where(and(eq(productImages.id, id), eq(productImages.productId, productId)));
-  } else {
-    await db.insert(productImages).values({ productId, ...values });
-  }
-
-  revalidateCatalog();
-  return { ok: id ? "Imagem salva." : "Imagem adicionada." };
-}
-
-export async function deleteImageAction(formData) {
-  await requireAdmin();
-  const id = idFrom(formData);
-  const productId = idFrom(formData, "productId");
-  if (!id || !productId) return;
-
-  await db.delete(productImages).where(and(eq(productImages.id, id), eq(productImages.productId, productId)));
-  revalidateCatalog();
+  await db
+    .update(orders)
+    .set({ status: "shipped", trackingCode, shippedAt: new Date() })
+    .where(and(eq(orders.id, id), inArray(orders.status, ["paid", "shipped"])));
+  revalidatePath("/admin", "layout");
+  return { ok: "Pedido marcado como enviado.", savedAt: Date.now() };
 }

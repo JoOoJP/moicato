@@ -1,9 +1,9 @@
 // Leituras do painel (todas as peças, qualquer status). Só use em páginas do
 // /admin, que já passaram por requireAdmin().
 import "server-only";
-import { and, asc, eq, inArray } from "drizzle-orm";
+import { and, asc, desc, eq, inArray } from "drizzle-orm";
 import { db } from "./db";
-import { productImages, productTranslations, products, productVariants } from "./db/schema";
+import { orderItems, orders, packages, productImages, productTranslations, products, productVariants } from "./db/schema";
 
 export async function listProductsForAdmin() {
   const rows = await db.select().from(products).orderBy(asc(products.sortOrder), asc(products.id));
@@ -67,4 +67,30 @@ export async function getProductForAdmin(id) {
     variants,
     images,
   };
+}
+
+export async function listPackages() {
+  return db.select().from(packages).orderBy(asc(packages.name));
+}
+
+export async function listOrdersForAdmin(limit = 100) {
+  return db
+    .select({
+      id: orders.id,
+      status: orders.status,
+      customerName: orders.customerName,
+      totalCents: orders.totalCents,
+      createdAt: orders.createdAt,
+      paidAt: orders.paidAt,
+    })
+    .from(orders)
+    .orderBy(desc(orders.createdAt))
+    .limit(limit);
+}
+
+export async function getOrderForAdmin(id) {
+  const [order] = await db.select().from(orders).where(eq(orders.id, id));
+  if (!order) return null;
+  const items = await db.select().from(orderItems).where(eq(orderItems.orderId, id));
+  return { ...order, items };
 }

@@ -35,6 +35,30 @@ const timestamps = {
     .$onUpdate(() => new Date()),
 };
 
+// Embalagens cadastradas uma vez e reutilizadas pelas peças. Frete usa as
+// medidas da embalagem + peso da peça + peso da embalagem.
+export const packages = pgTable("packages", {
+  id: serial("id").primaryKey(),
+  name: text("name").notNull(),
+  lengthCm: integer("length_cm").notNull(),
+  widthCm: integer("width_cm").notNull(),
+  heightCm: integer("height_cm").notNull(),
+  weightG: integer("weight_g").default(0).notNull(), // embalagem vazia
+  ...timestamps,
+});
+
+// Configurações da loja (linha única, id = 1), editáveis no painel.
+export const storeSettings = pgTable("store_settings", {
+  id: integer("id").primaryKey().default(1),
+  salesOpen: boolean("sales_open").default(false).notNull(),
+  // Desconto no Pix exibido na loja — só ative se o pagamento aplicar de fato (CDC).
+  pixDiscountPercent: integer("pix_discount_percent").default(0).notNull(),
+  maxInstallments: integer("max_installments").default(3).notNull(),
+  minInstallmentCents: integer("min_installment_cents").default(5000).notNull(),
+  freeShippingCents: integer("free_shipping_cents"), // null = sem frete grátis
+  ...timestamps,
+});
+
 export const products = pgTable("products", {
   id: serial("id").primaryKey(),
   slug: text("slug").notNull().unique(),
@@ -42,8 +66,11 @@ export const products = pgTable("products", {
   status: productStatus("status").default("draft").notNull(),
   isUnique: boolean("is_unique").default(false).notNull(),
   madeToOrder: boolean("made_to_order").default(false).notNull(),
-  // Dimensões/peso da peça embalada — usados na cotação de frete.
+  // Peso da peça (sem embalagem) e embalagem usada no envio.
   weightG: integer("weight_g"),
+  packageId: integer("package_id").references(() => packages.id, { onDelete: "set null" }),
+  // Obsoletas (medidas agora vêm da embalagem). Remover numa migration
+  // posterior, depois que nenhum deploy as ler mais.
   lengthCm: integer("length_cm"),
   widthCm: integer("width_cm"),
   heightCm: integer("height_cm"),

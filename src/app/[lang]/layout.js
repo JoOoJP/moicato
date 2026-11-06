@@ -4,6 +4,8 @@ import { getDictionary, hasLocale, htmlLang, locales } from "./dictionaries";
 import { SITE_URL, OG_LOCALE, OG_IMAGE } from "../../lib/site";
 import { INSTAGRAM_URL } from "../../lib/contato";
 import LivingBackground from "../../components/LivingBackground";
+import { CartProvider } from "../../components/shop/CartProvider";
+import CartDrawer from "../../components/shop/CartDrawer";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 
@@ -109,7 +111,10 @@ export default async function RootLayout({ children, params }) {
         {/* Atmosfera sutil de fundo, com fallback reduced-motion */}
         <LivingBackground />
 
-        {children}
+        <CartProvider lang={hasLocale(lang) ? lang : "pt-BR"} labels={dict.cart}>
+          {children}
+          <CartDrawer />
+        </CartProvider>
 
         <script
           type="application/ld+json"

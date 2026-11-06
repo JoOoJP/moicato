@@ -5,6 +5,7 @@ import ProductDetail from "../../../../components/ProductDetail";
 import Footer from "../../../../components/Footer";
 import { getActiveSlugs, getPieceBySlug, getRelatedPieces } from "../../../../lib/products";
 import { SITE_URL } from "../../../../lib/site";
+import { getStoreSettings, publicPricing, shippingReady } from "../../../../lib/settings";
 
 export async function generateStaticParams() {
   const slugs = await getActiveSlugs();
@@ -45,7 +46,8 @@ export default async function ProductPage({ params }) {
   const dict = await getDictionary(lang);
   const piece = await getPieceBySlug(lang, slug);
   if (!piece) notFound();
-  const related = await getRelatedPieces(lang, piece);
+  const [related, settings] = await Promise.all([getRelatedPieces(lang, piece), getStoreSettings()]);
+  const availability = piece.soldOut ? "OutOfStock" : piece.priceCents != null ? "InStock" : "LimitedAvailability";
 
   const productJsonLd = {
     "@context": "https://schema.org",
@@ -60,7 +62,7 @@ export default async function ProductPage({ params }) {
             "@type": "Offer",
             priceCurrency: piece.offer.currency,
             price: piece.offer.price,
-            availability: "https://schema.org/LimitedAvailability",
+            availability: `https://schema.org/${availability}`,
             url: `${SITE_URL}/${lang}/catalogo/${slug}`,
           },
         }
@@ -71,7 +73,15 @@ export default async function ProductPage({ params }) {
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(productJsonLd) }} />
       <Header dict={dict.header} lang={lang} alwaysSolid />
-      <ProductDetail piece={piece} related={related} dict={dict} lang={lang} />
+      <ProductDetail
+        piece={piece}
+        related={related}
+        dict={dict}
+        lang={lang}
+        pricing={publicPricing(settings)}
+        salesLive={settings.salesLive}
+        shippingReady={shippingReady}
+      />
       <Footer dict={dict.footer} lang={lang} />
     </>
   );

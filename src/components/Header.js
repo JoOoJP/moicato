@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import LanguageSwitcher from "./LanguageSwitcher";
+import CartButton from "./shop/CartButton";
 
 const NAV = [
   { key: "collection", href: "#colecao" },
@@ -118,8 +119,9 @@ export default function Header({ dict, lang, alwaysSolid = false }) {
         </nav>
 
         {/* Direita: ícones + idioma */}
-        <div className="flex items-center justify-self-end">
+        <div className="flex items-center gap-1 justify-self-end">
           <LanguageSwitcher lang={lang} />
+          <CartButton />
         </div>
       </div>
 
