@@ -1,19 +1,28 @@
 // Pagamento via Asaas Checkout (página hospedada: Pix e cartão parcelado).
 // Desligado enquanto ASAAS_API_KEY não existir.
 // Ref.: POST /v3/checkouts — https://docs.asaas.com/reference/create-new-checkout
-// Ainda NÃO testado contra a API real — validar no sandbox quando a conta existir.
+// Validado no sandbox do Asaas (checkout com Pix + cartão, itens, frete, cliente).
 import "server-only";
+import sharp from "sharp";
 
 const BASE = process.env.ASAAS_ENV === "production" ? "https://api.asaas.com" : "https://api-sandbox.asaas.com";
 
-// O Asaas exige imagem (base64) em cada item. Usa a foto da peça; se falhar, o logo.
+// O Asaas exige imagem (base64) em cada item, NÃO aceita WebP (as fotos do
+// painel são WebP) e recusa JPEG sem cabeçalho JFIF/EXIF (o padrão do sharp).
+// Converte para PNG pequeno, sem metadados; se falhar, usa o logo.
 async function imageBase64(url, siteUrl) {
   for (const candidate of [url, "/logo-moikato-header.png"]) {
     if (!candidate) continue;
     try {
       const absolute = candidate.startsWith("http") ? candidate : `${siteUrl}${candidate}`;
       const response = await fetch(absolute);
-      if (response.ok) return Buffer.from(await response.arrayBuffer()).toString("base64");
+      if (!response.ok) continue;
+      const png = await sharp(Buffer.from(await response.arrayBuffer()))
+        .resize(240, 240, { fit: "inside", withoutEnlargement: true })
+        .flatten({ background: "#ffffff" })
+        .png({ compressionLevel: 9 })
+        .toBuffer();
+      return png.toString("base64");
     } catch {
       // tenta o próximo
     }
