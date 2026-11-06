@@ -259,6 +259,11 @@ const dict = {
     ],
   },
   catalogPage: {
+    allPieces: "All",
+    piecesCount: "{n} pieces",
+    filterLabel: "Filter by type",
+    emptyFilter: "No pieces of this type right now.",
+    collectionLabel: "Collection",
     metaTitle: "Moikato Catalogue | Jewellery, fashion and home",
     metaDescription:
       "Explore the complete Moikato catalogue: jewellery, fashion accessories and home pieces handcrafted with Brazilian identity.",
@@ -295,6 +300,13 @@ const dict = {
     },
   },
   shop: {
+    addedTitle: "Added to your selection",
+    viewBag: "View bag",
+    giftWrap: "Gift wrap",
+    giftWrapNote: "Moikato box with ribbon and card, at no extra cost.",
+    giftMessage: "Card message (optional)",
+    giftMessagePlaceholder: "Write a few words for the recipient",
+    fromCollection: "From the collection",
     addToCart: "Add to bag",
     added: "Added to bag",
     soldOut: "Sold out",
@@ -338,7 +350,9 @@ const dict = {
     },
   },
   cart: {
-    title: "Bag",
+    freeShippingLeft: "{value} away from free shipping",
+    freeShippingReached: "You've earned free shipping",
+    title: "Your selection",
     open: "Open bag",
     close: "Close bag",
     empty: "Your bag is empty.",
@@ -353,6 +367,7 @@ const dict = {
     unavailable: "Unavailable — remove to continue",
   },
   checkout: {
+    giftWrapSummary: "Gift wrap",
     metaTitle: "Checkout | Moikato",
     title: "Checkout",
     back: "Back to bag",

@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { requireAdmin } from "../../../../../lib/auth/admin";
-import { getProductForAdmin, listPackages } from "../../../../../lib/admin-products";
+import { getProductForAdmin, listCollectionsForAdmin, listPackages } from "../../../../../lib/admin-products";
 import ProductEditor from "../../../../../components/admin/ProductEditor";
 
 export const metadata = { title: "Editar peça" };
@@ -13,7 +13,7 @@ export default async function EditProductPage({ params, searchParams }) {
   const productId = Number(id);
   if (!Number.isInteger(productId) || productId <= 0) notFound();
 
-  const [product, packages] = await Promise.all([getProductForAdmin(productId), listPackages()]);
+  const [product, packages, collections] = await Promise.all([getProductForAdmin(productId), listPackages(), listCollectionsForAdmin()]);
   if (!product) notFound();
 
   return (
@@ -27,7 +27,7 @@ export default async function EditProductPage({ params, searchParams }) {
           Peça criada como rascunho. Quando estiver pronta, mude o status para “Na loja”.
         </p>
       )}
-      <ProductEditor product={product} packages={packages} legacyPrice={product.pt.legacyPriceLabel} />
+      <ProductEditor product={product} packages={packages} collections={collections} legacyPrice={product.pt.legacyPriceLabel} />
     </>
   );
 }

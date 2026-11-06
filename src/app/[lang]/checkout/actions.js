@@ -76,6 +76,7 @@ export async function placeOrderAction(_prev, formData) {
     shipping,
     discountCents: 0,
     giftMessage: text(formData, "gift", 300) || null,
+    giftWrap: settings.giftWrapEnabled && formData.get("giftWrap") === "on",
     lang,
   });
 

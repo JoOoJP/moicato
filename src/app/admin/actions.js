@@ -7,6 +7,7 @@ import { redirect } from "next/navigation";
 import { and, eq, inArray, notInArray } from "drizzle-orm";
 import { db } from "../../lib/db";
 import {
+  collections,
   orders,
   packages,
   productImages,
@@ -19,6 +20,7 @@ import { auth } from "../../lib/auth/server";
 import { ADMIN_LOGIN_PATH, requireAdmin } from "../../lib/auth/admin";
 import { parseBRLToCents } from "../../lib/money";
 import { isStorageUrl, uploadProductImage } from "../../lib/storage";
+import { KIND_IDS } from "../../lib/kinds";
 
 const CATEGORIES = ["joias", "moda", "home"];
 const STATUSES = ["draft", "active", "archived"];
@@ -129,6 +131,8 @@ export async function saveProductAction(_prev, formData) {
     madeToOrder: Boolean(input.madeToOrder),
     weightG: intOrNull(input.weightG),
     packageId: Number.isInteger(Number(input.packageId)) && Number(input.packageId) > 0 ? Number(input.packageId) : null,
+    kind: KIND_IDS.includes(input.kind) ? input.kind : null,
+    collectionId: Number.isInteger(Number(input.collectionId)) && Number(input.collectionId) > 0 ? Number(input.collectionId) : null,
   };
   const translation = (locale, t = {}) => ({
     locale,
@@ -144,6 +148,7 @@ export async function saveProductAction(_prev, formData) {
   if (!pt.name) return { error: "Dê um nome para a peça." };
   if (!SLUG_RE.test(values.slug)) return { error: "Endereço (slug) inválido: use letras minúsculas, números e hífens." };
   if (!CATEGORIES.includes(values.category)) return { error: "Escolha uma categoria." };
+  if (!values.kind) return { error: "Escolha o tipo da peça (brinco, colar…)." };
   if (!STATUSES.includes(values.status)) return { error: "Status inválido." };
   if (Number.isNaN(values.weightG)) return { error: "O peso deve ser um número inteiro em gramas." };
 
@@ -279,6 +284,45 @@ export async function uploadImageAction(formData) {
   }
 }
 
+// ── Coleções ────────────────────────────────────────────────────────────────
+
+export async function saveCollectionAction(_prev, formData) {
+  await requireAdmin();
+  const id = idFrom(formData);
+  const values = {
+    slug: text(formData, "slug").toLowerCase(),
+    namePt: text(formData, "namePt"),
+    nameEn: optionalText(formData, "nameEn"),
+    taglinePt: optionalText(formData, "taglinePt"),
+    taglineEn: optionalText(formData, "taglineEn"),
+    imageUrl: optionalText(formData, "imageUrl"),
+    sortOrder: optionalInt(formData, "sortOrder") ?? 0,
+  };
+  if (!values.namePt) return { error: "Dê um nome para a coleção." };
+  if (!values.slug) values.slug = values.namePt.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
+  if (!SLUG_RE.test(values.slug)) return { error: "Endereço inválido: use letras minúsculas, números e hífens." };
+  if (Number.isNaN(values.sortOrder)) return { error: "A ordem deve ser um número inteiro." };
+  if (values.imageUrl && !LOCAL_IMAGE_RE.test(values.imageUrl) && !isStorageUrl(values.imageUrl)) return { error: "Foto de capa inválida." };
+
+  try {
+    if (id) await db.update(collections).set(values).where(eq(collections.id, id));
+    else await db.insert(collections).values(values);
+  } catch (error) {
+    if (isUniqueViolation(error)) return { error: "Já existe uma coleção com esse endereço." };
+    throw error;
+  }
+  revalidateCatalog();
+  return { ok: id ? "Coleção salva." : "Coleção criada.", savedAt: Date.now() };
+}
+
+export async function deleteCollectionAction(formData) {
+  await requireAdmin();
+  const id = idFrom(formData);
+  if (!id) return;
+  await db.delete(collections).where(eq(collections.id, id)); // peças ficam sem coleção
+  revalidateCatalog();
+}
+
 // ── Embalagens ──────────────────────────────────────────────────────────────
 
 export async function savePackageAction(_prev, formData) {
@@ -321,8 +365,9 @@ export async function saveSettingsAction(_prev, formData) {
     maxInstallments: optionalInt(formData, "maxInstallments") ?? 1,
     minInstallmentCents: parseBRLToCents(formData.get("minInstallment")) ?? 0,
     freeShippingCents: parseBRLToCents(formData.get("freeShipping")),
+    giftWrapEnabled: formData.get("giftWrapEnabled") === "on",
   };
-  if (Object.values(values).some((value) => Number.isNaN(value))) return { error: "Revise os valores: use números (ex.: 50,00)." };
+  if (Object.values(values).some((value) => typeof value === "number" && Number.isNaN(value))) return { error: "Revise os valores: use números (ex.: 50,00)." };
   if (values.pixDiscountPercent > 30) return { error: "Desconto no Pix acima de 30% parece engano." };
   if (values.maxInstallments < 1 || values.maxInstallments > 12) return { error: "Parcelas: de 1 a 12." };
 

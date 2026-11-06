@@ -81,6 +81,7 @@ export default async function ProductPage({ params }) {
         pricing={publicPricing(settings)}
         salesLive={settings.salesLive}
         shippingReady={shippingReady}
+        giftWrapEnabled={settings.giftWrapEnabled}
       />
       <Footer dict={dict.footer} lang={lang} />
     </>

@@ -5,6 +5,7 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useState } from "react";
 
 const STORAGE_KEY = "moikato-cart-v1";
+const GIFT_KEY = "moikato-gift-v1";
 const CartContext = createContext(null);
 
 function readStorage() {
@@ -16,15 +17,28 @@ function readStorage() {
   }
 }
 
-export function CartProvider({ children, lang, labels }) {
+function readGift() {
+  try {
+    const parsed = JSON.parse(window.localStorage.getItem(GIFT_KEY) ?? "{}");
+    return { wrap: Boolean(parsed.wrap), message: String(parsed.message ?? "").slice(0, 300) };
+  } catch {
+    return { wrap: false, message: "" };
+  }
+}
+
+export function CartProvider({ children, lang, labels, config }) {
   const [items, setItems] = useState([]);
+  const [gift, setGift] = useState({ wrap: false, message: "" });
   const [ready, setReady] = useState(false);
   const [isOpen, setOpen] = useState(false);
+  // Último item adicionado — alimenta a confirmação discreta na página.
+  const [lastAdded, setLastAdded] = useState(null);
 
   useEffect(() => {
     // Hidrata do localStorage depois da montagem (evita divergência com o HTML do servidor).
     // eslint-disable-next-line react-hooks/set-state-in-effect
     setItems(readStorage());
+    setGift(readGift());
     setReady(true);
     const onStorage = (event) => event.key === STORAGE_KEY && setItems(readStorage());
     window.addEventListener("storage", onStorage);
@@ -40,6 +54,15 @@ export function CartProvider({ children, lang, labels }) {
     }
   }, [items, ready]);
 
+  useEffect(() => {
+    if (!ready) return;
+    try {
+      window.localStorage.setItem(GIFT_KEY, JSON.stringify(gift));
+    } catch {
+      // idem
+    }
+  }, [gift, ready]);
+
   const add = useCallback((item, qty = 1) => {
     setItems((current) => {
       const existing = current.find((line) => line.variantId === item.variantId);
@@ -51,7 +74,8 @@ export function CartProvider({ children, lang, labels }) {
       }
       return [...current, { ...item, qty: Math.min(qty, max) }];
     });
-    setOpen(true);
+    // Sem abrir a gaveta: a página mostra uma confirmação discreta.
+    setLastAdded({ ...item, qty, at: Date.now() });
   }, []);
 
   const setQty = useCallback((variantId, qty) => {
@@ -66,7 +90,10 @@ export function CartProvider({ children, lang, labels }) {
     setItems((current) => current.filter((line) => line.variantId !== variantId));
   }, []);
 
-  const clear = useCallback(() => setItems([]), []);
+  const clear = useCallback(() => {
+    setItems([]);
+    setGift({ wrap: false, message: "" });
+  }, []);
 
   const value = useMemo(
     () => ({
@@ -74,9 +101,13 @@ export function CartProvider({ children, lang, labels }) {
       ready,
       lang,
       labels,
+      config,
       count: items.reduce((sum, line) => sum + line.qty, 0),
       subtotalCents: items.reduce((sum, line) => sum + line.priceCents * line.qty, 0),
       isOpen,
+      lastAdded,
+      gift,
+      setGift,
       open: () => setOpen(true),
       close: () => setOpen(false),
       add,
@@ -84,7 +115,7 @@ export function CartProvider({ children, lang, labels }) {
       remove,
       clear,
     }),
-    [items, ready, lang, labels, isOpen, add, setQty, remove, clear]
+    [items, ready, lang, labels, config, isOpen, lastAdded, gift, add, setQty, remove, clear]
   );
 
   return <CartContext.Provider value={value}>{children}</CartContext.Provider>;

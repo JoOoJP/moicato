@@ -17,6 +17,17 @@ import {
 
 export const productCategory = pgEnum("product_category", ["joias", "moda", "home"]);
 export const productStatus = pgEnum("product_status", ["draft", "active", "archived"]);
+// Tipo da peça — usado nos filtros do catálogo (rótulos em src/lib/kinds.js).
+export const productKind = pgEnum("product_kind", [
+  "brinco",
+  "colar",
+  "anel",
+  "conjunto",
+  "bolsa",
+  "cabelo",
+  "mesa",
+  "decoracao",
+]);
 export const orderStatus = pgEnum("order_status", [
   "pending",
   "paid",
@@ -56,6 +67,20 @@ export const storeSettings = pgTable("store_settings", {
   maxInstallments: integer("max_installments").default(3).notNull(),
   minInstallmentCents: integer("min_installment_cents").default(5000).notNull(),
   freeShippingCents: integer("free_shipping_cents"), // null = sem frete grátis
+  giftWrapEnabled: boolean("gift_wrap_enabled").default(true).notNull(),
+  ...timestamps,
+});
+
+// Coleções com nome e conceito (ex.: Solaris, Origem). Editáveis no painel.
+export const collections = pgTable("collections", {
+  id: serial("id").primaryKey(),
+  slug: text("slug").notNull().unique(),
+  namePt: text("name_pt").notNull(),
+  nameEn: text("name_en"),
+  taglinePt: text("tagline_pt"),
+  taglineEn: text("tagline_en"),
+  imageUrl: text("image_url"),
+  sortOrder: integer("sort_order").default(0).notNull(),
   ...timestamps,
 });
 
@@ -63,6 +88,8 @@ export const products = pgTable("products", {
   id: serial("id").primaryKey(),
   slug: text("slug").notNull().unique(),
   category: productCategory("category").notNull(),
+  kind: productKind("kind"),
+  collectionId: integer("collection_id").references(() => collections.id, { onDelete: "set null" }),
   status: productStatus("status").default("draft").notNull(),
   isUnique: boolean("is_unique").default(false).notNull(),
   madeToOrder: boolean("made_to_order").default(false).notNull(),
@@ -154,6 +181,7 @@ export const orders = pgTable(
     trackingCode: text("tracking_code"),
     nfeKey: text("nfe_key"),
     giftMessage: text("gift_message"),
+    giftWrap: boolean("gift_wrap").default(false).notNull(),
     locale: text("locale").default("pt-BR").notNull(),
     paidAt: timestamp("paid_at", { withTimezone: true }),
     shippedAt: timestamp("shipped_at", { withTimezone: true }),

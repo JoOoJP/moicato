@@ -259,6 +259,11 @@ const dict = {
     ],
   },
   catalogPage: {
+    allPieces: "Todas",
+    piecesCount: "{n} peças",
+    filterLabel: "Filtrar por tipo",
+    emptyFilter: "Nenhuma peça deste tipo no momento.",
+    collectionLabel: "Coleção",
     metaTitle: "Catálogo Moikato | Joias, moda e casa",
     metaDescription:
       "Conheça o catálogo completo da Moikato: joias, acessórios de moda e peças para casa feitas artesanalmente com identidade brasileira.",
@@ -295,6 +300,13 @@ const dict = {
     },
   },
   shop: {
+    addedTitle: "Adicionado à sua seleção",
+    viewBag: "Ver sacola",
+    giftWrap: "Embalar para presente",
+    giftWrapNote: "Caixa Moikato com laço e cartão, sem custo adicional.",
+    giftMessage: "Mensagem no cartão (opcional)",
+    giftMessagePlaceholder: "Escreva algumas palavras para quem vai receber",
+    fromCollection: "Da coleção",
     addToCart: "Adicionar à sacola",
     added: "Adicionado à sacola",
     soldOut: "Esgotado",
@@ -338,7 +350,9 @@ const dict = {
     },
   },
   cart: {
-    title: "Sacola",
+    freeShippingLeft: "Faltam {value} para o frete grátis",
+    freeShippingReached: "Você ganhou frete grátis",
+    title: "Sua seleção",
     open: "Abrir sacola",
     close: "Fechar sacola",
     empty: "Sua sacola está vazia.",
@@ -353,6 +367,7 @@ const dict = {
     unavailable: "Indisponível — remova para continuar",
   },
   checkout: {
+    giftWrapSummary: "Embalagem para presente",
     metaTitle: "Finalizar compra | Moikato",
     title: "Finalizar compra",
     back: "Voltar para a sacola",

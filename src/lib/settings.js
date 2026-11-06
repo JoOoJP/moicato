@@ -11,6 +11,7 @@ export const DEFAULT_SETTINGS = {
   maxInstallments: 3,
   minInstallmentCents: 5000,
   freeShippingCents: null,
+  giftWrapEnabled: true,
 };
 
 // Vendas só abrem de verdade com pagamento E frete configurados.
