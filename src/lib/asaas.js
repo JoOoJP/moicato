@@ -28,7 +28,8 @@ export async function createCheckout({ order, siteUrl, lang, maxInstallments }) 
 
   const items = await Promise.all(
     order.items.map(async (item) => ({
-      name: item.name.slice(0, 30),
+      // Asaas aceita no máximo 30 caracteres.
+      name: item.name.length > 30 ? `${item.name.slice(0, 29).trimEnd()}…` : item.name,
       quantity: item.qty,
       value: item.unitPriceCents / 100,
       imageBase64: await imageBase64(item.image, siteUrl),
