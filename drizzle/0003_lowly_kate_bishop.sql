@@ -1,0 +1,1 @@
+ALTER TABLE "store_settings" ADD COLUMN "handling_days" integer DEFAULT 5 NOT NULL;

@@ -68,6 +68,8 @@ export const storeSettings = pgTable("store_settings", {
   minInstallmentCents: integer("min_installment_cents").default(5000).notNull(),
   freeShippingCents: integer("free_shipping_cents"), // null = sem frete grátis
   giftWrapEnabled: boolean("gift_wrap_enabled").default(true).notNull(),
+  // Dias úteis entre o pagamento e a postagem; somados ao prazo da transportadora.
+  handlingDays: integer("handling_days").default(5).notNull(),
   ...timestamps,
 });
 

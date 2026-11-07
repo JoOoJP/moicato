@@ -35,7 +35,8 @@ async function toVolumes(items) {
 }
 
 // Retorna [{ id, name, company, priceCents, days }] ordenado pelo preço.
-export async function quoteShipping(cep, items) {
+// `handlingDays` (preparo até a postagem) é somado ao prazo da transportadora.
+export async function quoteShipping(cep, items, { handlingDays = 0 } = {}) {
   const token = process.env.MELHORENVIO_TOKEN;
   const from = normalizeCep(process.env.SHIP_FROM_CEP);
   const to = normalizeCep(cep);
@@ -63,7 +64,7 @@ export async function quoteShipping(cep, items) {
       name: service.name,
       company: service.company?.name ?? "",
       priceCents: Math.round(Number(service.custom_price ?? service.price) * 100),
-      days: service.custom_delivery_time ?? service.delivery_time,
+      days: Number(service.custom_delivery_time ?? service.delivery_time ?? 0) + handlingDays,
     }))
     .sort((a, b) => a.priceCents - b.priceCents);
 }

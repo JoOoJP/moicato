@@ -54,7 +54,8 @@ export async function placeOrderAction(_prev, formData) {
   try {
     const options = await quoteShipping(
       address.cep,
-      lines.map((line) => ({ weightG: line.weightG, packageId: line.packageId, priceCents: line.unitPriceCents, qty: line.qty }))
+      lines.map((line) => ({ weightG: line.weightG, packageId: line.packageId, priceCents: line.unitPriceCents, qty: line.qty })),
+      { handlingDays: settings.handlingDays }
     );
     const subtotal = lines.reduce((sum, line) => sum + line.unitPriceCents * line.qty, 0);
     const free = settings.freeShippingCents != null && subtotal >= settings.freeShippingCents;

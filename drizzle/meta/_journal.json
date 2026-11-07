@@ -22,6 +22,13 @@
       "when": 1793969142218,
       "tag": "0002_awesome_vector",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1794064358615,
+      "tag": "0003_lowly_kate_bishop",
+      "breakpoints": true
     }
   ]
 }

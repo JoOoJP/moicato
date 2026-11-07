@@ -12,13 +12,12 @@ export async function POST(request) {
   if (lines.length === 0) return Response.json({ error: "empty" }, { status: 400 });
 
   try {
-    const [options, settings] = await Promise.all([
-      quoteShipping(
-        body?.cep,
-        lines.map((line) => ({ weightG: line.weightG, packageId: line.packageId, priceCents: line.unitPriceCents, qty: line.qty }))
-      ),
-      getStoreSettings(),
-    ]);
+    const settings = await getStoreSettings();
+    const options = await quoteShipping(
+      body?.cep,
+      lines.map((line) => ({ weightG: line.weightG, packageId: line.packageId, priceCents: line.unitPriceCents, qty: line.qty })),
+      { handlingDays: settings.handlingDays }
+    );
     const subtotal = lines.reduce((sum, line) => sum + line.unitPriceCents * line.qty, 0);
     const free = settings.freeShippingCents != null && subtotal >= settings.freeShippingCents;
     return Response.json({

@@ -12,6 +12,7 @@ export const DEFAULT_SETTINGS = {
   minInstallmentCents: 5000,
   freeShippingCents: null,
   giftWrapEnabled: true,
+  handlingDays: 5,
 };
 
 // Vendas só abrem de verdade com pagamento E frete configurados.
