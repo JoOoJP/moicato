@@ -8,7 +8,8 @@ import { orderItems, orders } from "./db/schema";
 import { COMPANY } from "./empresa";
 import { newOrderAdminEmail, orderConfirmedEmail, orderShippedEmail } from "./email-templates";
 
-const FROM = process.env.EMAIL_FROM ?? "Moikato <pedidos@moikato.com>";
+// Remetente no-reply: respostas não são lidas (contato é pelo WhatsApp/e-mail de atendimento).
+const FROM = process.env.EMAIL_FROM ?? "Moikato <nao-responda@moikato.com>";
 const REPLY_TO = process.env.EMAIL_REPLY_TO || COMPANY.serviceEmail || undefined;
 // Quem recebe o aviso de pedido novo (vários: separados por vírgula).
 const NOTIFY = (process.env.ORDER_NOTIFY_EMAIL ?? "")

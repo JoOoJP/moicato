@@ -22,7 +22,7 @@ const COPY = {
     deliverTo: "Entrega em",
     gift: "Embalagem para presente",
     giftMessage: "Mensagem no cartão",
-    help: "Dúvidas? Responda este e-mail ou fale com a gente pelo WhatsApp.",
+    help: "Este e-mail é automático e não recebe respostas. Dúvidas? Fale com a gente pelo WhatsApp{email}.",
     returns: "Trocas e devoluções",
     confirmed: {
       subject: (id) => `Pedido nº ${id} confirmado — Moikato`,
@@ -47,7 +47,7 @@ const COPY = {
     deliverTo: "Delivering to",
     gift: "Gift wrap",
     giftMessage: "Card message",
-    help: "Questions? Reply to this email or message us on WhatsApp.",
+    help: "This is an automated email and replies aren't monitored. Questions? Message us on WhatsApp{email}.",
     returns: "Returns and exchanges",
     confirmed: {
       subject: (id) => `Order #${id} confirmed — Moikato`,
@@ -75,7 +75,7 @@ function layout({ lang, preheader, body }) {
 <tr><td style="padding:28px 32px 20px;border-bottom:1px solid ${C.line};font-family:Georgia,'Times New Roman',serif;font-size:26px;color:${C.green};letter-spacing:.5px;">Moikato</td></tr>
 <tr><td style="padding:28px 32px;font-family:Helvetica,Arial,sans-serif;font-size:15px;line-height:1.6;color:${C.ink};">${body}</td></tr>
 <tr><td style="padding:20px 32px 28px;border-top:1px solid ${C.line};font-family:Helvetica,Arial,sans-serif;font-size:12px;line-height:1.6;color:${C.muted};">
-${esc(t.help)}<br><a href="${SITE}/${lang}/politicas/trocas-e-devolucoes" style="color:${C.green};">${esc(t.returns)}</a>
+${esc(t.help.replace("{email}", COMPANY.serviceEmail ? (lang === "en" ? ` or at ${COMPANY.serviceEmail}` : ` ou pelo e-mail ${COMPANY.serviceEmail}`) : ""))}<br><a href="${SITE}/${lang}/politicas/trocas-e-devolucoes" style="color:${C.green};">${esc(t.returns)}</a>
 ${legalLine() ? `<br><br>${esc(legalLine())}` : ""}
 </td></tr></table></td></tr></table></body></html>`;
 }
