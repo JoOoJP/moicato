@@ -57,6 +57,13 @@ export default function SettingsForm({ settings, paymentsReady, shippingReady })
             <input name="freeShipping" defaultValue={centsToInput(settings.freeShippingCents)} inputMode="decimal" placeholder="Vazio = sem frete grátis" className={input} />
           </label>
           <label>
+            <span className="text-xs font-medium text-verdemoikato/70">Dias para postar (preparo)</span>
+            <input name="handlingDays" defaultValue={settings.handlingDays} inputMode="numeric" className={input} />
+            <span className="mt-1 block text-xs text-verdemoikato/55">
+              Dias úteis entre o pagamento e a postagem. São somados ao prazo da transportadora que o cliente vê.
+            </span>
+          </label>
+          <label>
             <span className="text-xs font-medium text-verdemoikato/70">Desconto no Pix (%)</span>
             <input name="pixDiscountPercent" defaultValue={settings.pixDiscountPercent} inputMode="numeric" className={input} />
             <span className="mt-1 block text-xs text-terra-700">

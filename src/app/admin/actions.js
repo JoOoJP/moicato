@@ -366,10 +366,12 @@ export async function saveSettingsAction(_prev, formData) {
     minInstallmentCents: parseBRLToCents(formData.get("minInstallment")) ?? 0,
     freeShippingCents: parseBRLToCents(formData.get("freeShipping")),
     giftWrapEnabled: formData.get("giftWrapEnabled") === "on",
+    handlingDays: optionalInt(formData, "handlingDays") ?? 0,
   };
   if (Object.values(values).some((value) => typeof value === "number" && Number.isNaN(value))) return { error: "Revise os valores: use números (ex.: 50,00)." };
   if (values.pixDiscountPercent > 30) return { error: "Desconto no Pix acima de 30% parece engano." };
   if (values.maxInstallments < 1 || values.maxInstallments > 12) return { error: "Parcelas: de 1 a 12." };
+  if (values.handlingDays > 30) return { error: "Dias de preparo acima de 30 parece engano." };
 
   await db
     .insert(storeSettings)
