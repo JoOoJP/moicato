@@ -300,6 +300,7 @@ const dict = {
     },
   },
   shop: {
+    policyLink: "Ver a política completa",
     addedTitle: "Adicionado à sua seleção",
     viewBag: "Ver sacola",
     giftWrap: "Embalar para presente",
@@ -367,6 +368,9 @@ const dict = {
     unavailable: "Indisponível — remova para continuar",
   },
   checkout: {
+    consent: "Ao continuar, você concorda com os {terms} e a {privacy}.",
+    consentTerms: "Termos de uso",
+    consentPrivacy: "Política de privacidade",
     giftWrapSummary: "Embalagem para presente",
     metaTitle: "Finalizar compra | Moikato",
     title: "Finalizar compra",
@@ -419,6 +423,12 @@ const dict = {
     cancelled: "Este pedido foi cancelado.",
     refunded: "Este pedido foi reembolsado.",
     backToShop: "Voltar para a loja",
+  },
+  policies: {
+    eyebrow: "Políticas da loja",
+    updated: "Atualizada em",
+    languageNotice: "",
+    otherLabel: "Outras políticas",
   },
   productPage: {
     breadcrumbLabel: "Navegação do produto",
@@ -607,6 +617,15 @@ const dict = {
     ],
   },
   footer: {
+    serviceTitle: "Atendimento",
+    policiesTitle: "Ajuda",
+    policyLinks: [
+      { slug: "trocas-e-devolucoes", label: "Trocas e devoluções" },
+      { slug: "termos", label: "Termos de uso" },
+      { slug: "privacidade", label: "Privacidade" },
+    ],
+    payments: "Pix e cartão de crédito",
+    shippingNote: "Enviamos para todo o Brasil",
     tagline: "Criamos joias brasileiras à mão, uma peça de cada vez.",
     origin: "Brasil · Reino Unido",
     waMessage: "Olá! Vim pelo site da Moikato e gostaria de conhecer as peças.",

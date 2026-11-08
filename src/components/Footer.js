@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { INSTAGRAM_URL, waLink } from "../lib/contato";
+import { COMPANY, legalLine } from "../lib/empresa";
 import ViaMark from "./ViaMark";
 
 const destinations = {
@@ -19,7 +20,7 @@ export default function Footer({ dict, lang = "pt-BR" }) {
   return (
     <footer id="contato" className="scroll-mt-24 bg-floresta text-osso">
       <div className="mx-auto max-w-6xl px-6 pb-8 pt-12 sm:pb-10 sm:pt-14">
-        <div className="grid gap-10 pb-12 sm:pb-14 md:grid-cols-[minmax(0,1.45fr)_minmax(9rem,.7fr)_minmax(9rem,.7fr)] md:items-start md:gap-12 lg:gap-16">
+        <div className="grid gap-10 pb-12 sm:grid-cols-2 sm:pb-14 lg:grid-cols-[minmax(0,1.4fr)_repeat(3,minmax(9rem,.7fr))] lg:items-start lg:gap-12">
           <div>
             <Link
               href={`/${lang}#topo`}
@@ -57,24 +58,53 @@ export default function Footer({ dict, lang = "pt-BR" }) {
           </nav>
 
           <div>
-            <p className="eyebrow text-amarelomoikato-300">{dict.contactTitle}</p>
+            <p className="eyebrow text-amarelomoikato-300">{dict.serviceTitle}</p>
             <ul className="mt-6 space-y-4 text-sm text-osso/70">
-              <li>
-                <a href={INSTAGRAM_URL} target="_blank" rel="noopener noreferrer" className="inline-flex min-h-6 items-center outline-none transition-colors hover:text-osso focus-visible:text-amarelomoikato-300">
-                  Instagram ↗
-                </a>
-              </li>
+              {COMPANY.serviceEmail && (
+                <li>
+                  <a href={`mailto:${COMPANY.serviceEmail}`} className="inline-flex min-h-6 items-center outline-none transition-colors hover:text-osso focus-visible:text-amarelomoikato-300 break-all">
+                    {COMPANY.serviceEmail}
+                  </a>
+                </li>
+              )}
               <li>
                 <a href={waLink(dict.waMessage)} target="_blank" rel="noopener noreferrer" className="inline-flex min-h-6 items-center outline-none transition-colors hover:text-osso focus-visible:text-amarelomoikato-300">
                   WhatsApp ↗
                 </a>
               </li>
+              <li>
+                <a href={INSTAGRAM_URL} target="_blank" rel="noopener noreferrer" className="inline-flex min-h-6 items-center outline-none transition-colors hover:text-osso focus-visible:text-amarelomoikato-300">
+                  Instagram ↗
+                </a>
+              </li>
+              {COMPANY.serviceHours && lang === "pt-BR" && <li className="text-xs text-osso/45">{COMPANY.serviceHours}</li>}
             </ul>
           </div>
+
+          <nav aria-label={dict.policiesTitle}>
+            <p className="eyebrow text-amarelomoikato-300">{dict.policiesTitle}</p>
+            <ul className="mt-6 space-y-4 text-sm text-osso/70">
+              {dict.policyLinks.map((item) => (
+                <li key={item.slug}>
+                  <Link href={`/${lang}/politicas/${item.slug}`} className="inline-flex min-h-6 items-center outline-none transition-colors hover:text-osso focus-visible:text-amarelomoikato-300">
+                    {item.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </nav>
+        </div>
+
+        <div className="flex flex-wrap gap-x-6 gap-y-1 border-t border-osso/20 py-5 text-xs text-osso/60">
+          <span>{dict.payments}</span>
+          <span>{dict.shippingNote}</span>
         </div>
 
         <div className="flex flex-col gap-4 border-t border-osso/20 pt-6 text-[0.68rem] uppercase tracking-[0.12em] text-osso/45 sm:flex-row sm:items-center sm:justify-between">
-          <span>{dict.copyright.replace("{year}", String(year))}</span>
+          <span>
+            {dict.copyright.replace("{year}", String(year))}
+            {legalLine() && <span className="mt-1 block normal-case tracking-normal text-osso/40">{legalLine()}</span>}
+          </span>
           <Link href={`/${lang}#topo`} className="w-fit py-2 outline-none transition-colors hover:text-amarelomoikato-300 focus-visible:text-amarelomoikato-300">
             {dict.backToTop} ↑
           </Link>

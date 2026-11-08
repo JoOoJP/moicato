@@ -78,6 +78,9 @@ export default function ProductDetail({ piece, related, dict, lang, pricing, sal
               </Accordion>
               <Accordion title={t.shippingReturns}>
                 <p>{t.shippingReturnsText}</p>
+                <Link href={`/${lang}/politicas/trocas-e-devolucoes`} className="mt-3 inline-block text-sm text-verdemoikato underline underline-offset-4 hover:text-floresta">
+                  {t.policyLink}
+                </Link>
               </Accordion>
             </div>
           </div>

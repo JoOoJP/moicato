@@ -1,5 +1,6 @@
 import { SITE_URL } from "../lib/site";
 import { getActiveSlugs } from "../lib/products";
+import { POLICY_SLUGS } from "../content/politicas";
 
 // Sitemap com as duas versões de idioma e hreflang recíproco.
 export default async function sitemap() {
@@ -74,5 +75,12 @@ export default async function sitemap() {
     ];
   });
 
-  return [...mainPages, ...products];
+  const policies = POLICY_SLUGS.map((slug) => ({
+    url: `${SITE_URL}/pt-BR/politicas/${slug}`,
+    lastModified,
+    changeFrequency: "yearly",
+    priority: 0.3,
+  }));
+
+  return [...mainPages, ...products, ...policies];
 }
