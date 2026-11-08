@@ -3,8 +3,8 @@
 // Campo vazio = não aparece no site. Preencher com os dados oficiais do CNPJ.
 export const COMPANY = {
   tradeName: "Moikato",
-  legalName: "", // razão social, exatamente como no CNPJ
-  cnpj: "", // 00.000.000/0000-00
+  legalName: "65.363.770 João Antonio de Freitas Pombo", // razão social (MEI), como na Receita
+  cnpj: "65.363.770/0001-44",
   address: {
     street: "",
     number: "",
