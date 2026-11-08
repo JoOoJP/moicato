@@ -1,9 +1,11 @@
 // Webhook do Asaas: confirma pagamento (baixa estoque) ou libera a reserva.
 // Autenticado pelo token configurado no painel do Asaas (ASAAS_WEBHOOK_TOKEN).
 import { revalidatePath } from "next/cache";
+import { after } from "next/server";
 import { db } from "../../../../lib/db";
 import { webhookEvents } from "../../../../lib/db/schema";
 import { expireOrder, findOrderByCheckout, markOrderPaid } from "../../../../lib/orders";
+import { notifyOrderPaid } from "../../../../lib/email";
 
 export async function POST(request) {
   const expected = process.env.ASAAS_WEBHOOK_TOKEN;
@@ -28,7 +30,11 @@ export async function POST(request) {
   if (!order) return Response.json({ ok: true, ignored: true });
 
   if (payload.event === "CHECKOUT_PAID") {
-    if (await markOrderPaid(order.id, payload.payment?.id)) revalidatePath("/[lang]", "layout");
+    if (await markOrderPaid(order.id, payload.payment?.id)) {
+      revalidatePath("/[lang]", "layout");
+      // E-mails depois da resposta: o Asaas não espera e uma falha não reverte o pagamento.
+      after(() => notifyOrderPaid(order.id));
+    }
   } else if (payload.event === "CHECKOUT_EXPIRED") {
     await expireOrder(order.id, "expired");
   } else if (payload.event === "CHECKOUT_CANCELED") {

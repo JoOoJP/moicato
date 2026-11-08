@@ -3,10 +3,10 @@
 // NEXT_PUBLIC_WHATSAPP_PHONE (formato internacional, só dígitos — 55 + DDD +
 // número, ex.: "5563999999999") no ambiente/hosting; nenhuma mudança de código.
 export const WHATSAPP_PHONE =
-  process.env.NEXT_PUBLIC_WHATSAPP_PHONE ?? "447999497867";
+  process.env.NEXT_PUBLIC_WHATSAPP_PHONE ?? "5541991014546";
 export const INSTAGRAM = process.env.NEXT_PUBLIC_INSTAGRAM ?? "@moikato";
 export const INSTAGRAM_URL = `https://instagram.com/${INSTAGRAM.replace(/^@/, "")}`;
-export const EMAIL = process.env.NEXT_PUBLIC_EMAIL ?? "contato@moikato.com.br";
+export const EMAIL = process.env.NEXT_PUBLIC_EMAIL ?? "agenciavia@viamkt.com";
 
 // true quando já há número configurado (para decidir target=_blank etc.)
 export const whatsappReady = Boolean(WHATSAPP_PHONE);

@@ -300,6 +300,7 @@ const dict = {
     },
   },
   shop: {
+    policyLink: "Read the full policy",
     addedTitle: "Added to your selection",
     viewBag: "View bag",
     giftWrap: "Gift wrap",
@@ -367,6 +368,9 @@ const dict = {
     unavailable: "Unavailable — remove to continue",
   },
   checkout: {
+    consent: "By continuing, you agree to the {terms} and the {privacy}.",
+    consentTerms: "Terms of sale",
+    consentPrivacy: "Privacy policy",
     giftWrapSummary: "Gift wrap",
     metaTitle: "Checkout | Moikato",
     title: "Checkout",
@@ -418,6 +422,12 @@ const dict = {
     cancelled: "This order was cancelled.",
     refunded: "This order was refunded.",
     backToShop: "Back to the shop",
+  },
+  policies: {
+    eyebrow: "Shop policies",
+    updated: "Updated on",
+    languageNotice: "This policy is published in Portuguese and governed by Brazilian law (Consumer Defense Code and LGPD). The Portuguese text is the official version.",
+    otherLabel: "Other policies",
   },
   productPage: {
     breadcrumbLabel: "Product navigation",
@@ -606,6 +616,15 @@ const dict = {
     ],
   },
   footer: {
+    serviceTitle: "Customer care",
+    policiesTitle: "Help",
+    policyLinks: [
+      { slug: "trocas-e-devolucoes", label: "Returns and exchanges" },
+      { slug: "termos", label: "Terms of sale" },
+      { slug: "privacidade", label: "Privacy" },
+    ],
+    payments: "Pix and credit card",
+    shippingNote: "We ship across Brazil",
     tagline: "We make Brazilian jewellery by hand, one piece at a time.",
     origin: "Brazil · United Kingdom",
     waMessage: "Hello! I came from Moikato's website and would like to see the pieces.",

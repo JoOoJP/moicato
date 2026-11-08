@@ -3,6 +3,7 @@
 // Server Actions do painel. Toda ação que lê ou grava dado começa com
 // requireAdmin() — não confie só no proxy/redirect das páginas.
 import { revalidatePath } from "next/cache";
+import { after } from "next/server";
 import { redirect } from "next/navigation";
 import { and, eq, inArray, notInArray } from "drizzle-orm";
 import { db } from "../../lib/db";
@@ -21,6 +22,7 @@ import { ADMIN_LOGIN_PATH, requireAdmin } from "../../lib/auth/admin";
 import { parseBRLToCents } from "../../lib/money";
 import { isStorageUrl, uploadProductImage } from "../../lib/storage";
 import { KIND_IDS } from "../../lib/kinds";
+import { notifyOrderShipped } from "../../lib/email";
 
 const CATEGORIES = ["joias", "moda", "home"];
 const STATUSES = ["draft", "active", "archived"];
@@ -390,10 +392,17 @@ export async function markShippedAction(_prev, formData) {
   if (!id) return { error: "Pedido inválido." };
   if (!trackingCode) return { error: "Informe o código de rastreio." };
 
-  await db
+  const [before] = await db.select({ trackingCode: orders.trackingCode }).from(orders).where(eq(orders.id, id));
+  const updated = await db
     .update(orders)
     .set({ status: "shipped", trackingCode, shippedAt: new Date() })
-    .where(and(eq(orders.id, id), inArray(orders.status, ["paid", "shipped"])));
+    .where(and(eq(orders.id, id), inArray(orders.status, ["paid", "shipped"])))
+    .returning({ id: orders.id });
+  if (updated.length === 0) return { error: "Só pedidos pagos podem ser marcados como enviados." };
+
+  // Cliente recebe o rastreio por e-mail — só quando o código é novo ou mudou.
+  const changed = before?.trackingCode !== trackingCode;
+  if (changed) after(() => notifyOrderShipped(id));
   revalidatePath("/admin", "layout");
-  return { ok: "Pedido marcado como enviado.", savedAt: Date.now() };
+  return { ok: changed ? "Pedido marcado como enviado. O cliente recebe o rastreio por e-mail." : "Nada mudou.", savedAt: Date.now() };
 }

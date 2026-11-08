@@ -228,6 +228,21 @@ export default function CheckoutForm({ lang, t, cartLabels, shippingLabels, sale
         >
           {pending ? t.paying : t.pay}
         </button>
+        <p className="-mt-4 text-center text-xs text-verdemoikato/55">
+          {t.consent.split(/(\{terms\}|\{privacy\})/).map((part) =>
+            part === "{terms}" ? (
+              <Link key="terms" href={`/${lang}/politicas/termos`} className="underline underline-offset-2 hover:text-verdemoikato" target="_blank">
+                {t.consentTerms}
+              </Link>
+            ) : part === "{privacy}" ? (
+              <Link key="privacy" href={`/${lang}/politicas/privacidade`} className="underline underline-offset-2 hover:text-verdemoikato" target="_blank">
+                {t.consentPrivacy}
+              </Link>
+            ) : (
+              part
+            )
+          )}
+        </p>
       </div>
       <Summary items={items} t={t} shippingCents={selected?.priceCents ?? null} />
     </form>
