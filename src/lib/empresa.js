@@ -6,15 +6,15 @@ export const COMPANY = {
   legalName: "65.363.770 João Antonio de Freitas Pombo", // razão social (MEI), como na Receita
   cnpj: "65.363.770/0001-44",
   address: {
-    street: "",
-    number: "",
+    street: "Rua Jornalista Clemente Comandulli",
+    number: "10",
     complement: "",
-    district: "",
-    city: "",
-    uf: "",
-    cep: "",
+    district: "Santa Felicidade",
+    city: "Curitiba",
+    uf: "PR",
+    cep: "82015-170",
   },
-  serviceEmail: "", // e-mail de atendimento (trocas, dúvidas, LGPD)
+  serviceEmail: "agenciavia@viamkt.com", // e-mail de atendimento (trocas, dúvidas, LGPD)
   serviceHours: "", // ex.: "Segunda a sexta, das 9h às 18h"
 };
 
