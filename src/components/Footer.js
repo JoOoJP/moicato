@@ -120,8 +120,15 @@ export default function Footer({ dict, lang = "pt-BR" }) {
         }}
       >
         <div className="mx-auto flex min-h-12 max-w-6xl items-center justify-center gap-2.5 px-6 text-[0.56rem] font-semibold uppercase tracking-[0.15em] text-osso/50">
-          <span>{dict.createdBy}</span>
-          <ViaMark />
+          <a
+            href="https://viamkt.com"
+            target="_blank"
+            rel="noopener"
+            className="flex min-h-11 items-center gap-2.5 transition-colors hover:text-osso/80"
+          >
+            <span>{dict.createdBy}</span>
+            <ViaMark />
+          </a>
         </div>
       </div>
     </footer>
