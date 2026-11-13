@@ -124,7 +124,7 @@ export default function Footer({ dict, lang = "pt-BR" }) {
             href="https://viamkt.com"
             target="_blank"
             rel="noopener"
-            className="flex min-h-11 items-center gap-2.5 transition-colors hover:text-osso/80"
+            className="flex min-h-11 items-center gap-2.5 select-none transition-colors hover:text-osso/80"
           >
             <span>{dict.createdBy}</span>
             <ViaMark />
