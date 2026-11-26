@@ -6,7 +6,9 @@ const geistSans = Geist({ variable: "--font-sans", subsets: ["latin"] });
 const cormorant = Cormorant_Garamond({
   variable: "--font-display",
   subsets: ["latin"],
-  weight: ["300", "400", "500"],
+  // Igual ao layout da loja: configs diferentes da mesma fonte quebram o build no Turbopack.
+  weight: ["300", "400", "500", "600"],
+  style: ["normal", "italic"],
 });
 
 // Painel depende da sessão (cookies): nunca pré-renderizar.
