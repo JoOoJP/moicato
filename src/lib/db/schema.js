@@ -28,6 +28,7 @@ export const productKind = pgEnum("product_kind", [
   "mesa",
   "decoracao",
 ]);
+export const couponType = pgEnum("coupon_type", ["percent", "fixed", "free_shipping"]);
 export const orderStatus = pgEnum("order_status", [
   "pending",
   "paid",
@@ -159,6 +160,23 @@ export const productImages = pgTable(
   (t) => [index("product_images_product_idx").on(t.productId)]
 );
 
+// Cupons de desconto (painel → Cupons). Código sempre em maiúsculas.
+// percent: value = % (1–90) · fixed: value = centavos · free_shipping: value ignorado.
+export const coupons = pgTable("coupons", {
+  id: serial("id").primaryKey(),
+  code: text("code").notNull().unique(),
+  type: couponType("type").notNull(),
+  value: integer("value").default(0).notNull(),
+  minSubtotalCents: integer("min_subtotal_cents"),
+  startsAt: timestamp("starts_at", { withTimezone: true }),
+  endsAt: timestamp("ends_at", { withTimezone: true }),
+  maxUses: integer("max_uses"),
+  usesCount: integer("uses_count").default(0).notNull(),
+  active: boolean("active").default(true).notNull(),
+  note: text("note"),
+  ...timestamps,
+});
+
 export const orders = pgTable(
   "orders",
   {
@@ -173,6 +191,7 @@ export const orders = pgTable(
     subtotalCents: integer("subtotal_cents").notNull(),
     shippingCents: integer("shipping_cents").default(0).notNull(),
     discountCents: integer("discount_cents").default(0).notNull(),
+    couponCode: text("coupon_code"),
     totalCents: integer("total_cents").notNull(),
     paymentMethod: text("payment_method"), // 'pix' | 'credit_card' | 'boleto'
     installments: integer("installments"),

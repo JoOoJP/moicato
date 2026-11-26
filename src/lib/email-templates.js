@@ -18,6 +18,7 @@ const COPY = {
     order: (id) => `Pedido nº ${id}`,
     subtotal: "Subtotal",
     shipping: "Frete",
+    discount: "Desconto",
     total: "Total",
     deliverTo: "Entrega em",
     gift: "Embalagem para presente",
@@ -43,6 +44,7 @@ const COPY = {
     order: (id) => `Order #${id}`,
     subtotal: "Subtotal",
     shipping: "Shipping",
+    discount: "Discount",
     total: "Total",
     deliverTo: "Delivering to",
     gift: "Gift wrap",
@@ -93,6 +95,7 @@ function itemsTable(order, items, t) {
   return `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin:20px 0;font-size:14px;">${rows}
 ${line(t.subtotal, formatBRL(order.subtotalCents))}
 ${line(`${t.shipping}${order.shippingService ? ` (${esc(order.shippingService)})` : ""}`, formatBRL(order.shippingCents))}
+${order.discountCents > 0 ? line(`${t.discount}${order.couponCode ? ` (${esc(order.couponCode)})` : ""}`, `− ${formatBRL(order.discountCents)}`) : ""}
 ${line(t.total, formatBRL(order.totalCents), true)}</table>`;
 }
 

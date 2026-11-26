@@ -9,6 +9,7 @@ import { and, eq, inArray, notInArray } from "drizzle-orm";
 import { db } from "../../lib/db";
 import {
   collections,
+  coupons,
   orders,
   packages,
   productImages,
@@ -323,6 +324,74 @@ export async function deleteCollectionAction(formData) {
   if (!id) return;
   await db.delete(collections).where(eq(collections.id, id)); // peças ficam sem coleção
   revalidateCatalog();
+}
+
+// ── Cupons ──────────────────────────────────────────────────────────────────
+
+function parseDate(value, endOfDay = false) {
+  const str = String(value ?? "").trim();
+  if (!str) return null;
+  // Datas do painel em horário de Brasília.
+  const date = new Date(`${str}T${endOfDay ? "23:59:59" : "00:00:00"}-03:00`);
+  return Number.isNaN(date.getTime()) ? NaN : date;
+}
+
+export async function saveCouponAction(_prev, formData) {
+  await requireAdmin();
+  const id = idFrom(formData);
+  const type = text(formData, "type");
+  const code = text(formData, "code").toUpperCase().replace(/\s+/g, "");
+  let value = 0;
+  if (type === "percent") value = optionalInt(formData, "percent");
+  if (type === "fixed") value = parseBRLToCents(formData.get("amount"));
+
+  const values = {
+    code,
+    type,
+    value: value ?? 0,
+    minSubtotalCents: parseBRLToCents(formData.get("minSubtotal")),
+    startsAt: parseDate(formData.get("startsAt")),
+    endsAt: parseDate(formData.get("endsAt"), true),
+    maxUses: optionalInt(formData, "maxUses"),
+    active: formData.get("active") === "on",
+    note: optionalText(formData, "note"),
+  };
+
+  if (!/^[A-Z0-9_-]{3,40}$/.test(code)) return { error: "Código: de 3 a 40 letras, números, - ou _ (sem espaços)." };
+  if (!["percent", "fixed", "free_shipping"].includes(type)) return { error: "Escolha o tipo do cupom." };
+  if (type === "percent" && (Number.isNaN(value) || !value || value < 1 || value > 90)) return { error: "Percentual entre 1% e 90%." };
+  if (type === "fixed" && (Number.isNaN(value) || !value || value < 100)) return { error: "Informe o valor do desconto (mínimo R$ 1,00)." };
+  for (const key of ["minSubtotalCents", "startsAt", "endsAt", "maxUses"]) {
+    if (Number.isNaN(values[key])) return { error: "Revise valor mínimo, datas e limite de usos." };
+  }
+  if (values.startsAt && values.endsAt && values.endsAt < values.startsAt) return { error: "A data final é anterior à inicial." };
+
+  try {
+    if (id) await db.update(coupons).set(values).where(eq(coupons.id, id));
+    else await db.insert(coupons).values(values);
+  } catch (error) {
+    if (isUniqueViolation(error)) return { error: "Já existe um cupom com esse código." };
+    throw error;
+  }
+  revalidatePath("/admin", "layout");
+  return { ok: id ? "Cupom salvo." : "Cupom criado.", savedAt: Date.now() };
+}
+
+export async function toggleCouponAction(formData) {
+  await requireAdmin();
+  const id = idFrom(formData);
+  if (!id) return;
+  await db.update(coupons).set({ active: formData.get("active") === "true" }).where(eq(coupons.id, id));
+  revalidatePath("/admin", "layout");
+}
+
+// Só apaga cupom nunca usado; usados podem ser pausados (o histórico dos pedidos guarda o código).
+export async function deleteCouponAction(formData) {
+  await requireAdmin();
+  const id = idFrom(formData);
+  if (!id) return;
+  await db.delete(coupons).where(and(eq(coupons.id, id), eq(coupons.usesCount, 0)));
+  revalidatePath("/admin", "layout");
 }
 
 // ── Embalagens ──────────────────────────────────────────────────────────────

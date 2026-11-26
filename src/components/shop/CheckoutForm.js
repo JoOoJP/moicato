@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useActionState, useEffect, useMemo, useState } from "react";
-import { placeOrderAction } from "../../app/[lang]/checkout/actions";
+import { placeOrderAction, previewCouponAction } from "../../app/[lang]/checkout/actions";
 import { formatBRL } from "../../lib/money";
 import { useCart } from "./CartProvider";
 
@@ -32,7 +32,7 @@ function Section({ step, title, children }) {
   );
 }
 
-function Summary({ items, t, shippingCents }) {
+function Summary({ items, t, shippingCents, coupon }) {
   const subtotal = items.reduce((sum, line) => sum + line.priceCents * line.qty, 0);
   return (
     <aside className="bg-osso-200/60 p-5 sm:p-6 lg:sticky lg:top-24">
@@ -59,11 +59,19 @@ function Summary({ items, t, shippingCents }) {
         </div>
         <div className="flex justify-between">
           <dt className="text-verdemoikato/70">{t.shipping}</dt>
-          <dd>{shippingCents == null ? "—" : formatBRL(shippingCents)}</dd>
+          <dd>{coupon?.freeShipping ? t.freeShippingCoupon : shippingCents == null ? "—" : formatBRL(shippingCents)}</dd>
         </div>
+        {coupon?.discountCents > 0 && (
+          <div className="flex justify-between text-amarelomoikato-700">
+            <dt>
+              {t.discount} · {coupon.code}
+            </dt>
+            <dd>− {formatBRL(coupon.discountCents)}</dd>
+          </div>
+        )}
         <div className="flex justify-between border-t border-verdemoikato/15 pt-3 font-display text-2xl text-verdemoikato">
           <dt>{t.total}</dt>
-          <dd>{formatBRL(subtotal + (shippingCents ?? 0))}</dd>
+          <dd>{formatBRL(subtotal + (coupon?.freeShipping ? 0 : shippingCents ?? 0) - (coupon?.discountCents ?? 0))}</dd>
         </div>
       </dl>
     </aside>
@@ -76,6 +84,23 @@ export default function CheckoutForm({ lang, t, cartLabels, shippingLabels, sale
   const [address, setAddress] = useState({ cep: "", street: "", district: "", city: "", uf: "" });
   const [shipping, setShipping] = useState({ status: "idle", options: [], selected: null });
   const payloadItems = useMemo(() => items.map(({ variantId, qty }) => ({ variantId, qty })), [items]);
+  const [couponInput, setCouponInput] = useState("");
+  const [coupon, setCoupon] = useState(null);
+  const [couponState, setCouponState] = useState({ pending: false, error: null });
+
+  async function applyCoupon() {
+    if (!couponInput.trim()) return;
+    setCouponState({ pending: true, error: null });
+    const shippingCents = shipping.options.find((option) => option.id === shipping.selected)?.priceCents ?? 0;
+    const result = await previewCouponAction({ code: couponInput, items: payloadItems, shippingCents, lang });
+    if (result.error) {
+      setCoupon(null);
+      setCouponState({ pending: false, error: result.error });
+    } else {
+      setCoupon(result);
+      setCouponState({ pending: false, error: null });
+    }
+  }
 
   useEffect(() => {
     if (state?.redirect) window.location.assign(state.redirect);
@@ -186,6 +211,51 @@ export default function CheckoutForm({ lang, t, cartLabels, shippingLabels, sale
         </Section>
 
         <Section step="4" title={t.payment}>
+          <div className="mb-6">
+            <span className="text-xs font-semibold uppercase tracking-[0.12em] text-verdemoikato/60">{t.coupon}</span>
+            <input type="hidden" name="coupon" value={coupon?.code ?? ""} />
+            {coupon ? (
+              <div className="mt-1.5 flex min-h-12 items-center justify-between border border-amarelomoikato-700/40 bg-amarelomoikato/10 px-3 text-sm">
+                <span className="text-verdemoikato">{t.couponApplied.replace("{code}", coupon.code)}</span>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setCoupon(null);
+                    setCouponInput("");
+                  }}
+                  className="min-h-11 text-xs text-verdemoikato/60 underline-offset-4 hover:underline"
+                >
+                  {t.couponRemove}
+                </button>
+              </div>
+            ) : (
+              <div className="mt-1.5 flex gap-2">
+                <input
+                  value={couponInput}
+                  onChange={(e) => setCouponInput(e.target.value.toUpperCase())}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter") {
+                      e.preventDefault();
+                      applyCoupon();
+                    }
+                  }}
+                  placeholder={t.couponPlaceholder}
+                  aria-label={t.coupon}
+                  autoComplete="off"
+                  className={`${input} mt-0 flex-1 uppercase`}
+                />
+                <button
+                  type="button"
+                  onClick={applyCoupon}
+                  disabled={couponState.pending || !couponInput.trim()}
+                  className="min-h-12 border border-verdemoikato px-5 text-xs font-semibold uppercase tracking-[0.12em] text-verdemoikato hover:bg-verdemoikato hover:text-osso disabled:opacity-50"
+                >
+                  {couponState.pending ? "…" : t.couponApply}
+                </button>
+              </div>
+            )}
+            {couponState.error && <p className="mt-2 text-sm text-terra-700">{couponState.error}</p>}
+          </div>
           <p className="text-sm text-verdemoikato/70">{t.paymentNote}</p>
           {giftWrapEnabled && (
             <label className="mt-5 flex cursor-pointer items-start gap-3">
@@ -244,7 +314,7 @@ export default function CheckoutForm({ lang, t, cartLabels, shippingLabels, sale
           )}
         </p>
       </div>
-      <Summary items={items} t={t} shippingCents={selected?.priceCents ?? null} />
+      <Summary items={items} t={t} shippingCents={selected?.priceCents ?? null} coupon={coupon} />
     </form>
   );
 }
