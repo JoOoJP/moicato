@@ -34,6 +34,10 @@ async function toVolumes(items) {
   });
 }
 
+// Transportadoras oferecidas no checkout (decisão da loja: só Correios —
+// PAC, SEDEX e, quando a peça couber, Mini Envios).
+const ALLOWED_COMPANIES = ["correios"];
+
 // Retorna [{ id, name, company, priceCents, days }] ordenado pelo preço.
 // `handlingDays` (preparo até a postagem) é somado ao prazo da transportadora.
 export async function quoteShipping(cep, items, { handlingDays = 0 } = {}) {
@@ -59,6 +63,7 @@ export async function quoteShipping(cep, items, { handlingDays = 0 } = {}) {
   const services = await response.json();
   return services
     .filter((service) => !service.error && service.price)
+    .filter((service) => ALLOWED_COMPANIES.includes(String(service.company?.name ?? "").toLowerCase()))
     .map((service) => ({
       id: String(service.id),
       name: service.name,

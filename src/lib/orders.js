@@ -4,6 +4,7 @@
 import "server-only";
 import { and, asc, eq, gt, inArray, isNotNull, sql } from "drizzle-orm";
 import { db } from "./db";
+import { registerCouponUse } from "./coupons";
 import {
   orderItems,
   orders,
@@ -78,7 +79,7 @@ export async function loadCartLines(items, lang) {
 }
 
 // Cria o pedido "pending" + itens + reservas. Retorna o id.
-export async function createPendingOrder({ lines, customer, address, shipping, discountCents, giftMessage, giftWrap = false, lang }) {
+export async function createPendingOrder({ lines, customer, address, shipping, discountCents, couponCode = null, giftMessage, giftWrap = false, lang }) {
   const subtotalCents = lines.reduce((sum, line) => sum + line.unitPriceCents * line.qty, 0);
   const totalCents = subtotalCents + shipping.priceCents - discountCents;
 
@@ -94,6 +95,7 @@ export async function createPendingOrder({ lines, customer, address, shipping, d
       subtotalCents,
       shippingCents: shipping.priceCents,
       discountCents,
+      couponCode,
       totalCents,
       shippingService: shipping.label,
       giftMessage,
@@ -150,8 +152,9 @@ export async function markOrderPaid(orderId, payment = {}) {
       installments: payment.installments ?? null,
     })
     .where(and(eq(orders.id, orderId), eq(orders.status, "pending")))
-    .returning({ id: orders.id });
+    .returning({ id: orders.id, couponCode: orders.couponCode });
   if (claimed.length === 0) return false;
+  await registerCouponUse(claimed[0].couponCode);
 
   const items = await db.select().from(orderItems).where(eq(orderItems.orderId, orderId));
   await db.batch([

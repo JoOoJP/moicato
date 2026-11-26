@@ -368,6 +368,13 @@ const dict = {
     unavailable: "Indisponível — remova para continuar",
   },
   checkout: {
+    coupon: "Cupom de desconto",
+    couponPlaceholder: "Digite o código",
+    couponApply: "Aplicar",
+    couponRemove: "Remover",
+    couponApplied: "Cupom {code} aplicado",
+    discount: "Desconto",
+    freeShippingCoupon: "Grátis (cupom)",
     consent: "Ao continuar, você concorda com os {terms} e a {privacy}.",
     consentTerms: "Termos de uso",
     consentPrivacy: "Política de privacidade",
@@ -405,6 +412,11 @@ const dict = {
     closedText:
       "Estamos finalizando os últimos detalhes da loja. Sua sacola fica guardada neste navegador.",
     errors: {
+      couponInvalid: "Cupom inválido.",
+      coupon_invalid: "Cupom inválido.",
+      coupon_expired: "Este cupom expirou.",
+      coupon_usedUp: "Este cupom já atingiu o limite de usos.",
+      couponMin: "Este cupom vale para pedidos a partir de {value}.",
       generic: "Não foi possível concluir. Revise os dados e tente novamente.",
       empty: "Sua sacola está vazia.",
       changed: "Alguns itens mudaram de preço ou de estoque. Revise sua sacola.",

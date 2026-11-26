@@ -47,7 +47,16 @@ export default async function OrderDetailPage({ params }) {
           <dl className="mt-3 space-y-1 border-t border-verdemoikato/15 pt-3 text-sm">
             <div className="flex justify-between"><dt className="text-verdemoikato/60">Subtotal</dt><dd>{formatBRL(order.subtotalCents)}</dd></div>
             <div className="flex justify-between"><dt className="text-verdemoikato/60">Frete ({order.shippingService})</dt><dd>{formatBRL(order.shippingCents)}</dd></div>
+            {order.discountCents > 0 && (
+              <div className="flex justify-between text-amarelomoikato-700"><dt>Desconto{order.couponCode ? ` (cupom ${order.couponCode})` : ""}</dt><dd>− {formatBRL(order.discountCents)}</dd></div>
+            )}
+            {!order.discountCents && order.couponCode && (
+              <div className="flex justify-between text-amarelomoikato-700"><dt>Cupom {order.couponCode}</dt><dd>frete grátis</dd></div>
+            )}
             <div className="flex justify-between font-medium"><dt>Total</dt><dd>{formatBRL(order.totalCents)}</dd></div>
+            {order.paidAmountCents != null && order.paidAmountCents !== order.totalCents && (
+              <div className="flex justify-between text-xs text-verdemoikato/55"><dt>Valor pago ({order.paymentMethod === "pix" ? "Pix" : "cartão"}{order.installments > 1 ? ` ${order.installments}x` : ""})</dt><dd>{formatBRL(order.paidAmountCents)}</dd></div>
+            )}
           </dl>
           {order.giftWrap && (
             <p className="mt-4 border-l-2 border-amarelomoikato bg-amarelomoikato/10 px-3 py-2 text-sm">

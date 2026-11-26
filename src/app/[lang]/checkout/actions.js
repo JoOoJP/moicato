@@ -9,6 +9,8 @@ import { isValidCpf, normalizeCep, normalizeCpf } from "../../../lib/cpf";
 import { quoteShipping } from "../../../lib/melhorenvio";
 import { attachPaymentLink, cancelPendingOrder, createPendingOrder, loadCartLines } from "../../../lib/orders";
 import { createPaymentLink } from "../../../lib/infinitepay";
+import { distributeDiscount, evaluateCoupon, findCoupon, normalizeCode } from "../../../lib/coupons";
+import { formatBRL } from "../../../lib/money";
 
 const text = (formData, key, max = 200) => String(formData.get(key) ?? "").trim().slice(0, max);
 
@@ -70,12 +72,26 @@ export async function placeOrderAction(_prev, formData) {
     return { error: errors.generic };
   }
 
+  // Cupom: revalidado aqui com os valores do servidor.
+  const subtotalCents = lines.reduce((sum, line) => sum + line.unitPriceCents * line.qty, 0);
+  let discountCents = 0;
+  let couponCode = null;
+  const typedCode = normalizeCode(formData.get("coupon"));
+  if (typedCode) {
+    const result = evaluateCoupon(await findCoupon(typedCode), { subtotalCents, shippingCents: shipping.priceCents });
+    if (!result.ok) return { error: couponMessage(errors, result) };
+    if (result.freeShipping) shipping = { ...shipping, priceCents: 0 };
+    discountCents = result.discountCents;
+    couponCode = result.code;
+  }
+
   const order = await createPendingOrder({
     lines,
     customer,
     address,
     shipping,
-    discountCents: 0,
+    discountCents,
+    couponCode,
     giftMessage: text(formData, "gift", 300) || null,
     giftWrap: settings.giftWrapEnabled && formData.get("giftWrap") === "on",
     lang,
@@ -85,7 +101,11 @@ export async function placeOrderAction(_prev, formData) {
     const link = await createPaymentLink({
       order: {
         id: order.id,
-        items: lines.map((line) => ({ ...line, name: line.label ? `${line.name} — ${line.label}` : line.name })),
+        // Com cupom, o desconto vai embutido nas linhas: o link soma o total exato do pedido.
+        items: distributeDiscount(
+          lines.map((line) => ({ ...line, name: line.label ? `${line.name} — ${line.label}` : line.name })),
+          discountCents
+        ),
         shippingCents: shipping.priceCents,
         customer,
         address,
@@ -101,4 +121,19 @@ export async function placeOrderAction(_prev, formData) {
     await cancelPendingOrder(order.id);
     return { error: errors.payment };
   }
+}
+
+function couponMessage(errors, result) {
+  if (result.reason === "min") return errors.couponMin.replace("{value}", formatBRL(result.minSubtotalCents));
+  return errors[`coupon_${result.reason}`] ?? errors.couponInvalid;
+}
+
+// Prévia do cupom no checkout (botão "Aplicar"). Valores sempre do servidor.
+export async function previewCouponAction({ code, items, shippingCents = 0, lang = "pt-BR" }) {
+  const errors = (await getDictionary(hasLocale(lang) ? lang : "pt-BR")).checkout.errors;
+  const lines = await loadCartLines(items, lang);
+  const subtotalCents = lines.reduce((sum, line) => sum + (line.unitPriceCents ?? 0) * line.qty, 0);
+  const result = evaluateCoupon(await findCoupon(code), { subtotalCents, shippingCents });
+  if (!result.ok) return { error: couponMessage(errors, result) };
+  return { code: result.code, discountCents: result.discountCents, freeShipping: result.freeShipping };
 }
