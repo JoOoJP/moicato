@@ -7,6 +7,17 @@ import { db } from "./db";
 import { orderItems, orders } from "./db/schema";
 import { COMPANY } from "./empresa";
 import { newOrderAdminEmail, orderConfirmedEmail, orderShippedEmail } from "./email-templates";
+import { accessUrl } from "./customer-access";
+import { SITE_URL } from "./site";
+
+// Link mágico para o cliente ver o pedido (falha → e-mail sai sem o botão).
+function safeAccessUrl(order) {
+  try {
+    return accessUrl(SITE_URL, order.locale === "en" ? "en" : "pt-BR", order.email);
+  } catch {
+    return undefined;
+  }
+}
 
 // Remetente no-reply: respostas não são lidas (contato é pelo WhatsApp/e-mail de atendimento).
 const FROM = process.env.EMAIL_FROM ?? "Moikato <nao-responda@moikato.com>";
@@ -52,7 +63,7 @@ export async function notifyOrderPaid(orderId) {
   const data = await loadOrder(orderId);
   if (!data) return;
   const { order, items } = data;
-  const customer = orderConfirmedEmail(order, items);
+  const customer = orderConfirmedEmail(order, items, { accessUrl: safeAccessUrl(order) });
   const jobs = [sendEmail({ to: order.email, ...customer })];
   if (NOTIFY.length) {
     const admin = newOrderAdminEmail(order, items);
@@ -65,5 +76,5 @@ export async function notifyOrderPaid(orderId) {
 export async function notifyOrderShipped(orderId) {
   const data = await loadOrder(orderId);
   if (!data?.order.trackingCode) return;
-  await sendEmail({ to: data.order.email, ...orderShippedEmail(data.order) });
+  await sendEmail({ to: data.order.email, ...orderShippedEmail(data.order, { accessUrl: safeAccessUrl(data.order) }) });
 }

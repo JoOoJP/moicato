@@ -86,7 +86,7 @@ export default function Footer({ dict, lang = "pt-BR" }) {
             <ul className="mt-6 space-y-4 text-sm text-osso/70">
               {dict.policyLinks.map((item) => (
                 <li key={item.slug}>
-                  <Link href={`/${lang}/politicas/${item.slug}`} className="inline-flex min-h-6 items-center outline-none transition-colors hover:text-osso focus-visible:text-amarelomoikato-300">
+                  <Link href={item.slug === "__account" ? `/${lang}/minha-conta` : `/${lang}/politicas/${item.slug}`} className="inline-flex min-h-6 items-center outline-none transition-colors hover:text-osso focus-visible:text-amarelomoikato-300">
                     {item.label}
                   </Link>
                 </li>

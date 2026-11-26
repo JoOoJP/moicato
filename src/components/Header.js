@@ -121,6 +121,16 @@ export default function Header({ dict, lang, alwaysSolid = false }) {
         {/* Direita: ícones + idioma */}
         <div className="flex items-center gap-1 justify-self-end">
           <LanguageSwitcher lang={lang} />
+          <Link
+            href={`/${lang}/minha-conta`}
+            aria-label={lang === "en" ? "My orders" : "Meus pedidos"}
+            className="grid size-11 place-items-center"
+          >
+            <svg viewBox="0 0 24 24" aria-hidden="true" className="size-[21px]" fill="none" stroke="currentColor" strokeWidth="1.5">
+              <circle cx="12" cy="8.5" r="3.5" />
+              <path d="M5 20c.8-3.6 3.6-5.5 7-5.5s6.2 1.9 7 5.5" />
+            </svg>
+          </Link>
           <CartButton />
         </div>
       </div>

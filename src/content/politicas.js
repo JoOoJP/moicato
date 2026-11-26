@@ -85,7 +85,7 @@ export const POLICIES = {
         list: [
           "Ao comprar: nome, e-mail, celular, CPF, endereço de entrega, itens do pedido e, se você quiser, a mensagem para presente.",
           "Ao navegar: métricas agregadas de uso e desempenho (Vercel Analytics e Speed Insights), sem cookies e sem identificar você.",
-          "Sua sacola fica guardada só no seu navegador (armazenamento local) e não é enviada para nós até você finalizar a compra.",
+          "Sua sacola e os dados de entrega que você preenche no checkout (exceto o CPF) ficam guardados só no seu navegador (armazenamento local), para você não precisar digitar de novo. Eles não são enviados para nós até você finalizar a compra.",
         ],
       },
       {

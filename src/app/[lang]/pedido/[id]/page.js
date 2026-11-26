@@ -51,6 +51,11 @@ export default async function OrderPage({ params, searchParams }) {
           <h1 className="mt-3 font-display text-5xl font-light text-verdemoikato">{t.title.replace("{id}", order.id)}</h1>
           <p className="mx-auto mt-6 max-w-lg text-lg leading-relaxed text-verdemoikato/75">{t[order.status] ?? t.pending}</p>
           <OrderStatusClient status={order.status} />
+          <p className="mt-6 text-sm text-verdemoikato/60">
+            <Link href={`/${lang}/minha-conta`} className="underline underline-offset-4 hover:text-verdemoikato">
+              {dict.account.navLabel}
+            </Link>
+          </p>
           <Link
             href={`/${lang}/catalogo`}
             className="mt-10 inline-flex min-h-12 items-center bg-verdemoikato px-6 text-xs font-semibold uppercase tracking-[0.13em] text-osso hover:bg-floresta"
