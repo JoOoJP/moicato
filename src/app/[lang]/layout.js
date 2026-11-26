@@ -9,6 +9,7 @@ import CartDrawer from "../../components/shop/CartDrawer";
 import { getStoreSettings } from "../../lib/settings";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
+import Script from "next/script";
 
 const geistSans = Geist({
   variable: "--font-sans",
@@ -137,6 +138,8 @@ export default async function RootLayout({ children, params }) {
             modo debug, sem enviar dados). Ativar "Web Analytics" no projeto. */}
         <Analytics />
         <SpeedInsights />
+        {/* Pixel da VIA: de que cidade vem cada visita, para o mapa do ViaClientes. Sem cookie e sem dado pessoal. */}
+        <Script src="https://app.viamkt.com/sinal.js" strategy="afterInteractive" />
       </body>
     </html>
   );
