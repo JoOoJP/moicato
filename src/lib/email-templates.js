@@ -25,6 +25,7 @@ const COPY = {
     giftMessage: "Mensagem no cartão",
     help: "Este e-mail é automático e não recebe respostas. Dúvidas? Fale com a gente pelo WhatsApp{email}.",
     returns: "Trocas e devoluções",
+    myOrder: "Acompanhar meu pedido",
     confirmed: {
       subject: (id) => `Pedido nº ${id} confirmado — Moikato`,
       title: "Recebemos seu pagamento",
@@ -51,6 +52,7 @@ const COPY = {
     giftMessage: "Card message",
     help: "This is an automated email and replies aren't monitored. Questions? Message us on WhatsApp{email}.",
     returns: "Returns and exchanges",
+    myOrder: "View my order",
     confirmed: {
       subject: (id) => `Order #${id} confirmed — Moikato`,
       title: "Payment received",
@@ -111,20 +113,23 @@ function giftBlock(order, t) {
 ${order.giftWrap ? `<strong>${t.gift}</strong>` : ""}${order.giftMessage ? `${order.giftWrap ? "<br>" : ""}${t.giftMessage}: <em style="font-family:Georgia,serif;">“${esc(order.giftMessage)}”</em>` : ""}</p>`;
 }
 
+const button = (url, label) =>
+  `<p style="margin:24px 0 0;"><a href="${url}" style="display:inline-block;padding:12px 22px;background:${C.green};color:#ffffff;text-decoration:none;font-size:13px;letter-spacing:1.5px;text-transform:uppercase;">${esc(label)}</a></p>`;
+
 const firstName = (name) => String(name ?? "").trim().split(/\s+/)[0] || "";
 
-export function orderConfirmedEmail(order, items) {
+export function orderConfirmedEmail(order, items, { accessUrl } = {}) {
   const lang = order.locale === "en" ? "en" : "pt-BR";
   const t = COPY[lang];
   const body = `<h1 style="margin:0 0 6px;font-family:Georgia,serif;font-weight:normal;font-size:26px;color:${C.green};">${t.confirmed.title}</h1>
 <p style="margin:0 0 18px;color:${C.muted};">${t.order(order.id)}</p>
 <p style="margin:0 0 12px;">${esc(t.greeting(firstName(order.customerName)))},</p>
 <p style="margin:0;">${t.confirmed.intro}</p>
-${itemsTable(order, items, t)}${addressBlock(order, t)}${giftBlock(order, t)}`;
+${itemsTable(order, items, t)}${addressBlock(order, t)}${giftBlock(order, t)}${accessUrl ? button(accessUrl, t.myOrder) : ""}`;
   return { subject: t.confirmed.subject(order.id), html: layout({ lang, preheader: t.confirmed.intro, body }) };
 }
 
-export function orderShippedEmail(order) {
+export function orderShippedEmail(order, { accessUrl } = {}) {
   const lang = order.locale === "en" ? "en" : "pt-BR";
   const t = COPY[lang];
   const s = t.shippedCopy;
@@ -137,7 +142,7 @@ export function orderShippedEmail(order) {
 <p style="margin:0 0 6px;font-family:Menlo,Consolas,monospace;font-size:18px;color:${C.green};">${esc(order.trackingCode)}</p>
 ${order.shippingService ? `<p style="margin:0 0 20px;color:${C.muted};">${s.via} ${esc(order.shippingService)}</p>` : ""}
 <p style="margin:0 0 24px;"><a href="${url}" style="display:inline-block;padding:12px 22px;background:${C.green};color:#ffffff;text-decoration:none;font-size:13px;letter-spacing:1.5px;text-transform:uppercase;">${s.cta}</a></p>
-${addressBlock(order, t)}`;
+${addressBlock(order, t)}${accessUrl ? `<p style="margin:20px 0 0;"><a href="${accessUrl}" style="color:${C.green};">${esc(t.myOrder)}</a></p>` : ""}`;
   return { subject: s.subject(order.id), html: layout({ lang, preheader: s.intro, body }) };
 }
 
@@ -156,3 +161,12 @@ ${itemsTable(order, items, t)}${addressBlock(order, t)}${giftBlock(order, t)}
 }
 
 export const SERVICE_EMAIL = COMPANY.serviceEmail;
+
+// Link mágico para "Meus pedidos". `copy` = dict.account.
+export function accessLinkEmail({ url, lang, copy }) {
+  const body = `<h1 style="margin:0 0 12px;font-family:Georgia,serif;font-weight:normal;font-size:26px;color:${C.green};">${esc(copy.emailTitle)}</h1>
+<p style="margin:0;">${esc(copy.emailText)}</p>
+${button(url, copy.emailButton)}
+<p style="margin:24px 0 0;font-size:13px;color:${C.muted};">${esc(copy.emailIgnore)}</p>`;
+  return { subject: copy.emailSubject, html: layout({ lang, preheader: copy.emailText, body }) };
+}
