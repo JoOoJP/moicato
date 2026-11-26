@@ -1,14 +1,14 @@
 "use server";
 
 // Fecha o pedido: revalida tudo no servidor (preço, estoque, frete), reserva o
-// estoque, cria o pedido e gera o checkout do Asaas. O navegador só manda IDs.
+// estoque, cria o pedido e gera o link de pagamento da InfinitePay. O navegador só manda IDs.
 import { getDictionary, hasLocale } from "../dictionaries";
 import { SITE_URL } from "../../../lib/site";
 import { getStoreSettings } from "../../../lib/settings";
 import { isValidCpf, normalizeCep, normalizeCpf } from "../../../lib/cpf";
 import { quoteShipping } from "../../../lib/melhorenvio";
-import { attachCheckout, cancelPendingOrder, createPendingOrder, loadCartLines } from "../../../lib/orders";
-import { createCheckout } from "../../../lib/asaas";
+import { attachPaymentLink, cancelPendingOrder, createPendingOrder, loadCartLines } from "../../../lib/orders";
+import { createPaymentLink } from "../../../lib/infinitepay";
 
 const text = (formData, key, max = 200) => String(formData.get(key) ?? "").trim().slice(0, max);
 
@@ -82,14 +82,20 @@ export async function placeOrderAction(_prev, formData) {
   });
 
   try {
-    const checkout = await createCheckout({
-      order: { id: order.id, items: lines.map((line) => ({ ...line, name: line.label ? `${line.name} ${line.label}` : line.name })), shippingCents: shipping.priceCents, customer, address },
+    const link = await createPaymentLink({
+      order: {
+        id: order.id,
+        items: lines.map((line) => ({ ...line, name: line.label ? `${line.name} — ${line.label}` : line.name })),
+        shippingCents: shipping.priceCents,
+        customer,
+        address,
+      },
       siteUrl: SITE_URL,
       lang,
-      maxInstallments: settings.maxInstallments,
+      settings,
     });
-    await attachCheckout(order.id, checkout.id);
-    return { redirect: checkout.link };
+    await attachPaymentLink(order.id, link.slug);
+    return { redirect: link.url };
   } catch (error) {
     console.error("[checkout] falha ao criar pagamento", error);
     await cancelPendingOrder(order.id);

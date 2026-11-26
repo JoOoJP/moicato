@@ -16,7 +16,9 @@ export const DEFAULT_SETTINGS = {
 };
 
 // Vendas só abrem de verdade com pagamento E frete configurados.
-export const paymentsReady = Boolean(process.env.ASAAS_API_KEY);
+// InfinitePay: a chave de API é obrigatória para honrar o que a vitrine promete
+// (parcelas sem juros, desconto no Pix, link que expira com a reserva).
+export const paymentsReady = Boolean(process.env.INFINITEPAY_HANDLE && process.env.INFINITEPAY_API_KEY && process.env.INFINITEPAY_WEBHOOK_TOKEN);
 export const shippingReady = Boolean(process.env.MELHORENVIO_TOKEN && process.env.SHIP_FROM_CEP);
 
 export const getStoreSettings = cache(async () => {

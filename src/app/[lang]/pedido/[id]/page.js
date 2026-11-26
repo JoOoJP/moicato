@@ -1,11 +1,14 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { after } from "next/server";
 import { eq } from "drizzle-orm";
 import { getDictionary, hasLocale } from "../../dictionaries";
 import Header from "../../../../components/Header";
 import OrderStatusClient from "../../../../components/shop/OrderStatusClient";
 import { db } from "../../../../lib/db";
 import { orders } from "../../../../lib/db/schema";
+import { confirmPayment } from "../../../../lib/payments";
+import { notifyOrderPaid } from "../../../../lib/email";
 
 export const dynamic = "force-dynamic";
 
@@ -18,11 +21,19 @@ export async function generateMetadata({ params }) {
 
 // Página de retorno do pagamento. Mostra só número e status — nenhum dado
 // pessoal, já que o id do pedido aparece na URL.
-export default async function OrderPage({ params }) {
+export default async function OrderPage({ params, searchParams }) {
   const { lang, id } = await params;
+  const query = await searchParams;
   if (!hasLocale(lang)) notFound();
   const orderId = Number(id);
   if (!Number.isInteger(orderId) || orderId <= 0) notFound();
+
+  // Retorno da InfinitePay (?transaction_nsu=…&slug=…): confere o pagamento na
+  // API já aqui, sem esperar o webhook. Nunca confia só nos parâmetros da URL.
+  if (query?.transaction_nsu) {
+    const result = await confirmPayment(orderId, { transactionNsu: String(query.transaction_nsu), slug: query.slug ? String(query.slug) : undefined });
+    if (result === "paid") after(() => notifyOrderPaid(orderId));
+  }
 
   const [dict, [order]] = await Promise.all([
     getDictionary(lang),
