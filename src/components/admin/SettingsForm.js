@@ -25,7 +25,7 @@ export default function SettingsForm({ settings, paymentsReady, shippingReady })
       <section className="border border-verdemoikato/15 bg-white/50 p-5">
         <h2 className="text-sm font-semibold uppercase tracking-[0.12em]">Vendas</h2>
         <ul className="mt-3 space-y-1.5">
-          <Check ok={paymentsReady}>Pagamento (Asaas) configurado</Check>
+          <Check ok={paymentsReady}>Pagamento (InfinitePay) configurado</Check>
           <Check ok={shippingReady}>Frete (Melhor Envio) configurado</Check>
         </ul>
         <label className={`mt-4 flex min-h-11 items-center gap-3 ${canOpen ? "" : "opacity-60"}`}>
@@ -66,8 +66,8 @@ export default function SettingsForm({ settings, paymentsReady, shippingReady })
           <label>
             <span className="text-xs font-medium text-verdemoikato/70">Desconto no Pix (%)</span>
             <input name="pixDiscountPercent" defaultValue={settings.pixDiscountPercent} inputMode="numeric" className={input} />
-            <span className="mt-1 block text-xs text-terra-700">
-              A loja exibe esse desconto e ele precisa ser cumprido (CDC). Só ative quando o desconto estiver configurado no pagamento.
+            <span className="mt-1 block text-xs text-verdemoikato/55">
+              Aparece na loja e é aplicado automaticamente no pagamento por Pix (InfinitePay).
             </span>
           </label>
         </div>

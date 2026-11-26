@@ -176,8 +176,14 @@ export const orders = pgTable(
     totalCents: integer("total_cents").notNull(),
     paymentMethod: text("payment_method"), // 'pix' | 'credit_card' | 'boleto'
     installments: integer("installments"),
+    // Obsoletas (Asaas) — remover numa migration futura.
     asaasPaymentId: text("asaas_payment_id").unique(),
     asaasCheckoutId: text("asaas_checkout_id").unique(),
+    // InfinitePay: código do link (slug), NSU da transação e valor efetivamente
+    // pago (pode diferir do total com desconto no Pix).
+    paymentSlug: text("payment_slug").unique(),
+    paymentTransaction: text("payment_transaction").unique(),
+    paidAmountCents: integer("paid_amount_cents"),
     shippingService: text("shipping_service"),
     melhorEnvioOrderId: text("melhorenvio_order_id"),
     trackingCode: text("tracking_code"),

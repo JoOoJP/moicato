@@ -1,6 +1,6 @@
 // Pedidos: o servidor nunca confia no navegador — relê preço e estoque no
 // banco, reserva o estoque enquanto o pagamento está pendente e só baixa o
-// estoque quando o Asaas confirma o pagamento (webhook).
+// estoque quando a InfinitePay confirma o pagamento (webhook / retorno conferidos via API).
 import "server-only";
 import { and, asc, eq, gt, inArray, isNotNull, sql } from "drizzle-orm";
 import { db } from "./db";
@@ -122,8 +122,8 @@ export async function createPendingOrder({ lines, customer, address, shipping, d
   return { id: order.id, subtotalCents, totalCents };
 }
 
-export async function attachCheckout(orderId, checkoutId) {
-  await db.update(orders).set({ asaasCheckoutId: checkoutId }).where(eq(orders.id, orderId));
+export async function attachPaymentLink(orderId, slug) {
+  await db.update(orders).set({ paymentSlug: slug }).where(eq(orders.id, orderId));
 }
 
 // Falha ao gerar o pagamento: libera a reserva e cancela o pedido.
@@ -134,17 +134,27 @@ export async function cancelPendingOrder(orderId) {
   ]);
 }
 
-// Pagamento confirmado: baixa estoque, remove reservas, marca como pago.
-export async function markOrderPaid(orderId, paymentId) {
-  const [order] = await db.select().from(orders).where(eq(orders.id, orderId));
-  if (!order || order.status !== "pending") return false;
-  const items = await db.select().from(orderItems).where(eq(orderItems.orderId, orderId));
+// Pagamento confirmado: marca como pago, remove reservas e baixa estoque.
+// Atômico: só quem consegue trocar pending → paid segue (webhook e retorno do
+// cliente podem chegar juntos sem baixar o estoque duas vezes).
+// payment: { transaction, paidAmountCents, method, installments } — já conferido na API.
+export async function markOrderPaid(orderId, payment = {}) {
+  const claimed = await db
+    .update(orders)
+    .set({
+      status: "paid",
+      paidAt: new Date(),
+      paymentTransaction: payment.transaction ?? null,
+      paidAmountCents: payment.paidAmountCents ?? null,
+      paymentMethod: payment.method ?? null,
+      installments: payment.installments ?? null,
+    })
+    .where(and(eq(orders.id, orderId), eq(orders.status, "pending")))
+    .returning({ id: orders.id });
+  if (claimed.length === 0) return false;
 
+  const items = await db.select().from(orderItems).where(eq(orderItems.orderId, orderId));
   await db.batch([
-    db
-      .update(orders)
-      .set({ status: "paid", paidAt: new Date(), ...(paymentId ? { asaasPaymentId: paymentId } : {}) })
-      .where(eq(orders.id, orderId)),
     db.delete(stockReservations).where(eq(stockReservations.orderId, orderId)),
     ...items
       .filter((item) => item.variantId)
@@ -165,7 +175,7 @@ export async function expireOrder(orderId, status = "expired") {
   ]);
 }
 
-export async function findOrderByCheckout(checkoutId) {
-  const [order] = await db.select({ id: orders.id }).from(orders).where(eq(orders.asaasCheckoutId, checkoutId));
+export async function getOrder(orderId) {
+  const [order] = await db.select().from(orders).where(eq(orders.id, orderId));
   return order ?? null;
 }

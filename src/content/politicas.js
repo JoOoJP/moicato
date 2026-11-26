@@ -1,9 +1,9 @@
 // Políticas da loja (pt-BR). Rascunho redigido a partir do CDC, do Decreto
-// 7.962/2013 e da LGPD, refletindo a operação real do site (Asaas, Melhor
+// 7.962/2013 e da LGPD, refletindo a operação real do site (InfinitePay, Melhor
 // Envio, Neon/Vercel). Revisar com contador/advogado antes de abrir as vendas.
 import { COMPANY, formatAddress } from "../lib/empresa";
 
-const UPDATED = "8 de novembro de 2026";
+const UPDATED = "25 de novembro de 2026";
 
 function contact() {
   const parts = [];
@@ -91,7 +91,7 @@ export const POLICIES = {
       {
         heading: "Pagamento",
         body: [
-          "O pagamento é feito no ambiente seguro do Asaas, instituição de pagamento autorizada pelo Banco Central. Não recebemos nem armazenamos os dados do seu cartão.",
+          "O pagamento é feito no ambiente seguro da InfinitePay (CloudWalk). Não recebemos nem armazenamos os dados do seu cartão.",
         ],
       },
       {
@@ -107,7 +107,7 @@ export const POLICIES = {
         heading: "Com quem compartilhamos",
         body: ["Somente com quem precisamos para concluir a sua compra. Não vendemos seus dados."],
         list: [
-          "Asaas — processamento do pagamento.",
+          "InfinitePay (CloudWalk) — processamento do pagamento.",
           "Melhor Envio e a transportadora escolhida — cálculo do frete, etiqueta e entrega.",
           "Neon e Vercel — hospedagem do banco de dados e do site.",
           "Contabilidade — emissão de notas e obrigações fiscais.",
@@ -164,7 +164,7 @@ export const POLICIES = {
       {
         heading: "Pedido e pagamento",
         body: [
-          "O pagamento é feito por Pix ou cartão de crédito no ambiente do Asaas. A peça fica reservada para você por 60 minutos enquanto o pagamento é concluído. O pedido é confirmado quando o pagamento é aprovado, e você recebe a confirmação por e-mail.",
+          "O pagamento é feito por Pix ou cartão de crédito no ambiente da InfinitePay. A peça fica reservada para você por 60 minutos enquanto o pagamento é concluído. O pedido é confirmado quando o pagamento é aprovado, e você recebe a confirmação por e-mail.",
         ],
       },
       {
